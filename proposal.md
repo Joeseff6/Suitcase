@@ -19,14 +19,21 @@ The goal of this project is to build a web application that will display informa
 
 ## Proposed CSS Framework
 
-* Foundation 
+* Foundation
 
-## Proposed Server Side APIs
+## Proposed Server-Side APIs
 
 * REST Countries API
 * OpenWeather API
 * Google Maps API
 * Google News API
+
+## Proposed Third-Party APIs
+
+* jQuery
+* Dayjs
+* Foundation
+* Font Awesome
 
 ## Link to Project Board
 
@@ -34,4 +41,4 @@ https://github.com/Joeseff6/Suitcase/projects
 
 ## Wireframe Sketch
 
-![Wireframe Design for our project](Assets/Images/wireframeDesign.PNG)
+![Wireframe Design for our project](Assets/Images/wireframeDesign.png)
