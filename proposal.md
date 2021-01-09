@@ -17,7 +17,7 @@ The goal of this project is to build a web application that will display informa
 
 ## Proposed CSS Framework
 
-* Foundation 
+* Foundation
 
 ## Proposed Server Side APIs
 
