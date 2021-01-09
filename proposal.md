@@ -1,5 +1,7 @@
 # Project One - Group 4 Proposal
 
+Status: Approved
+
 ## Summary
 
 The goal of this project is to build a web application that will display information about a destination upon submission. Say, if an international traveler wanted to learn more about the country that they are traveling to, they can use this application to see the weather forecast, news about the country, basic geographic information, etc. Information about the user's desired destination will be obtained by requesting data from server APIs and projected this data on the webpage.
