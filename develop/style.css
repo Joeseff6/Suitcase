@@ -1,0 +1,59 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  /* background-color: rgb(223, 223, 223); */
+  background-image: url ("./assets/luggage.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+#navText {
+  font-size: 30px;
+}
+
+.small-4 {
+  height: 320px;
+  margin: 15px;
+}
+
+#searchDiv {
+  background-color: rgb(206, 203, 203);
+}
+
+h4 {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+#statsDiv {
+  background-color: lavenderblush;
+}
+
+#flagDiv {
+  background-color: lightcoral;
+}
+
+#mapDiv {
+  background-color: lightskyblue;
+}
+
+#map {
+  height: 100%;
+}
+
+#weatherDiv {
+  background-color: rgb(177, 121, 193);
+}
+
+#newsDiv {
+  background-color: mediumslateblue;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+}
