@@ -31,86 +31,126 @@
 
 <body>
     <!--Navbar-->
-    <section data-sticky-container>
-        <div class="title-bar" id="navbar" data-sticky data-options="marginTop:0;"
-            style="width:100%; font-size: larger;">
-            <div class="title-bar-left">
-            </div>
+    <header data-sticky-container>
+        <div class="top-bar sticky" id="navbar" data-sticky data-stick-to="top" data-options="marginTop:0;"
+            style="width:100%; font-size: larger; background-color: rgb(230, 139, 79);">
             <div class="title-bar-right">
                 <p id="navText"><span style="font-weight: bolder;">Suitcase</span> - Your new favorite travel app!</p>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!--Main document. 2 Grids(rows), each with 3 Cells(columns).-->
-    <!--Total 6 Cells, each acting as a Card or Div for different item.-->
-    <section class="grid-x grid-margin-x">
-        <div class="cell small-4" id="searchDiv">
-            <!--Div for Search-->
-            <h3>What's your destination?</h3>
-            <div>
-                <p>Search by City</p>
-            </div>
-            <div class="input-group">
-                <input class="input-group-field" id="cityInput" type="text" placeholder="eg; New York">
-                <div class="input-group-button">
-                    <input id="citySubmit" type="submit" class="button" value="Search">
+    <!--Main Body. 1 Grid Container (fluid), 1 Grids(row), 2 responsive Cells (columns).-->
+    <!--Cell on the left (mainDiv) is 9/12, and contains the main staging area for scraped information.-->
+    <!--Cell on the right (sideDiv) has 2 Grid Containers. First one contains the Search Div. Second contains the Sidebar Div.-->
+
+    <section class="grid-container-fluid">
+        <div class="grid-x grid-margin-x">
+
+            <div class="cell small-9" id="mainDiv">
+                <h4 class="title-bar">Major Information Here</h4>
+                <div class="grid-container" id="stagingArea">
+                    <!--Div for stats (change display to "block" to show)-->
+                    <div class="cell" id="statsDiv" style="display: none;">
+                        <ul>
+                            <h3>Stats at a glance</h3>
+                            <li id="country">Country: </li>
+                            <li id="capital">Capital: </li>
+                            <li id="continent">Continent: </li>
+                            <li id="population">Population: </li>
+                            <li id="area">Total Area: </li>
+                            <li id="language">Language: </li>
+                            <li id="currency">Currency: </li>
+                            <li id="timeZone">Time Zone: </li>
+                            <li id="callingCode">Country Calling Code: </li>
+                            <li id="memberships">Memberships: </li>
+                        </ul>
+                    </div>
+
+                    <!--Div for Flags (change display to "block" to show)-->
+                    <div class="cell" id="flagDiv" style="display:none;">
+                        <h4>Country Flag</h4>
+                        <img id="flag" src="">
+                    </div>
+
+                    <!--Div for Maps (change display to "block" to show)-->
+                    <div class="cell" id="mapDiv" style="display: none;">
+                        <h4>Map</h4>
+                        <div id="map">
+                        </div>
+                    </div>
+
+                    <!-- Div for Weather (change display to "block" to show)-->
+                    <div class="cell" id="weatherDiv" style="display: none;">
+                        <h4>Weather</h4>
+                    </div>
+
+                    <!--Div for Weather Forecast (change display to "block to show)-->
+                    <div class="cell" id="weatherForecastDiv" style="display: none;">
+                        <h4>5 Day Weather Forecast</h4>
+                    </div>
+
+                    <!--Div for News (change display to "block" to show)-->
+                    <div class="cell" id="newsDiv" style="display: none;">
+                        <h4>News</h4>
+                    </div>
                 </div>
             </div>
-            <div>
-                <p>Search by Country</p>
-            </div>
-            <div class="input-group">
-                <input class="input-group-field" id="countryInput" type="text" placeholder="eg; United States">
-                <div class="input-group-button">
-                    <input id="countrySubmit" type="submit" class="button" value="Search">
+
+
+
+            <div class="cell small-3" id="sideDiv">
+
+                <!--Div for Search-->
+                <div class="grid-container" id="searchDiv">
+                    <h4 class="title-bar">What's your destination?</h4>
+                    <div>
+                        <p>Search by City</p>
+                    </div>
+                    <div class="input-group">
+                        <input class="input-group-field" id="cityInput" type="text" placeholder="eg; New York">
+                        <div class="input-group-button">
+                            <input id="citySubmit" type="submit" class="button" value="Search">
+                        </div>
+                    </div>
+                    <div>
+                        <p>Search by Country</p>
+                    </div>
+                    <div class="input-group">
+                        <input class="input-group-field" id="countryInput" type="text" placeholder="eg; United States">
+                        <div class="input-group-button">
+                            <input id="countrySubmit" type="submit" class="button" value="Search">
+                        </div>
+                    </div>
+                    <!--backup (to modal) display area to see if we have multiple search results-->
+                    <div id="searchResults" style="display: none;">
+                        <h5>Search Results</h5>
+                        <ul id="searchResultsList">
+                        </ul>
+                    </div>
+                </div>
+
+                <!--Div for choosing which information should be displayed on the main div-->
+                <div class="grid-container" id="sidebarDiv">
+                    <h4 class="cell title-bar" style="text-align: center;">Choose your
+                        information
+                    </h4>
+                    <div class="cell button">Statistics at a glance</div>
+                    <div class="cell button">Country Flag</div>
+                    <div class="cell button">Map</div>
+                    <div class="cell button">Current Weather</div>
+                    <div class="cell button">Weather Forecast</div>
+                    <div class="cell button">Latest News</div>
                 </div>
             </div>
-            <div id="searchResults" style="display: none;">
-                <ul>
-                    <h5>Search Results</h5>
-                </ul>
-            </div>
-        </div>
-        <div class="cell small-4" id="statsDiv">
-            <!--Div for stats-->
-            <ul>
-                <h4>Stats at a glance</h4>
-                <li id="country">Country: </li>
-                <li id="countryCapital">Capital of the Country: </li>
-                <li id="localTime">Local Time: </li>
-                <li id="language">Language: </li>
-            </ul>
-            <button class="button" data-open="statsModal" type="button" id="moreStats">Show more stats</button>
-        </div>
-        <div class="cell small-4" id="flagDiv">
-            <!--Div for Flags-->
-            <h4>Country Flag</h4>
-            <img id="flag" src="">
+
         </div>
     </section>
-    <section class="grid-x grid-margin-x">
-        <div class="cell small-4" id="mapDiv">
-            <!--Div for Maps-->
-            <h4>Map</h4>
-            <div id="map">
-            </div>
-        </div>
-        <div class="cell small-4" id="weatherDiv">
-            <!-- Div for Weather-->
-            <h4>Weather</h4>
-        </div>
-        <div class="cell small-4" id="newsDiv">
-            <!--Div for News-->
-            <h4>News</h4>
-        </div>
-    </section>
-    <div></div>
 
 
     <!--Here be modals-->
-    <!--Add the attribute data-open to any element to open the Modal -->
-    <!--The value of data-open should be the ID of the modal.-->
+    <!--Add the attribute data-open to any element to open the modal. -->
+    <!--The value of data-open should match the ID of the modal.-->
 
     <!--Search Result Modal (Useful for multiple results)-->
     <div class="reveal" id="searchResultsModal" data-reveal>
@@ -123,34 +163,12 @@
         </button>
     </div>
 
-    <!--Detailed Stats Modal-->
-    <div class="reveal" id="statsModal" data-reveal>
-        <h1>Detailed Stats</h1>
-        <p class="lead">Here are some more useful stats.</p>
-        <ul id="statsList">
-            <li id="modalCountry">Country: </li>
-            <li id="modalCapital">Capital: </li>
-            <li id="modalContinent">Continent: </li>
-            <li id="modalPopulation">Population: </li>
-            <li id="modalArea">Total Area: </li>
-            <li id="modalLanguage">Language: </li>
-            <li id="modalCurrency">Currency: </li>
-            <li id="modalTimeZone">Time Zone: </li>
-            <li id="modalCallingCode">Country Calling Code: </li>
-            <li id="modalMemberships">Memberships</li>
-        </ul>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
 
 
     <footer id="footer">
         <div class="cell small-12" data-sticky-container>
-            <div class="sticky" data-sticky data-stick-to="bottom" data-top-anchor="example3"
-                data-btm-anchor="foo2:top">
-                <p>It is better to travel well than to arrive_Buddha</p>
+            <div class="sticky" data-sticky data-stick-to="bottom" data-btm-anchor="foo2:top">
+                <p>To travel hopefully is a better thing than to arrive_Robert Louis Stevenson</p>
             </div>
         </div>
     </footer>

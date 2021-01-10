@@ -1,28 +1,47 @@
 body {
   font-family: "Montserrat", sans-serif;
-  /* background-color: rgb(223, 223, 223); */
-  background-image: url ("./assets/luggage.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+  background-color: rgb(223, 223, 223);
+}
+
+#navBar {
+  /* background-color: rgb(230, 139, 79); */
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 #navText {
-  font-size: 30px;
+  font-size: larger;
+  color: white;
+  background-color: rgb(230, 139, 79);
 }
 
-.small-4 {
-  height: 320px;
+#mainDiv {
+  background-color: rgb(206, 203, 203);
+  /* height: 100vh; */
   margin: 15px;
 }
 
-#searchDiv {
-  background-color: rgb(206, 203, 203);
+#sideDiv {
+  height: 100vh;
 }
 
-h4 {
-  text-align: center;
-  padding-bottom: 20px;
+#searchDiv {
+  background-color: rgb(131, 215, 145);
+  padding-bottom: 30px;
+  padding-top: 20px;
+  margin: 15px;
+}
+
+#sidebarDiv {
+  background-color: rgb(118, 133, 216);
+  padding-bottom: 30px;
+  padding-top: 20px;
+  margin: 15px;
+}
+
+#statsDiv {
+  font-size: 25px;
 }
 
 #statsDiv {
@@ -37,10 +56,6 @@ h4 {
   background-color: lightskyblue;
 }
 
-#map {
-  height: 100%;
-}
-
 #weatherDiv {
   background-color: rgb(177, 121, 193);
 }
@@ -50,8 +65,9 @@ h4 {
 }
 
 footer {
-  background-color: black;
+  background-color: rgb(230, 139, 79);
   color: white;
+  font-weight: bolder;
   text-align: center;
   width: 100vw;
   position: fixed;
