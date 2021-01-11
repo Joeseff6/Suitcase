@@ -24,20 +24,22 @@ body {
   text-align: center;
 }
 
-#mainDiv {
+section.grid-container .grid-x .card .card-divider {
+  background-color: #14213d;
+  color: #fca311;
+}
+
+section.grid-container .grid-x .cell .card .card-section {
+  background-color: #14213d;
+  color: #fca311;
+}
+
+#historySection,
+#favoritesSection {
+  background-color: #e5e5e5;
 }
 
 img {
   height: 200px;
   width: 250px;
-}
-
-div.large-auto .card .card-section {
-  background-color: rgb(201, 129, 82);
-  color: white;
-  font-weight: 500;
-  text-align: center;
-}
-section.grid-container .grid-x .cell .card .card-divider {
-  background-color: #938b6c;
 }
