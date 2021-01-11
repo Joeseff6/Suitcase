@@ -49,12 +49,59 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-section">
+                    <div class="primary button-group align-center">
+                        <!--Click this button to show History Container-->
+                        <a class="button" type="button" value="History" id="historyButton">History</a>
+                        <!--Click this button to show Favorites Container-->
+                        <a class="button" type="button" value="Favorites" id="favoritesButton">Favorites</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for all previous searched from local storage-->
+    <section class="grid-container" id="historyContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="historyCard">
+                <div class="card-divider">
+                    <h4>Here's your search history.</h4>
+                    <div class="button-group align-right">
+                        <a class="button" type="button" value="clearHistory" id="clearHistoryButton">Clear History</a>
+                        <a class=" button" type="button" value="closeHistory"
+                            id="closeHistoryButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section" id="historySection">
+                    <!--Append previous searches as Buttons here-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for searches previously favored-->
+    <section class="grid-container" id="favoritesContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="favoritesCard">
+                <div class="card-divider">
+                    <h4>Here are your favorites!</h4>
+                    <div class="button-group align-right">
+                        <a class="button" type="button" value="clearFavorites" id="clearFavoritesButton">Clear
+                            Favorites</a>
+                        <a class=" button" type="button" value="closeFavorites"
+                            id="closeFavoritesButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section" id="favoritesSection">
+                    <!--Append favorites here as Buttons-->
+                </div>
             </div>
         </div>
     </section>
 
     <!--Container for Information Cards-->
-    <section class="grid-container">
+    <section class="grid-container" id="cardsContainer" style="display: block;">
         <div class="grid-x">
             <div class="cell large-auto">
                 <div class="card" id="statsCard">
@@ -104,61 +151,76 @@
         </div>
     </section>
 
-    <!--Container for Information-->
-    <section class="grid-container">
-        <div class="grid-x" id="mainDiv">
-            <div class="cell" id="stagingAreaCard">
-
-                <!--Div for stats (change display to "block" to show)-->
-                <div class="card" id="statsDivCard" style="display: none;">
-                    <div class="card-divider">
-                        <h4>Stats at a glance</h4>
-                    </div>
-                    <div class="grid-x">
-                        <div class="cell small-4">
-                            <div class="card-section" style="align-items: center;">
-                                <p class="h5">Country Flag</p>
-                                <img id="flag" src="https://restcountries.eu/data/est.svg" height="1000" width="1600">
-                            </div>
-                            <div class="card-section">
-                                <p class="h5" id="localTime">Local Time: </p>
-                                <p class="h5" id="localTimeZone">Time Zone: </p>
-                            </div>
-                        </div>
-                        <div class="cell small-8">
-                            <div class="card-section">
-                                <ul>
-                                    <li class="h5" id="country">Country: </li>
-                                    <li class="h5" id="capital">Capital: </li>
-                                    <li class="h5" id="continent">Continent: </li>
-                                    <li class="h5" id="population">Population: </li>
-                                    <li class="h5" id="area">Total Area: </li>
-                                    <li class="h5" id="language">Language: </li>
-                                    <li class="h5" id="currency">Currency: </li>
-                                    <li class="h5" id="timeZone">Time Zone: </li>
-                                    <li class="h5" id="callingCode">Country Calling Code: </li>
-                                    <li class="h5" id="memberships">Memberships: </li>
-                                </ul>
-                            </div>
-                        </div>
+    <!--Container for stats (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="statsDivCard">
+                <div class="card-divider">
+                    <h4>Stats at a glance</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeStats"
+                            id="closeStatsButton"><span>&times</span></a>
                     </div>
                 </div>
-
-                <!--Div for Map (change display to "block" to show)-->
-                <div class="card" id="mapDivCard" style="display: none;">
-                    <div class="card-divider">
-                        <h3>Map</h3>
+                <div class="grid-x">
+                    <div class="cell small-4">
+                        <div class="card-section">
+                            <p class="h5">Country Flag</p>
+                            <img id="flag" src="https://restcountries.eu/data/usa.svg" height="1000" width="1600">
+                        </div>
+                        <div class="card-section">
+                            <p class="h5" id="localTime">Local Time: </p>
+                            <p class="h5" id="localTimeZone">Time Zone: </p>
+                        </div>
                     </div>
-                    <div class="card-section">
-                        <div id="map"></div>
+                    <div class="cell small-8">
+                        <div class="card-section">
+                            <ul>
+                                <li class="h5" id="country">Country: </li>
+                                <li class="h5" id="capital">Capital: </li>
+                                <li class="h5" id="continent">Continent: </li>
+                                <li class="h5" id="population">Population: </li>
+                                <li class="h5" id="area">Total Area: </li>
+                                <li class="h5" id="language">Language: </li>
+                                <li class="h5" id="currency">Currency: </li>
+                                <li class="h5" id="timeZone">Time Zone: </li>
+                                <li class="h5" id="callingCode">Country Calling Code: </li>
+                                <li class="h5" id="memberships">Memberships: </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Div for Weather (change display to "block" to show)-->
-            <div class="card" id="weatherDivCard" style="display: none;">
+    <!--Container for Map (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="mapDivCard">
                 <div class="card-divider">
-                    <h3>Weather</h3>
+                    <h4>Map</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeMap" id="closeMapButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Container for Weather (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="weatherDivCard">
+                <div class="card-divider">
+                    <h4>Weather</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeWeather"
+                            id="closeWeatherButton"><span>&times</span></a>
+                    </div>
                 </div>
                 <div class="card-section">
                     <ul>
@@ -170,31 +232,92 @@
                     </ul>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!--Div for Weather Forecast (change display to "block to show)-->
-            <div class="card" id="forecastDivCard" style="display: none;">
+    <!--Container for Weather Forecast (change display to "block to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="forecastDivCard">
                 <div class="card-divider">
-                    <h3>5 Day Weather Forecast</h3>
+                    <h4>5 Day Weather Forecast</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeForecast"
+                            id="closeForecastButton"><span>&times</span></a>
+                    </div>
                 </div>
                 <div class="card-section">
-                    <ul>
-                        <li>Max Temp</li>
-                        <li>Min Temp</li>
-                        <li>Humidity</li>
-                        <li>Wind Speed</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!--Div for News (change display to "block" to show)-->
-            <div class="card" id="newsDivCard" style="display: none;">
-                <div class="card-divider">
-                    <h3>News</h3>
-                </div>
-                <div class="card-section" id="newsArticles">
+                    <div class="grid-x">
+                        <div class="cell large-auto" id="forecast1">
+                            <ul>
+                                <li id="forecastDay1">Day/Date</li>
+                                <li id="forecastWeather1">Weather</li>
+                                <li id="forecastMaxTemp1">Max Temp</li>
+                                <li id="forecastMinTemp1">Min Temp</li>
+                                <li id="forecastHumidity1">Humidity</li>
+                                <li id="forecastWindSpeed1">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast2">
+                            <ul>
+                                <li id="forecastDay2">Day/Date</li>
+                                <li id="forecastWeather2">Weather</li>
+                                <li id="forecastMaxTemp2">Max Temp</li>
+                                <li id="forecastMinTemp2">Min Temp</li>
+                                <li id="forecastHumidity2">Humidity</li>
+                                <li id="forecastWindSpeed2">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast3">
+                            <ul>
+                                <li id="forecastDay3">Day/Date</li>
+                                <li id="forecastWeather3">Weather</li>
+                                <li id="forecastMaxTemp3">Max Temp</li>
+                                <li id="forecastMinTemp3">Min Temp</li>
+                                <li id="forecastHumidity3">Humidity</li>
+                                <li id="forecastWindSpeed3">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast4">
+                            <ul>
+                                <li id="forecastDay4">Day/Date</li>
+                                <li id="forecastWeather4">Weather</li>
+                                <li id="forecastMaxTemp4">Max Temp</li>
+                                <li id="forecastMinTemp4">Min Temp</li>
+                                <li id="forecastHumidity4">Humidity</li>
+                                <li id="forecastWindSpeed4">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast5">
+                            <ul>
+                                <li id="forecastDay5">Day/Date</li>
+                                <li id="forecastWeather5">Weather</li>
+                                <li id="forecastMaxTemp5">Max Temp</li>
+                                <li id="forecastMinTemp5">Min Temp</li>
+                                <li id="forecastHumidity5">Humidity</li>
+                                <li id="forecastWindSpeed5">Wind Speed</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!--Container for News (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="newsDivCard">
+                <div class="card-divider">
+                    <h4>News</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeNews" id="closeNewsButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section" id="newsArticles">
+                    <!--Append News Articles Here-->
+                </div>
+            </div>
         </div>
     </section>
 
