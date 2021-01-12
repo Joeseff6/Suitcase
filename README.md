@@ -32,6 +32,22 @@ _I want to learn about the country that I am traveling to,_
 
 _So that I can be prepared when I travel to that country._
 
+## Project Roles
+
+* Joseph Soria
+    * _Project Manager, Back-End Developer_
+        * __Github:__ https://github.com/Joeseff6
+        * __LinkedIn:__ https://www.linkedin.com/in/joseph-soria-5a335845/
+
+* Fahad Hai
+    * _Front End Developer_
+        * __Github:__ https://github.com/wdfhai
+
+* Iyana Medlock
+    * _Back End Devloper_
+        * __Github:__ https://github.com/DeadStockSkeleton
+        * __LinkedIn:__ https://www.linkedin.com/in/i-yana-medlock-93a0831b7
+
 ## Tasks to Complete the Job :white_check_mark:
 
 - [ ] When the user submits a destination in the search bar, data is requested and loaded into the HTML
