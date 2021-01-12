@@ -1,5 +1,3 @@
-
-$("#citySubmit").on("click", function(){
-    $(document).foundation();
-
-})
+// $(document).ready(function () {
+//     $(document).foundation();
+// });
