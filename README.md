@@ -48,7 +48,6 @@ _So that I can be prepared when I travel to that country._
         * __Github:__ https://github.com/DeadStockSkeleton
         * __LinkedIn:__ https://www.linkedin.com/in/i-yana-medlock-93a0831b7
 
-
 ## Tasks to Complete the Job :white_check_mark:
 
 - [ ] When the user submits a destination in the search bar, data is requested and loaded into the HTML
