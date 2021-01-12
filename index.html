@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--Foundation-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css"
@@ -20,9 +21,9 @@
     <!--Google Maps API script 1/2. Second is commented out below since it might be unnecessary,
     if using it in JavaScript. Google insists they both go in the head.-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <!--<script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
-            defer>
+    <!-- <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
+        defer>
         </script> -->
 
     <title>Suitcase - A Travel App</title>
@@ -30,154 +31,303 @@
 </head>
 
 <body>
-    <!--Navbar-->
-    <header data-sticky-container>
-        <div class="top-bar sticky" id="navbar" data-sticky data-stick-to="top" data-options="marginTop:0;"
-            style="width:100%; font-size: larger; background-color: rgb(230, 139, 79);">
-            <div class="title-bar-right">
-                <p id="navText"><span style="font-weight: bolder;">Suitcase</span> - Your new favorite travel app!</p>
-            </div>
-        </div>
-    </header>
-
-    <!--Main Body. 1 Grid Container (fluid), 1 Grids(row), 2 responsive Cells (columns).-->
-    <!--Cell on the left (mainDiv) is 9/12, and contains the main staging area for scraped information.-->
-    <!--Cell on the right (sideDiv) has 2 Grid Containers. First one contains the Search Div. Second contains the Sidebar Div.-->
-
-    <section class="grid-container-fluid">
-        <div class="grid-x grid-margin-x">
-
-            <div class="cell small-9" id="mainDiv">
-                <h4 class="title-bar">Major Information Here</h4>
-                <div class="grid-container" id="stagingArea">
-                    <!--Div for stats (change display to "block" to show)-->
-                    <div class="cell" id="statsDiv" style="display: none;">
-                        <ul>
-                            <h3>Stats at a glance</h3>
-                            <li id="country">Country: </li>
-                            <li id="capital">Capital: </li>
-                            <li id="continent">Continent: </li>
-                            <li id="population">Population: </li>
-                            <li id="area">Total Area: </li>
-                            <li id="language">Language: </li>
-                            <li id="currency">Currency: </li>
-                            <li id="timeZone">Time Zone: </li>
-                            <li id="callingCode">Country Calling Code: </li>
-                            <li id="memberships">Memberships: </li>
-                        </ul>
-                    </div>
-
-                    <!--Div for Flags (change display to "block" to show)-->
-                    <div class="cell" id="flagDiv" style="display:none;">
-                        <h4>Country Flag</h4>
-                        <img id="flag" src="">
-                    </div>
-
-                    <!--Div for Maps (change display to "block" to show)-->
-                    <div class="cell" id="mapDiv" style="display: none;">
-                        <h4>Map</h4>
-                        <div id="map">
-                        </div>
-                    </div>
-
-                    <!-- Div for Weather (change display to "block" to show)-->
-                    <div class="cell" id="weatherDiv" style="display: none;">
-                        <h4>Weather</h4>
-                    </div>
-
-                    <!--Div for Weather Forecast (change display to "block to show)-->
-                    <div class="cell" id="weatherForecastDiv" style="display: none;">
-                        <h4>5 Day Weather Forecast</h4>
-                    </div>
-
-                    <!--Div for News (change display to "block" to show)-->
-                    <div class="cell" id="newsDiv" style="display: none;">
-                        <h4>News</h4>
-                    </div>
+    <!--Search Container-->
+    <section class="grid-container" id="searchContainer">
+        <div class="grid-x">
+            <div class="card" id="searchCard">
+                <div class="card-section" id="searchCardTitle">
+                    <h1 id="pageTitle">Suitcase</h1>
                 </div>
-            </div>
-
-
-
-            <div class="cell small-3" id="sideDiv">
-
-                <!--Div for Search-->
-                <div class="grid-container" id="searchDiv">
-                    <h4 class="title-bar">What's your destination?</h4>
-                    <div>
-                        <p>Search by City</p>
-                    </div>
+                <div class="card-section">
+                    <h4 id="pageSubtitle">Your new favorite travel app!</h4>
+                </div>
+                <div class="card-section">
                     <div class="input-group">
                         <input class="input-group-field" id="cityInput" type="text" placeholder="eg; New York">
                         <div class="input-group-button">
-                            <input id="citySubmit" type="submit" class="button" value="Search">
+                            <input id="citySubmit" type="submit" class="button" value="&#x1F50D">
                         </div>
-                    </div>
-                    <div>
-                        <p>Search by Country</p>
-                    </div>
-                    <div class="input-group">
-                        <input class="input-group-field" id="countryInput" type="text" placeholder="eg; United States">
-                        <div class="input-group-button">
-                            <input id="countrySubmit" type="submit" class="button" value="Search">
-                        </div>
-                    </div>
-                    <!--backup (to modal) display area to see if we have multiple search results-->
-                    <div id="searchResults" style="display: none;">
-                        <h5>Search Results</h5>
-                        <ul id="searchResultsList">
-                        </ul>
                     </div>
                 </div>
-
-                <!--Div for choosing which information should be displayed on the main div-->
-                <div class="grid-container" id="sidebarDiv">
-                    <h4 class="cell title-bar" style="text-align: center;">Choose your
-                        information
-                    </h4>
-                    <div class="cell button">Statistics at a glance</div>
-                    <div class="cell button">Country Flag</div>
-                    <div class="cell button">Map</div>
-                    <div class="cell button">Current Weather</div>
-                    <div class="cell button">Weather Forecast</div>
-                    <div class="cell button">Latest News</div>
+                <div class="card-section">
+                    <div class="primary button-group align-center">
+                        <!--Click this button to show History Container-->
+                        <a class="button" type="button" value="History" id="historyButton">History</a>
+                        <!--Click this button to show Favorites Container-->
+                        <a class="button" type="button" value="Favorites" id="favoritesButton">Favorites</a>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
 
+    <!--Container for all previous searched from local storage-->
+    <section class="grid-container" id="historyContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="historyCard">
+                <div class="card-divider">
+                    <h4>Here's your search history.</h4>
+                    <div class="button-group align-right">
+                        <a class="button" type="button" value="clearHistory" id="clearHistoryButton">Clear History</a>
+                        <a class=" button" type="button" value="closeHistory"
+                            id="closeHistoryButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section" id="historySection">
+                    <!--Append previous searches as Buttons here-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for searches previously favored-->
+    <section class="grid-container" id="favoritesContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="favoritesCard">
+                <div class="card-divider">
+                    <h4>Here are your favorites!</h4>
+                    <div class="button-group align-right">
+                        <a class="button" type="button" value="clearFavorites" id="clearFavoritesButton">Clear
+                            Favorites</a>
+                        <a class=" button" type="button" value="closeFavorites"
+                            id="closeFavoritesButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section" id="favoritesSection">
+                    <!--Append favorites here as Buttons-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for Information Cards-->
+    <section class="grid-container" id="cardsContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="cell large-auto">
+                <div class="card" id="statsCard">
+                    <img
+                        src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
+                    <div class="card-section">
+                        <h5>Stats at a glance</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="cell large-auto">
+                <div class="card" id="mapCard">
+                    <img
+                        src="https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
+                    <div class="card-section">
+                        <h5>Map</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="cell large-auto">
+                <div class="card" id="weatherCard">
+                    <img
+                        src="https://images.unsplash.com/photo-1534794048419-48e110dca88e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
+                    <div class="card-section">
+                        <h5>Weather</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="cell large-auto">
+                <div class="card" id="forecastCard">
+                    <img
+                        src="https://images.unsplash.com/photo-1592210454359-9043f067919b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
+                    <div class="card-section">
+                        <h5>5-day Forecast</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="cell large-auto">
+                <div class="card" id="newsCard">
+                    <img
+                        src="https://images.unsplash.com/photo-1565453006698-a17d83b9e2af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
+                    <div class="card-section">
+                        <h5>Recent News</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for stats (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="statsDivCard">
+                <div class="card-divider">
+                    <h4>Stats at a glance</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeStats"
+                            id="closeStatsButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="grid-x">
+                    <div class="cell small-4">
+                        <div class="card-section">
+                            <p class="h5">Country Flag</p>
+                            <img id="flag" src="https://restcountries.eu/data/usa.svg" height="1000" width="1600">
+                        </div>
+                        <div class="card-section">
+                            <p class="h5" id="localTime">Local Time: </p>
+                            <p class="h5" id="localTimeZone">Time Zone: </p>
+                        </div>
+                    </div>
+                    <div class="cell small-8">
+                        <div class="card-section">
+                            <ul>
+                                <li class="h5" id="country">Country: </li>
+                                <li class="h5" id="capital">Capital: </li>
+                                <li class="h5" id="continent">Continent: </li>
+                                <li class="h5" id="population">Population: </li>
+                                <li class="h5" id="area">Total Area: </li>
+                                <li class="h5" id="language">Language: </li>
+                                <li class="h5" id="currency">Currency: </li>
+                                <li class="h5" id="timeZone">Time Zone: </li>
+                                <li class="h5" id="callingCode">Country Calling Code: </li>
+                                <li class="h5" id="memberships">Memberships: </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for Map (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="mapDivCard">
+                <div class="card-divider">
+                    <h4>Map</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeMap" id="closeMapButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Container for Weather (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="weatherDivCard">
+                <div class="card-divider">
+                    <h4>Weather</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeWeather"
+                            id="closeWeatherButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <ul>
+                        <li>Current Conditions</li>
+                        <li>Temperature</li>
+                        <li>Humidity</li>
+                        <li>Wind Speed</li>
+                        <li>UV Index</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for Weather Forecast (change display to "block to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="forecastDivCard">
+                <div class="card-divider">
+                    <h4>5 Day Weather Forecast</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeForecast"
+                            id="closeForecastButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <div class="grid-x">
+                        <div class="cell large-auto" id="forecast1">
+                            <ul>
+                                <li id="forecastDay1">Day/Date</li>
+                                <li id="forecastWeather1">Weather</li>
+                                <li id="forecastMaxTemp1">Max Temp</li>
+                                <li id="forecastMinTemp1">Min Temp</li>
+                                <li id="forecastHumidity1">Humidity</li>
+                                <li id="forecastWindSpeed1">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast2">
+                            <ul>
+                                <li id="forecastDay2">Day/Date</li>
+                                <li id="forecastWeather2">Weather</li>
+                                <li id="forecastMaxTemp2">Max Temp</li>
+                                <li id="forecastMinTemp2">Min Temp</li>
+                                <li id="forecastHumidity2">Humidity</li>
+                                <li id="forecastWindSpeed2">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast3">
+                            <ul>
+                                <li id="forecastDay3">Day/Date</li>
+                                <li id="forecastWeather3">Weather</li>
+                                <li id="forecastMaxTemp3">Max Temp</li>
+                                <li id="forecastMinTemp3">Min Temp</li>
+                                <li id="forecastHumidity3">Humidity</li>
+                                <li id="forecastWindSpeed3">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast4">
+                            <ul>
+                                <li id="forecastDay4">Day/Date</li>
+                                <li id="forecastWeather4">Weather</li>
+                                <li id="forecastMaxTemp4">Max Temp</li>
+                                <li id="forecastMinTemp4">Min Temp</li>
+                                <li id="forecastHumidity4">Humidity</li>
+                                <li id="forecastWindSpeed4">Wind Speed</li>
+                            </ul>
+                        </div>
+                        <div class="cell large-auto" id="forecast5">
+                            <ul>
+                                <li id="forecastDay5">Day/Date</li>
+                                <li id="forecastWeather5">Weather</li>
+                                <li id="forecastMaxTemp5">Max Temp</li>
+                                <li id="forecastMinTemp5">Min Temp</li>
+                                <li id="forecastHumidity5">Humidity</li>
+                                <li id="forecastWindSpeed5">Wind Speed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Container for News (change display to "block" to show)-->
+    <section class="grid-container" id="informationContainer" style="display: block;">
+        <div class="grid-x">
+            <div class="card" id="newsDivCard">
+                <div class="card-divider">
+                    <h4>News</h4>
+                    <div class="button-group align-right">
+                        <a class=" button" type="button" value="closeNews" id="closeNewsButton"><span>&times</span></a>
+                    </div>
+                </div>
+                <div class="card-section" id="newsArticles">
+                    <!--Append News Articles Here-->
+                </div>
+            </div>
         </div>
     </section>
 
 
-    <!--Here be modals-->
-    <!--Add the attribute data-open to any element to open the modal. -->
-    <!--The value of data-open should match the ID of the modal.-->
 
-    <!--Search Result Modal (Useful for multiple results)-->
-    <div class="reveal" id="searchResultsModal" data-reveal>
-        <h1>Search Results</h1>
-        <p class="lead">We found multiple results. Please select one.</p>
-        <ul id="searchResultButtons">
-        </ul>
-        <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-
-
-    <footer id="footer">
-        <div class="cell small-12" data-sticky-container>
-            <div class="sticky" data-sticky data-stick-to="bottom" data-btm-anchor="foo2:top">
-                <p>To travel hopefully is a better thing than to arrive_Robert Louis Stevenson</p>
-            </div>
-        </div>
-    </footer>
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.9.2/sass.min.js"
+        integrity="sha512-mA5b7w9mZvGLWgjIqp9KhWNzkkZ/H3gC4Ua6GOn9m/xl1UF4ghH8GsriKvAYxLsxoKvn6NdebW7kZ6iGB3CGSg=="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.3/js/foundation.min.js"
         integrity="sha512-9cXmvmK1gIDw3Tol6Xg/1SUls/CvBMgedu1aDjT519sQzy7jk+LoezyQqlzClW2LgXww4xEyuqtofg7PtWteLQ=="
