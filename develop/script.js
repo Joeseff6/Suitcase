@@ -26,7 +26,7 @@ $("#citySubmit").on("click", function (e) {
 
       //country code 
       let countryCode = response.sys.country;
-      
+
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
       //current conditions
@@ -83,5 +83,30 @@ function forecast(lat, lon){
         method: 'GET',
     }).then(function (res) {
         console.log(res);
+        const forecastContainer = $('#forecastContainer');
+        $('#forecastContainer').html('');
+        for (let i = 0; i < res.daily.length && i < 5; i++) {
+          let card = $('<div>');
+          card.attr('id', i);
+          card.attr('class', 'card');
+
+          let cardSectionImg = $('<div>');
+          cardSectionImg.attr('class', 'card-section');
+          let icon = $('<img>');
+          let iconUrl = "https://openweathermap.org/img/wn/" + res.daily[i].weather[0].icon + "@2x.png"
+          icon.attr('src', iconUrl);
+
+          let cardSectionText = $('<div>');
+          cardSectionText.attr('class', 'card-section');
+
+          let datePTag = $('<p>');
+          let time = res.daily[i].dt;
+          let secs = time * 1000;
+          let date = new Date(secs);
+          date = date.toLocaleString();
+          date = date.substring(0, 9);
+          date = `(${date})`;
+        }
+        
     })
 }
