@@ -23,8 +23,10 @@ $("#citySubmit").on("click", function (e) {
       url: url,
       method: "GET",
     }).then(function (response) {
-      console.log(response);
 
+      //country code 
+      let countryCode = response.sys.country;
+      
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
       //current conditions
@@ -68,8 +70,8 @@ $("#citySubmit").on("click", function (e) {
     });
   }
 });
-
 //end of weather card
+
 
 //5 day forecast *still in progress*
 function forecast(lat, lon){
