@@ -1,3 +1,4 @@
+  
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 
@@ -49,21 +50,11 @@
                 <div class="card-section">
                     <h4 id="pageSubtitle">Your new favorite travel app!</h4>
                 </div>
-                <!-- Choose by City -->
                 <div class="card-section">
                     <div class="input-group">
-                        <input class="input-group-field" id="cityInput" type="text" placeholder="City - eg; New York">
+                        <input class="input-group-field" id="cityInput" type="text" placeholder="eg; New York">
                         <div class="input-group-button">
                             <input id="citySubmit" type="submit" class="button" value="&#x1F50D">
-                        </div>
-                    </div>
-                </div>
-                <!-- Choose by Country (Optional) -->
-                <div class="card-section">
-                    <div class="input-group">
-                        <input class="input-group-field" id="countryInput" type="text" placeholder="Country - eg; US">
-                        <div class="input-group-button">
-                            <input id="countrySubmit" type="submit" class="button" value="&#x1F50D">
                         </div>
                     </div>
                 </div>
@@ -320,11 +311,12 @@
                 </div>
                 <div class="card-section">
                     <ul>
-                        <li>Current Conditions</li>
-                        <li>Temperature</li>
-                        <li>Humidity</li>
-                        <li>Wind Speed</li>
-                        <li>UV Index</li>
+
+                        <img id='conditionsIcon'/>
+                        <p id='temp'></p>
+                        <p id='humid'></p>
+                        <p id='wind'></p>
+                        <p id='uvIndex'></p>
                     </ul>
                 </div>
             </div>
@@ -343,7 +335,7 @@
                     </div>
                 </div>
                 <div class="card-section">
-                    <div class="grid-x">
+                    <div id='forecastContainer' class="grid-x">
                         <div class="cell large-auto" id="forecast1">
                             <ul>
                                 <li id="forecastDay1">Day/Date</li>
