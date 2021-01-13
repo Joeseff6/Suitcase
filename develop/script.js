@@ -5,27 +5,37 @@
 
 
 //Stats at a glance Card
-// SDK for GeoDB Cities per RapidAPI
-const settings = {
-	"async": true,
-	"crossDomain": true,
-	"url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=US&namePrefix=Paris",
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
-		"x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
-	}
-};
 
-$.ajax(settings).done(function (response) {
-	console.log(response);
-});
+
+$("#citySubmit").on("click", function (e) {
+  e.preventDefault();
+  // SDK for GeoDB Cities per RapidAPI
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=US&namePrefix=Paris",
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+      "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+    }
+  };
+
+  $.ajax(settings)
+    .then(function (response) {
+      console.log(response)
+    if (response.data.length > 1) {
+      $('#options').css("display","block")
+      for (let i = 0; i < response.data.length; i++) {
+        let buttonEl = $("<button>");
+        buttonEl.text(`button ` + i).attr("class","button")
+        $("#options").append(buttonEl)
+      }
+    }
+  });
+})
 
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
-
-
-
-
 
 //weather Card
 $("#citySubmit").on("click", function (e) {
@@ -49,7 +59,7 @@ $("#citySubmit").on("click", function (e) {
 
       //country code 
       let countryCode = response.sys.country;
-      
+
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
       //current conditions
@@ -106,6 +116,30 @@ function forecast(lat, lon){
         method: 'GET',
     }).then(function (res) {
         console.log(res);
+        const forecastContainer = $('#forecastContainer');
+        $('#forecastContainer').html('');
+        for (let i = 0; i < res.daily.length && i < 5; i++) {
+          let card = $('<div>');
+          card.attr('id', i);
+          card.attr('class', 'card');
+
+          let cardSectionImg = $('<div>');
+          cardSectionImg.attr('class', 'card-section');
+          let icon = $('<img>');
+          let iconUrl = "https://openweathermap.org/img/wn/" + res.daily[i].weather[0].icon + "@2x.png"
+          icon.attr('src', iconUrl);
+
+          let cardSectionText = $('<div>');
+          cardSectionText.attr('class', 'card-section');
+
+          let datePTag = $('<p>');
+          let time = res.daily[i].dt;
+          let secs = time * 1000;
+          let date = new Date(secs);
+          date = date.toLocaleString();
+          date = date.substring(0, 9);
+          date = `(${date})`;
+        }
+        
     })
 }
-
