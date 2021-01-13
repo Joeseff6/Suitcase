@@ -10,10 +10,12 @@
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   // SDK for GeoDB Cities per RapidAPI
+  $(".removeOption").remove()
+  let cityName = $("#cityInput").val()
   const settings = {
     "async": true,
     "crossDomain": true,
-    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=US&namePrefix=Paris",
+    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
     "method": "GET",
     "headers": {
       "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
@@ -21,14 +23,20 @@ $("#citySubmit").on("click", function (e) {
     }
   };
 
+  // Requesting server data from GeoDB
   $.ajax(settings)
     .then(function (response) {
       console.log(response)
+      // Function to add buttons for additional searches
     if (response.data.length > 1) {
-      $('#options').css("display","block")
+      $("#options").css("display","block")
+      let h4El = $("<h4>")
+      h4El.text("Looks like there's more than one " + $("#cityInput").val() + "! Please select an option:").attr("class","removeOption")
+      $("#options").append(h4El)
       for (let i = 0; i < response.data.length; i++) {
         let buttonEl = $("<button>");
-        buttonEl.text(`button ` + i).attr("class","button")
+        let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
+        buttonEl.text(cityOption).attr("class","button removeOption")
         $("#options").append(buttonEl)
       }
     }
