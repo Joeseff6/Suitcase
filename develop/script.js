@@ -2,7 +2,68 @@
 //     $(document).foundation();
 // });
 
+var cityData;
+
+//Stats at a glance Card
+
+
+$("#citySubmit").on("click", function (e) {
+  e.preventDefault();
+
+  // SDK for GeoDB Cities per RapidAPI
+  $(".removeOption").remove()
+  let cityName = $("#cityInput").val()
+  const settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+      "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+    }
+  };
+
+  // Requesting server data from GeoDB
+  $.ajax(settings)
+    .then(function (response) {
+      console.log(response)
+      // Function to add buttons for additional searches
+      cityData = response
+      if (response.data.length > 1) {
+        $("#resultsContainer").css("display","block")
+        for (let i = 0; i < response.data.length; i++) {
+          let buttonEl = $("<button>");
+          let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
+          buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+          $("#resultsSection").append(buttonEl)
+        }
+      }
+    })
+})
+
+$(document).on("click",".historyChoice", function() {
+  // debugger
+  let choiceIndex = $(this).attr("data-index")
+  $(".removeOption").remove()
+  $("#resultsContainer").css("display","none")
+  buttonEl = $("<button>")
+  buttonEl.text(cityData.data[choiceIndex].city + ", " + cityData.data[choiceIndex].region + ", " + cityData.data[choiceIndex].countryCode).attr("class","button historyItem")
+  console.log(buttonEl)
+  $(`#historyReveal`).append(buttonEl)
+});
+
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
+
+//Auto Cap text on keydown feature
+$('#cityInput').on('keydown', function (e) {
+  let input = $(this).val();
+  input = input.toLowerCase().replace(/\b[a-z]/g, function (c) {
+    return c.toUpperCase();
+  });
+  $(this).val(input);
+})
+
 
 //weather Card
 $("#citySubmit").on("click", function (e) {
@@ -24,11 +85,25 @@ $("#citySubmit").on("click", function (e) {
       method: "GET",
     }).then(function (response) {
 
+      $('#map').html('');
       //country code 
       let countryCode = response.sys.country;
 
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
+      //Call Google Maps function
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([response.coord.lon, response.coord.lat]),
+          zoom: 10
+        })
+      });
       //current conditions
 
       //Icon
@@ -157,3 +232,10 @@ function forecast(lat, lon){
     })
 }
 //end of forecast card
+
+//closing section
+$('a[value*="close"').on('click', function() {
+  $(this).closest('section').css('display', 'none');
+})
+
+
