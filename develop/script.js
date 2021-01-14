@@ -4,6 +4,16 @@
 
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
+//Auto Cap text on keydown feature
+$('#cityInput').on('keydown', function (e) {
+  let input = $(this).val();
+  input = input.toLowerCase().replace(/\b[a-z]/g, function (c) {
+    return c.toUpperCase();
+  });
+  $(this).val(input);
+})
+
+
 //weather Card
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
@@ -172,7 +182,9 @@ function forecast(lat, lon){
 }
 //end of forecast card
 
+//closing section
+$('a[value*="close"').on('click', function() {
+  $(this).closest('section').css('display', 'none');
+})
 
-//Google Maps Api
 
-//end of Google Maps APi
