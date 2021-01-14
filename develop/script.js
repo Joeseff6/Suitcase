@@ -29,6 +29,19 @@ $("#citySubmit").on("click", function (e) {
 
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
+      //Call Google Maps function
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([response.coord.lon, response.coord.lat]),
+          zoom: 10
+        })
+      });
       //current conditions
 
       //Icon
@@ -157,3 +170,8 @@ function forecast(lat, lon){
     })
 }
 //end of forecast card
+
+
+//Google Maps Api
+
+//end of Google Maps APi
