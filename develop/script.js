@@ -33,10 +33,20 @@ $("#citySubmit").on("click", function (e) {
       for (let i = 0; i < response.data.length; i++) {
         let buttonEl = $("<button>");
         let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-        buttonEl.text(cityOption).attr("class","button removeOption")
+        buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
         $("#resultsSection").append(buttonEl)
       }
+
+      $(document).on("click",".historyChoice", function() {
+        var choiceIndex = $(this).attr("data-index")
+        $(".removeOption").remove()
+        $("#resultsContainer").css("display","none")
+        let buttonEl = $("<button>")
+        buttonEl.text(response.data[choiceIndex].city + ", " + response.data[choiceIndex].region + ", " + response.data[choiceIndex].countryCode).attr("class","button historyItem")
+        $(`#historyReveal`).append(buttonEl)
+      })
     }
+
   });
 })
 
