@@ -25,7 +25,38 @@ $("#citySubmit").on("click", function (e) {
   if (cityName.length == 0) {
     //error message
     return 0;
-  } else {
+  } else {//opening sections **planning make it more dryer soon**
+//News
+$('#newsCard').on('click', function() {
+  $('.newsSection').css('display', 'block');
+  $('.newsSection')[0].scrollIntoView();
+});
+
+//Forecast
+$('#forecastCard').on('click', function() {
+  $('.forecastSection').css('display', 'block');
+  $('.forecastSection')[0].scrollIntoView();
+})
+
+//Weather
+$('#weatherCard').on('click', function() {
+  $('.weatherSection').css('display', 'block');
+  $('.weatherSection')[0].scrollIntoView();
+})
+
+//Map
+$('#mapCard').on('click', function() {
+  $('.mapSection').css('display', 'block');
+  $('.mapSection')[0].scrollIntoView();
+  
+})
+
+//stats
+$('#statsCard').on('click', function() {
+  $('.statsSection').css('display', 'block');
+  $('.statsSection')[0].scrollIntoView();
+  
+})
     //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${openWeatherKey}`;
 
@@ -182,9 +213,8 @@ function forecast(lat, lon){
 }
 //end of forecast card
 
-//closing section
+//closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 })
-
 
