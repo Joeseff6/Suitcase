@@ -29,15 +29,12 @@ $("#citySubmit").on("click", function (e) {
       console.log(response)
       // Function to add buttons for additional searches
     if (response.data.length > 1) {
-      $("#options").css("display","block")
-      let h4El = $("<h4>")
-      h4El.text("Looks like there's more than one " + $("#cityInput").val() + "! Please select an option:").attr("class","removeOption")
-      $("#options").append(h4El)
+      $("#resultsContainer").css("display","block")
       for (let i = 0; i < response.data.length; i++) {
         let buttonEl = $("<button>");
         let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
         buttonEl.text(cityOption).attr("class","button removeOption")
-        $("#options").append(buttonEl)
+        $("#resultsSection").append(buttonEl)
       }
     }
   });
