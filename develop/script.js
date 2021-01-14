@@ -24,6 +24,7 @@ $("#citySubmit").on("click", function (e) {
       method: "GET",
     }).then(function (response) {
 
+      $('#map').html('');
       //country code 
       let countryCode = response.sys.country;
 
