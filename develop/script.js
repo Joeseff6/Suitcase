@@ -55,6 +55,16 @@ $(document).on("click",".historyChoice", function() {
 
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
+//Auto Cap text on keydown feature
+$('#cityInput').on('keydown', function (e) {
+  let input = $(this).val();
+  input = input.toLowerCase().replace(/\b[a-z]/g, function (c) {
+    return c.toUpperCase();
+  });
+  $(this).val(input);
+})
+
+
 //weather Card
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
@@ -75,11 +85,25 @@ $("#citySubmit").on("click", function (e) {
       method: "GET",
     }).then(function (response) {
 
+      $('#map').html('');
       //country code 
       let countryCode = response.sys.country;
 
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
+      //Call Google Maps function
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([response.coord.lon, response.coord.lat]),
+          zoom: 10
+        })
+      });
       //current conditions
 
       //Icon
@@ -208,3 +232,10 @@ function forecast(lat, lon){
     })
 }
 //end of forecast card
+
+//closing section
+$('a[value*="close"').on('click', function() {
+  $(this).closest('section').css('display', 'none');
+})
+
+
