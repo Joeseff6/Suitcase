@@ -58,7 +58,7 @@ $("#citySubmit").on("click", function (e) {
     return 0;
   } else {
     //openWeather
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openWeatherKey}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
       url: url,
@@ -84,7 +84,6 @@ $("#citySubmit").on("click", function (e) {
       //convert to int
       tempContent = parseFloat(tempContent);
       //convert from kelvin to fahrenheit
-      tempContent = ((tempContent - 273.15) * 9) / 5 + 32;
       tempContent = "Temperature: " + tempContent.toFixed(0) + " °F";
       $(temp).text(tempContent);
 
@@ -94,7 +93,7 @@ $("#citySubmit").on("click", function (e) {
 
       //Wind Speed
       let wind = $("#wind");
-      $(wind).text("Wind Speed: " + response.wind.speed + " MPH");
+      $(wind).text("Wind Speed: " + response.wind.speed.toFixed(0) + " MPH");
 
       //UV Index
       let uvIndexUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${response.coord.lat}&lon=${response.coord.lon}&appid=${openWeatherKey}`;
@@ -114,32 +113,41 @@ $("#citySubmit").on("click", function (e) {
 //end of weather card
 
 
-//5 day forecast *still in progress*
+//5 day forecast 
 function forecast(lat, lon){
 
-    let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&appid=${openWeatherKey}`;
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
         url: forecastUrl,
         method: 'GET',
     }).then(function (res) {
         console.log(res);
+        //Get forecast container div
         const forecastContainer = $('#forecastContainer');
+        //Clear Div
         $('#forecastContainer').html('');
-        for (let i = 0; i < res.daily.length && i < 5; i++) {
+        //loop through response
+        for (let i = 1; i < res.daily.length && i < 6; i++) {
+          //create card div
           let card = $('<div>');
+          //give it an id of index
           card.attr('id', i);
+          //give div class card
           card.attr('class', 'card');
 
+          //create another div for icon
           let cardSectionImg = $('<div>');
           cardSectionImg.attr('class', 'card-section');
           let icon = $('<img>');
           let iconUrl = "https://openweathermap.org/img/wn/" + res.daily[i].weather[0].icon + "@2x.png"
           icon.attr('src', iconUrl);
 
+          //create another div for text
           let cardSectionText = $('<div>');
           cardSectionText.attr('class', 'card-section');
 
+          //get date
           let datePTag = $('<p>');
           let time = res.daily[i].dt;
           let secs = time * 1000;
@@ -147,7 +155,46 @@ function forecast(lat, lon){
           date = date.toLocaleString();
           date = date.substring(0, 9);
           date = `(${date})`;
+          datePTag.text(date)
+          cardSectionImg.append(datePTag);
+
+          //get max temp
+          let maxTempTag = $('<p>');
+          let maxTemp = res.daily[i].temp.max;
+          maxTempTag.text('Max Temp: ' + maxTemp.toFixed(0) + " °F");
+
+          //get min temp
+          let minTempTag = $('<p>');
+          let minTemp = res.daily[i].temp.min;
+          minTempTag.text('Min Temp: ' + minTemp.toFixed(0) + " °F");
+
+          //get humidity
+          let humidTag = $('<p>');
+          let humid = res.daily[i].humidity;
+          humidTag.text('Humidity: ' + humid + '%');
+
+          //get wind speed
+          let windSpeedTag = $('<p>');
+          let windSpeed = res.daily[i].wind_speed;
+          windSpeedTag.text('Wind Speed: ' + windSpeed.toFixed(0) + ' MPH');
+          
+
+          //append img tag to forecast container
+          card.append(cardSectionImg);
+          //append icon to img tag
+          cardSectionImg.append(icon);
+          card.css("width", '125px');
+          //append card text to card
+          card.append(cardSectionText);
+          //append max temp tag to text section & etc.
+          cardSectionText.append(maxTempTag);
+          cardSectionText.append(minTempTag);
+          cardSectionText.append(humidTag);
+          cardSectionText.append(windSpeedTag);
+          //append card to forecast container
+          forecastContainer.append(card);
         }
         
     })
 }
+//end of forecast card
