@@ -18,6 +18,17 @@
         defer>
         </script> -->
 
+    <!--https://openlayers.org/-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+        <style>
+          .map {
+            height: 400px;
+            width: 100%;
+          }
+        </style>
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <!--end of https://openlayers.org/-->
+
     <!--JQuery & Foundation scripts in the head. This was the only way to make Reveals(modals) work for some reason.-->
     <!--The comment above will remain in the code permanently, as it explains why the script is in  the head. -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css"
@@ -79,9 +90,7 @@
         <h2>Your Search History</h2>
         <p>Here are the cities you have previously searched.
         </p>
-        <a class="button" data-toggle="">Previously Searched City</a>
-        <a class="button" data-toggle="">Previously Searched City</a>
-        <a class="button" data-toggle="">Previously Searched City</a>
+
 
         <button class="close-button" data-close aria-label="Close reveal" type="button">
             <span aria-hidden="true">×</span>
@@ -104,7 +113,7 @@
     </div>
 
     <!--Container for all search results-->
-    <section class="grid-container" id="resultsContainer" style="display: block;">
+    <section class="grid-container" id="resultsContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="resultsCard">
                 <div class="card-divider">
@@ -116,12 +125,6 @@
                 </div>
                 <div class="card-section" id="resultsSection">
                     <div class="button-group align-center" id="resultsButtons">
-                        <!--Append buttons as 'a' elements to this div for each search result-->
-                        <a class="button" type="button" value="" id="">Sample Result</a>
-                        <a class="button" type="button" value="" id="">Sample Result</a>
-                        <a class="button" type="button" value="" id="">Sample Result</a>
-                        <a class="button" type="button" value="" id="">Sample Result</a>
-                        <a class="button" type="button" value="" id="">Sample Result</a>
                     </div>
                 </div>
             </div>
@@ -292,7 +295,7 @@
                     </div>
                 </div>
                 <div class="card-section">
-                    <div id="map"></div>
+                    <div id="map" class="map"></div>
                 </div>
             </div>
         </div>
@@ -311,11 +314,12 @@
                 </div>
                 <div class="card-section">
                     <ul>
-                        <li>Current Conditions</li>
-                        <li>Temperature</li>
-                        <li>Humidity</li>
-                        <li>Wind Speed</li>
-                        <li>UV Index</li>
+
+                        <img id='conditionsIcon'/>
+                        <p id='temp'></p>
+                        <p id='humid'></p>
+                        <p id='wind'></p>
+                        <p id='uvIndex'></p>
                     </ul>
                 </div>
             </div>
@@ -334,7 +338,7 @@
                     </div>
                 </div>
                 <div class="card-section">
-                    <div class="grid-x">
+                    <div id='forecastContainer' class="grid-x">
                         <div class="cell large-auto" id="forecast1">
                             <div class="card" id="forecastCards">
                                 <div class="card-section" style="height: 240px;">

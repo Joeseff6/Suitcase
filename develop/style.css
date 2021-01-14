@@ -14,7 +14,8 @@ body {
 }
 
 #pageTitle,
-#pageSubtitle {
+#pageSubtitle,
+h4 {
   color: white;
   text-align: center;
 }
@@ -88,8 +89,4 @@ img {
 .button:hover {
   background-image: none;
   background-color: #9c6644;
-}
-
-#forecastCards {
-  background-color: #ffdab9;
 }
