@@ -8,6 +8,8 @@ var cityChoice
 //Stats at a glance Card
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
+  footerQuote(); //see footerQuote function at the end
+
   // SDK for GeoDB Cities per RapidAPI
   $(".removeOption").remove()
   let cityName = $("#cityInput").val()
@@ -320,16 +322,29 @@ function forecast(lat, lon){
 //closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
-
-
 });
 
-//footer quote selector
-let quoteArray = [" Not all those who wander are lost. | J.R.R. Tolkien"," If you don’t know where you’re going, any road will get you there. | Lewis Carroll", " The world is a book and those who do not travel read only one page. | St. Augustine", "Two roads diverged in a wood and I – I took the one less traveled by. | Robert Frost",
-" Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
-let quoteNum = Math.floor(Math.random() * quoteArray.length);
-$("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
-console.log($("#footerMessage"));
-console.log($("#footerMessage")[0].innerHTML);
+//footer quote function - Should be triggered every time the 'citySubmit' button is pressed, as well as on page reload
+function footerQuote () {
+  let quoteArray = [" Not all those who wander are lost. | J.R.R. Tolkien"," If you don’t know where you’re going, any road will get you there. | Lewis Carroll", " The world is a book and those who do not travel read only one page. | St. Augustine", "Two roads diverged in a wood and I – I took the one less traveled by. | Robert Frost",
+  " Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
+  let quoteNum = Math.floor(Math.random() * quoteArray.length);
+  $("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
+}
+footerQuote ();
 
+//Scroll-to-Top Button function
+let topBtn = $("#topBtn")[0];
+window.onscroll = function() {scrollFunction()};
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topBtn.style.display = "block";
+    } else {
+      topBtn.style.display = "none";
+    }
+}
+$("#topBtn").on('click', function () {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+});
 
