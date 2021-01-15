@@ -13,26 +13,20 @@
     <!--Google Maps API script 1/2. Second is commented out below since it might be unnecessary,
     if using it in JavaScript. Google insists they both go in the head.-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
-<<<<<<< HEAD
-    <!-- <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
-        defer>
-        </script> -->
-=======
->>>>>>> 482f3bca47e1ae074274d2eeea8b2772d00afd95
     <!-- Openlayers API -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
 
     <!--https://openlayers.org/-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
-        <style>
-          .map {
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <style>
+        .map {
             height: 400px;
             width: 100%;
-          }
-        </style>
-        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <!--end of https://openlayers.org/-->
 
     <!--JQuery & Foundation scripts in the head. This was the only way to make Reveals(modals) work for some reason.-->
@@ -201,13 +195,13 @@
                 <div class="card" id="statsCard">
                     <img
                         src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
-                    <div class="card-section">
+                    <div class="card-section" style="text-align: center;">
                         <h5>Stats at a glance</h5>
                     </div>
                 </div>
             </div>
             <div class="cell auto">
-                <div class="card" id="mapCard">
+                <div class="card" id="mapCard" style="text-align: center;">
                     <img
                         src="https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
                     <div class="card-section">
@@ -216,7 +210,7 @@
                 </div>
             </div>
             <div class="cell auto">
-                <div class="card" id="weatherCard">
+                <div class="card" id="weatherCard" style="text-align: center;">
                     <img
                         src="https://images.unsplash.com/photo-1534794048419-48e110dca88e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
                     <div class="card-section">
@@ -225,7 +219,7 @@
                 </div>
             </div>
             <div class="cell auto">
-                <div class="card" id="forecastCard">
+                <div class="card" id="forecastCard" style="text-align: center;">
                     <img
                         src="https://images.unsplash.com/photo-1592210454359-9043f067919b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
                     <div class="card-section">
@@ -234,7 +228,7 @@
                 </div>
             </div>
             <div class="cell auto">
-                <div class="card" id="newsCard">
+                <div class="card" id="newsCard" style="text-align: center;">
                     <img
                         src="https://images.unsplash.com/photo-1565453006698-a17d83b9e2af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
                     <div class="card-section">
@@ -256,30 +250,24 @@
                     </div>
                 </div>
                 <div class="grid-x">
-                    <div class="cell small-4">
-                        <div class="card-section">
-                            <p class="h5">Country Flag</p>
+                    <div class="card-section flex-container">
+                        <div class="cell auto" id="flagContainer">
                             <img id="flag" height="1000" width="1600">
+                            <p id="country">Country: </p>
+                            <p id="localTime">Country's Local Time: </p>
+                            <p id="localTimeZone">Time Zone: </p>
                         </div>
-                        <div class="card-section">
-                            <p class="h5" id="localTime">Country's Local Time: </p>
-                            <p class="h5" id="localTimeZone">Time Zone: </p>
-                        </div>
-                    </div>
-                    <div class="cell small-8">
-                        <div class="card-section">
+                        <div class="cell auto">
                             <ul>
-                                <li class="h5" id="country">Country: </li>
-                                <li class="h5" id="capital">Capital: </li>
-                                <li class="h5" id="region">Region: </li>
-                                <li class="h5" id="lat">Country's Latitude: </li>
-                                <li class="h5" id="lon">Country's Longitude: </li>
-                                <li class="h5" id="population">Country's Population: </li>
-                                <!-- <li class="h5" id="area">Country's Total Area: </li> -->
-                                <li class="h5" id="language">Language: </li>
-                                <li class="h5" id="currency">Currency: </li>
-                                <li class="h5" id="callingCode">Country Calling Code: </li>
-                                <!-- <li class="h5" id="memberships">Memberships: </li> -->
+                                <p id="capital">Capital: </p>
+                                <p id="region">Region: </p>
+                                <p id="lat">Country's Latitude: </p>
+                                <p id="lon">Country's Longitude: </p>
+                                <p id="population">Country's Population: </p>
+                                <p id="area">Country's Total Area: </p>
+                                <p id="language">Language: </p>
+                                <p id="currency">Currency: </p>
+                                <p id="callingCode">Country Calling Code: </p>
                             </ul>
                         </div>
                     </div>
@@ -299,8 +287,10 @@
                         <a class=" button" type="button" value="closeMap" id="closeMapButton"><span>x</span></a>
                     </div>
                 </div>
-                <div class="card-section">
-                    <div id="map" class="map"></div>
+                <div class="grid-x">
+                    <div class="card-section">
+                        <div id="map" class="map"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -313,15 +303,13 @@
                 <div class="card-divider">
                     <h4>Weather</h4>
                     <div class="button-group align-right">
-                        <a class=" button" type="button" value="closeWeather"
-                            id="closeWeatherButton"><span>&times</span></a>
+                        <a class=" button" type="button" value="closeWeather" id="closeWeatherButton"><span>x</span></a>
                     </div>
                 </div>
-                <div class="card-section">
-                    <div class="grid-x">
-                        <div class="cell auto" style="align-items: center;">
-                            <img class="image-responsive" id='conditionsIcon' style="width: 200px; height: 200px;" />
-
+                <div class="grid-x">
+                    <div class="card-section flex-container">
+                        <div class="cell auto" id="currentWeatherIcon">
+                            <img id="conditionsIcon">
                         </div>
                         <div class="cell auto">
                             <ul>
@@ -336,6 +324,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </section>
 
     <!--Container for Weather Forecast (change display to "block to show)-->
@@ -347,11 +336,11 @@
                     <h4>5 Day Weather Forecast</h4>
                     <div class="button-group align-right">
                         <a class=" button" type="button" value="closeForecast"
-                            id="closeForecastButton"><span>&times</span></a>
+                            id="closeForecastButton"><span>x</span></a>
                     </div>
                 </div>
-                <div class="card-section">
-                    <div class="grid-x" id="forecastCards">
+                <div class="grid-x" id="forecastCards">
+                    <div class="card-section flex-container">
                         <div class="cell large-auto" id="forecast1">
                             <div class="card" id="forecastCards">
                                 <div class="card-section" style="height: 240px;">
@@ -436,15 +425,23 @@
                 <div class="card-divider">
                     <h4>News</h4>
                     <div class="button-group align-right">
-                        <a class=" button" type="button" value="closeNews" id="closeNewsButton"><span>&times</span></a>
+                        <a class=" button" type="button" value="closeNews" id="closeNewsButton"><span>x</span></a>
                     </div>
                 </div>
-                <div class="card-section" id="newsArticles">
-                    <!--Append News Articles Here-->
+                <div class="grid-x">
+                    <div class="card-section" id="newsArticles">
+                        <!--Append News Articles Here-->
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <footer>
+        <div class="wrap row small-up-1 medium-up-3">
+            <p id="footerMessage">Footer</p>
+        </div>
+    </footer>
 
 
 
@@ -700,9 +697,11 @@
     </section> -->
 
     <script>$(document).ready(function () {
-        $(document).foundation();
-    });</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+            $(document).foundation();
+        });</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.3/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="./develop/script.js"></script>
