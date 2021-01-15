@@ -109,16 +109,28 @@ $(document).on("click",".historyChoice", function() {
 
       // News card
       let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
-      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
+      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
       console.log(newsUrl)
 
-      // $.ajax({
-      //   url: newsUrl,
-      //   method: "GET"
-      // })
-      //   .then(function(response) {
-      //     console.log(response)
-      //   })
+
+      $.ajax({
+        url: newsUrl,
+        method: "GET"
+      })
+        .then(function(response) {
+          console.log(response.response)
+          $(".newsItem").remove()
+          for (let i = 0; i < response.response.docs.length; i++) {
+            let articleImage = $("<img>")
+            let articleImageUrl = response.response.docs[i].multimedia[22].url
+            articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+            $("#newsArticles").append(articleImage)
+
+            let articleHeadline = $("<h5>")
+            articleHeadline.text(response.response.docs[i].headline.main).attr("class", "newsItem")
+            $("#newsArticles").append(articleHeadline)
+          }
+        })
     })
 });
 
