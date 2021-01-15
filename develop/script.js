@@ -1,9 +1,19 @@
+//=========================================================================================
+//Note: For Foundation to work, all JS/JQuery must be written inside this function.
+//Note: Per Tish, this function has been added to the HTML instead (for safekeeping), and thus is disabled here.
 // $(document).ready(function () {
 //     $(document).foundation();
 // });
+//=========================================================================================
 
 // Set global variable for ajax response on document event listener
 var cityChoice
+
+// Empty arrays for Badge Functionality (Fahad)
+//=============================================
+var historyArray = [];
+var FavoritesArray = []; 
+//=============================================
 
 //Stats at a glance Card
 $("#citySubmit").on("click", function (e) {
@@ -54,6 +64,12 @@ $(document).on("click",".historyChoice", function() {
   $(`#historyReveal`).append(buttonEl);
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
 
+  //History Badge Functionality (Fahad)
+  //=====================================
+  historyArray.push(cityChoice.data[choiceIndex].city);
+  console.log(historyArray);
+  historyBadgeDisplay();
+  //=====================================
 
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
   $.ajax({
@@ -324,7 +340,9 @@ $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 });
 
-//footer quote function - Should be triggered every time the 'citySubmit' button is pressed, as well as on page reload
+//footer quote function (Fahad)
+//============================================================================================
+//Should be triggered every time the 'citySubmit' button is pressed, as well as on page reload
 function footerQuote () {
   let quoteArray = [" Not all those who wander are lost. | J.R.R. Tolkien"," If you don’t know where you’re going, any road will get you there. | Lewis Carroll", " The world is a book and those who do not travel read only one page. | St. Augustine", "Two roads diverged in a wood and I – I took the one less traveled by. | Robert Frost",
   " Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
@@ -332,8 +350,10 @@ function footerQuote () {
   $("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
 }
 footerQuote ();
+//============================================================================================
 
-//Scroll-to-Top Button function
+//Scroll-to-Top Button function (Fahad)
+//====================================================
 let topBtn = $("#topBtn")[0];
 window.onscroll = function() {scrollFunction()};
   function scrollFunction() {
@@ -347,4 +367,38 @@ $("#topBtn").on('click', function () {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 });
+//=====================================================
 
+// History badge function (Fahad)
+//==================================================
+function historyBadgeDisplay() {
+  let historyBadge = $("#historyBadge")[0];
+  historyBadge.textContent = historyArray.length;
+  console.log($("#historyBadge")[0]);
+  console.log(historyBadge);
+  console.log(historyArray);
+  if (historyArray.length > 0){
+    historyBadge.style.display = "block";
+    } else {
+    historyBadge.style.display = "none";
+  };
+};
+//=================================================
+
+// Favorites badge function (Fahad) (Will enable after Favorites functionality is coded)
+//===========================================================================================
+// function favoritesBadgeDisplay() {
+//   let favoritesBadge = $("#favoritesBadge")[0];
+//   favoritesBadge.textContent = favoritesArray.length;
+//   console.log($("#favoritesBadge")[0]);
+//   console.log(favoritesBadge);
+//   console.log(favoritesArray);
+//   if (favoritesArray.length > 0){
+//     favoritesBadge.style.display = "block";
+//     } else {
+//     favoritesBadge.style.display = "none";
+//   };
+// };
+//Move this function to appropriate area once the Favorites functionality has been coded
+// favoritesBadgeDisplay(); 
+//===========================================================================================
