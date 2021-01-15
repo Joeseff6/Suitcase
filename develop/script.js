@@ -5,7 +5,6 @@
 // Set global variable for ajax response on document event listener
 var cityChoice
 
-//Stats at a glance Card
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   // SDK for GeoDB Cities per RapidAPI
@@ -40,8 +39,7 @@ $("#citySubmit").on("click", function (e) {
 })
 
 $(document).on("click",".historyChoice", function() {
-  console.log(cityChoice)
-  let choiceIndex = $(this).attr("data-index")
+  var choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
@@ -50,15 +48,30 @@ $(document).on("click",".historyChoice", function() {
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
+
+  // Weather card
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
+  console.log(cityChoice)
+  let newsApiKey = "c9b43c267e644833952584f8a26202bb"
+  let newsUrl = "http://newsapi.org/v2/top-headlines?country=" + cityChoice.data[choiceIndex].countryCode + "&apiKey=" + newsApiKey
 
+  $.ajax({
+    url: newsUrl,
+    method: "GET"
+  })
+    .then(function(response) {
+      console.log(response)
+    })
 
+  //Stats at a glance Card
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
   $.ajax({
     url: regionURL,
     method: "GET"
   })
-    .then(function(response) {
+    .then(function(response, choiceIndex) {
+      console.log(cityChoice)
+
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
       let Offset = response[0].timezones[0];
@@ -99,6 +112,8 @@ $(document).on("click",".historyChoice", function() {
       $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0])
       $("#localTime").text("Coutnry's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
       $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
+
+
     })
 });
 
