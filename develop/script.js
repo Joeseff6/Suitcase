@@ -2,7 +2,6 @@
 //     $(document).foundation();
 // });
 
-
 var cityData;
 
 //Stats at a glance Card
@@ -162,6 +161,15 @@ $('#statsCard').on('click', function() {
       });
       //current conditions
 
+      //weather description
+      let weatherDescription = response.weather[0].description;
+      weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
+        return c.toUpperCase();
+      });
+      let weatherDesc = $("#weatherDesc");
+      console.log(weatherDescription);
+      weatherDesc.text("Current reports show: " + weatherDescription);
+
       //Icon
       let icon = response.weather[0].icon;
       let iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
@@ -214,9 +222,9 @@ function forecast(lat, lon){
     }).then(function (res) {
         console.log(res);
         //Get forecast container div
-        const forecastContainer = $('#forecastContainer');
+        const forecastContainer = $('#forecastCards');
         //Clear Div
-        $('#forecastContainer').html('');
+        $('#forecastCards').html('');
         //loop through response
         for (let i = 1; i < res.daily.length && i < 6; i++) {
           //create card div

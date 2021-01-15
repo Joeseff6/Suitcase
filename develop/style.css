@@ -1,25 +1,16 @@
-body {
+html * {
   font-family: "Montserrat", sans-serif;
+}
+
+body {
   background-image: url(https://images.unsplash.com/photo-1561723071-ea12542227e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
-
-#searchCard {
-  background-image: url(https://images.unsplash.com/photo-1570891836868-673ee4818f81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  /* background-image: url(https://images.unsplash.com/photo-1509330008791-ef3fb25a4a01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1597946650068-3be3408e6299?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1603397177628-e4025e204a3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1512897008368-c3582622731f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1575722290270-626b0208df99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
-
-#searchCardTitle {
-  text-align: center;
+#pageTitle {
+  font-family: "Great Vibes", cursive;
+  font-size: 150px;
 }
 
 #pageTitle,
@@ -28,13 +19,23 @@ body {
   text-align: center;
 }
 
+#pageTitleSection {
+  padding-bottom: 0px;
+}
+
+#pageSubtitleSection {
+  padding-top: 0px;
+}
+
+#searchCard {
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 section.grid-container .grid-x .card .card-divider {
-  background-image: url(https://images.unsplash.com/photo-1570891836868-673ee4818f81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  /* background-image: url(https://images.unsplash.com/photo-1509330008791-ef3fb25a4a01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1597946650068-3be3408e6299?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1603397177628-e4025e204a3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1512897008368-c3582622731f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1575722290270-626b0208df99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -42,15 +43,15 @@ section.grid-container .grid-x .card .card-divider {
 }
 
 section.grid-container .grid-x .cell .card .card-section {
-  background-image: url(https://images.unsplash.com/photo-1570891836868-673ee4818f81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  /* background-image: url(https://images.unsplash.com/photo-1509330008791-ef3fb25a4a01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1597946650068-3be3408e6299?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1603397177628-e4025e204a3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1512897008368-c3582622731f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
-  /* background-image: url(https://images.unsplash.com/photo-1575722290270-626b0208df99?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080); */
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  color: white;
+}
+
+section.grid-container .tabs .tabs-title .cell .card .card-section {
+  background-color: black;
   color: white;
 }
 
@@ -66,15 +67,40 @@ img {
 
 .button {
   font-weight: 600;
-  border-radius: 5%;
+  border-radius: 10px;
+  border: 2px grey dotted;
   background-color: #bc6c25;
-  border: 2px;
-  border-color: #9a031e;
-  border-style: dashed;
-  /* background-color: #9a031e; */
+}
+
+#cityInput {
+  position: relative;
+  background-color: rgb(242, 242, 242);
+  border-radius: 25px;
+  border: 2px grey solid;
+  font-size: 20px;
+}
+
+#cityInput input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#cityInput:hover {
+  background-color: white;
+  border-radius: 25px;
 }
 
 .button:hover {
+  background-image: none;
   background-color: #9c6644;
 }
 
+#forecastCards {
+  background-color: #ffdab9;
+  margin-bottom: 0px;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+}
