@@ -47,10 +47,9 @@ $(document).on("click",".historyChoice", function() {
   buttonEl = $("<button>")
 
 
-  buttonEl.text(cityData.data[choiceIndex].city + ", " + cityData.data[choiceIndex].region + ", " + cityData.data[choiceIndex].countryCode).attr("class","button historyItem")
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
-  weatherSection(cityData.data[choiceIndex].city,cityData.data[choiceIndex].region,cityData.data[choiceIndex].countryCode);
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   $(`#historyReveal`).append(buttonEl)
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
@@ -118,14 +117,6 @@ $('#cityInput').on('keydown', function (e) {
   $(this).val(input);
 })
 
-
-//weather Card
-$("#citySubmit").on("click", function (e) {
-  e.preventDefault();
-  
-  //user input
-  let cityName = $("#cityInput");
-  cityName = cityName.val().trim();
 
 
 //weather Card
