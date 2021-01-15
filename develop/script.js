@@ -2,13 +2,8 @@
 //     $(document).foundation();
 // });
 
-<<<<<<< HEAD
-var cityData;
-var cityName;
-=======
 // Set global variable for ajax response on document event listener
 var cityChoice
->>>>>>> 482f3bca47e1ae074274d2eeea8b2772d00afd95
 
 //Stats at a glance Card
 $("#citySubmit").on("click", function (e) {
@@ -99,10 +94,11 @@ $(document).on("click",".historyChoice", function() {
       $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection)
       $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection)
       $("#population").text("Country's Population: " + commaSeparator(response[0].population))
+      $("#area").text("Country's total area: " + commaSeparator(response[0].area) + " sq. km.")
       $("#language").text("Language: " + response[0].languages[0].name)
       $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name)
       $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0])
-      $("#localTime").text("Coutnry's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
+      $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
       $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
     })
 });
@@ -328,5 +324,12 @@ $('a[value*="close"').on('click', function() {
 
 });
 
+//footer quote selector
+let quoteArray = [" Not all those who wander are lost. | J.R.R. Tolkien"," If you don’t know where you’re going, any road will get you there. | Lewis Carroll", " The world is a book and those who do not travel read only one page. | St. Augustine", "Two roads diverged in a wood and I – I took the one less traveled by. | Robert Frost",
+" Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
+let quoteNum = Math.floor(Math.random() * quoteArray.length);
+$("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
+console.log($("#footerMessage"));
+console.log($("#footerMessage")[0].innerHTML);
 
 
