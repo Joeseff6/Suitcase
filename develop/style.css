@@ -70,7 +70,7 @@ img {
 }
 
 .button {
-  font-weight: 700;
+  font-weight: 900;
   border-radius: 10px;
   /* border: 2px grey dotted; */
   /* background-color: #bc6c25; */
@@ -131,8 +131,11 @@ section.grid-container .grid-x .card .grid-x .card-section {
   cursor: pointer;
   padding: 15px;
   font-size: larger;
-  font-weight: 900;
 }
 #topBtn:hover {
   background-color: #9c6644;
+}
+
+.badge {
+  height: 20px;
 }
