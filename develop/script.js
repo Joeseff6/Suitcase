@@ -95,7 +95,10 @@ $('#mapCard').on('click', function() {
   
 })
 
-//opening sections **planning make it more dryer soon**
+  if (cityName.length == 0) {
+    //error message
+    return 0;
+  } else {//opening sections **planning make it more dryer soon**
 //News
 $('#newsCard').on('click', function() {
   $('.newsSection').css('display', 'block');
@@ -203,7 +206,8 @@ $('#statsCard').on('click', function() {
         
       });
     });
-  };
+  }
+};
 //end of weather card
 
 
