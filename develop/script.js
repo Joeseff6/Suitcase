@@ -110,6 +110,7 @@ $('#cityInput').on('keydown', function (e) {
   $(this).val(input);
 })
 
+
 //weather Card
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
@@ -118,12 +119,75 @@ $("#citySubmit").on("click", function (e) {
   let cityName = $("#cityInput");
   cityName = cityName.val().trim();
 
+
+//weather Card
+function weatherSection (city, state, country) {
+  
+
+    //News
+$('#newsCard').on('click', function() {
+  $('.newsSection').css('display', 'block');
+  $('.newsSection')[0].scrollIntoView();
+});
+
+//Forecast
+$('#forecastCard').on('click', function() {
+  $('.forecastSection').css('display', 'block');
+  $('.forecastSection')[0].scrollIntoView();
+})
+
+//Weather
+$('#weatherCard').on('click', function() {
+  $('.weatherSection').css('display', 'block');
+  $('.weatherSection')[0].scrollIntoView();
+})
+
+//Map
+$('#mapCard').on('click', function() {
+  $('.mapSection').css('display', 'block');
+  $('.mapSection')[0].scrollIntoView();
+  
+})
+
+
   if (cityName.length == 0) {
     //error message
     return 0;
-  } else {
+  } else {//opening sections **planning make it more dryer soon**
+//News
+$('#newsCard').on('click', function() {
+  $('.newsSection').css('display', 'block');
+  $('.newsSection')[0].scrollIntoView();
+});
+
+//Forecast
+$('#forecastCard').on('click', function() {
+  $('.forecastSection').css('display', 'block');
+  $('.forecastSection')[0].scrollIntoView();
+})
+
+//Weather
+$('#weatherCard').on('click', function() {
+  $('.weatherSection').css('display', 'block');
+  $('.weatherSection')[0].scrollIntoView();
+})
+
+//Map
+$('#mapCard').on('click', function() {
+  $('.mapSection').css('display', 'block');
+  $('.mapSection')[0].scrollIntoView();
+  
+})
+
+
+//stats
+$('#statsCard').on('click', function() {
+  $('.statsSection').css('display', 'block');
+  $('.statsSection')[0].scrollIntoView();
+  
+})
     //openWeather
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${openWeatherKey}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
       url: url,
@@ -132,9 +196,11 @@ $("#citySubmit").on("click", function (e) {
       console.log(url)
 
 
+
+
       $('#map').html('');
       //country code 
-      let countryCode = response.sys.country;
+      
 
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
@@ -152,6 +218,15 @@ $("#citySubmit").on("click", function (e) {
         })
       });
       //current conditions
+
+      //weather description
+      let weatherDescription = response.weather[0].description;
+      weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
+        return c.toUpperCase();
+      });
+      let weatherDesc = $("#weatherDesc");
+      console.log(weatherDescription);
+      weatherDesc.text("Current reports show: " + weatherDescription);
 
       //Icon
       let icon = response.weather[0].icon;
@@ -190,7 +265,7 @@ $("#citySubmit").on("click", function (e) {
       });
     });
   }
-});
+};
 //end of weather card
 
 
@@ -205,9 +280,9 @@ function forecast(lat, lon){
     }).then(function (res) {
         console.log(res);
         //Get forecast container div
-        const forecastContainer = $('#forecastContainer');
+        const forecastContainer = $('#forecastCards');
         //Clear Div
-        $('#forecastContainer').html('');
+        $('#forecastCards').html('');
         //loop through response
         for (let i = 1; i < res.daily.length && i < 6; i++) {
           //create card div
@@ -280,9 +355,9 @@ function forecast(lat, lon){
 }
 //end of forecast card
 
-//closing section
+
+//closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 })
-
 
