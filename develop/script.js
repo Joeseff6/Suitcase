@@ -109,7 +109,7 @@ $(document).on("click",".historyChoice", function() {
 
       // News card
       let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
-      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + response[0].name + "&api-key=" + newsApiKey
+      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
       console.log(newsUrl)
 
       // $.ajax({
