@@ -39,25 +39,10 @@ footer {
 
 section.grid-container .grid-x .card .card-divider,
 section.grid-container .grid-x .cell .card .card-section,
+section.grid-container .tabs .tabs-title .cell .card .card-section,
 footer {
   color: white;
 }
-
-/* section.grid-container .grid-x .cell .card .card-section {
-  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: white;
-} */
-
-/* #forecastCards .card-section {
-  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: white;
-} */
 
 #currentWeatherIcon,
 #flagContainer {
@@ -66,7 +51,6 @@ footer {
 
 section.grid-container .tabs .tabs-title .cell .card .card-section {
   background-color: black;
-  color: white;
 }
 
 #historySection,
@@ -84,11 +68,18 @@ img {
   width: 350px;
   padding-bottom: 30px;
 }
+
 .button {
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 10px;
-  border: 2px grey dotted;
-  background-color: #bc6c25;
+  /* border: 2px grey dotted; */
+  /* background-color: #bc6c25; */
+  background-color: #f79256;
+}
+
+.button:hover {
+  background-image: none;
+  background-color: #9c6644;
 }
 
 #cityInput {
@@ -109,11 +100,6 @@ img {
   border-radius: 25px;
 }
 
-.button:hover {
-  background-image: none;
-  background-color: #9c6644;
-}
-
 #map {
   height: 400px;
   width: 100%;
@@ -130,5 +116,23 @@ p {
 }
 
 section.grid-container .grid-x .card .grid-x .card-section {
-  background-color: teal;
+  background-color: lightslategrey;
+  color: white;
+}
+
+/* Scroll-to-Top Button */
+#topBtn {
+  position: fixed;
+  bottom: 75px;
+  right: 75px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  font-size: larger;
+  font-weight: 900;
+}
+#topBtn:hover {
+  background-color: #9c6644;
 }
