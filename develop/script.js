@@ -45,8 +45,16 @@ $(document).on("click",".historyChoice", function() {
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
+
+
+  buttonEl.text(cityData.data[choiceIndex].city + ", " + cityData.data[choiceIndex].region + ", " + cityData.data[choiceIndex].countryCode).attr("class","button historyItem")
+  console.log(buttonEl)
+  $(`#historyReveal`).append(buttonEl);
+  weatherSection(cityData.data[choiceIndex].city,cityData.data[choiceIndex].region,cityData.data[choiceIndex].countryCode);
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   $(`#historyReveal`).append(buttonEl)
+  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
+
 
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
   $.ajax({
@@ -122,9 +130,8 @@ $("#citySubmit").on("click", function (e) {
 
 //weather Card
 function weatherSection (city, state, country) {
-  
 
-    //News
+  
 $('#newsCard').on('click', function() {
   $('.newsSection').css('display', 'block');
   $('.newsSection')[0].scrollIntoView();
@@ -150,42 +157,6 @@ $('#mapCard').on('click', function() {
 })
 
 
-  if (cityName.length == 0) {
-    //error message
-    return 0;
-  } else {//opening sections **planning make it more dryer soon**
-//News
-$('#newsCard').on('click', function() {
-  $('.newsSection').css('display', 'block');
-  $('.newsSection')[0].scrollIntoView();
-});
-
-//Forecast
-$('#forecastCard').on('click', function() {
-  $('.forecastSection').css('display', 'block');
-  $('.forecastSection')[0].scrollIntoView();
-})
-
-//Weather
-$('#weatherCard').on('click', function() {
-  $('.weatherSection').css('display', 'block');
-  $('.weatherSection')[0].scrollIntoView();
-})
-
-//Map
-$('#mapCard').on('click', function() {
-  $('.mapSection').css('display', 'block');
-  $('.mapSection')[0].scrollIntoView();
-  
-})
-
-
-//stats
-$('#statsCard').on('click', function() {
-  $('.statsSection').css('display', 'block');
-  $('.statsSection')[0].scrollIntoView();
-  
-})
     //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
 
@@ -265,7 +236,7 @@ $('#statsCard').on('click', function() {
       });
     });
   }
-};
+
 //end of weather card
 
 
@@ -359,5 +330,9 @@ function forecast(lat, lon){
 //closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
-})
+
+
+});
+
+
 
