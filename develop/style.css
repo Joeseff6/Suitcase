@@ -14,8 +14,7 @@ body {
 }
 
 #pageTitle,
-#pageSubtitle,
-h4 {
+#pageSubtitle {
   color: white;
   text-align: center;
 }
@@ -29,14 +28,14 @@ h4 {
 }
 
 #searchCard {
-  background-image: url(https://images.unsplash.com/photo-1548697143-6a9dc9d9d80f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
 
 section.grid-container .grid-x .card .card-divider {
-  background-image: url(https://images.unsplash.com/photo-1548697143-6a9dc9d9d80f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -44,10 +43,15 @@ section.grid-container .grid-x .card .card-divider {
 }
 
 section.grid-container .grid-x .cell .card .card-section {
-  background-image: url(https://images.unsplash.com/photo-1548697143-6a9dc9d9d80f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  color: white;
+}
+
+section.grid-container .tabs .tabs-title .cell .card .card-section {
+  background-color: black;
   color: white;
 }
 
@@ -89,4 +93,14 @@ img {
 .button:hover {
   background-image: none;
   background-color: #9c6644;
+}
+
+#forecastCards {
+  background-color: #ffdab9;
+  margin-bottom: 0px;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
 }
