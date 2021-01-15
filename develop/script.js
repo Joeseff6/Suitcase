@@ -55,8 +55,6 @@ $(document).on("click",".historyChoice", function() {
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
-  $(`#historyReveal`).append(buttonEl)
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
 
 
