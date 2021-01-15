@@ -13,13 +13,27 @@
     <!--Google Maps API script 1/2. Second is commented out below since it might be unnecessary,
     if using it in JavaScript. Google insists they both go in the head.-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
+<<<<<<< HEAD
     <!-- <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
         defer>
         </script> -->
+=======
+>>>>>>> 482f3bca47e1ae074274d2eeea8b2772d00afd95
     <!-- Openlayers API -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+
+    <!--https://openlayers.org/-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+        <style>
+          .map {
+            height: 400px;
+            width: 100%;
+          }
+        </style>
+        <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <!--end of https://openlayers.org/-->
 
     <!--JQuery & Foundation scripts in the head. This was the only way to make Reveals(modals) work for some reason.-->
     <!--The comment above will remain in the code permanently, as it explains why the script is in  the head. -->
@@ -245,10 +259,10 @@
                     <div class="cell small-4">
                         <div class="card-section">
                             <p class="h5">Country Flag</p>
-                            <img id="flag" src="https://restcountries.eu/data/usa.svg" height="1000" width="1600">
+                            <img id="flag" height="1000" width="1600">
                         </div>
                         <div class="card-section">
-                            <p class="h5" id="localTime">Local Time: </p>
+                            <p class="h5" id="localTime">Country's Local Time: </p>
                             <p class="h5" id="localTimeZone">Time Zone: </p>
                         </div>
                     </div>
@@ -257,13 +271,15 @@
                             <ul>
                                 <li class="h5" id="country">Country: </li>
                                 <li class="h5" id="capital">Capital: </li>
-                                <li class="h5" id="continent">Continent: </li>
+                                <li class="h5" id="region">Region: </li>
+                                <li class="h5" id="lat">Country's Latitude: </li>
+                                <li class="h5" id="lon">Country's Longitude: </li>
                                 <li class="h5" id="population">Country's Population: </li>
-                                <li class="h5" id="area">Country's Total Area: </li>
+                                <!-- <li class="h5" id="area">Country's Total Area: </li> -->
                                 <li class="h5" id="language">Language: </li>
                                 <li class="h5" id="currency">Currency: </li>
                                 <li class="h5" id="callingCode">Country Calling Code: </li>
-                                <li class="h5" id="memberships">Memberships: </li>
+                                <!-- <li class="h5" id="memberships">Memberships: </li> -->
                             </ul>
                         </div>
                     </div>
@@ -284,7 +300,7 @@
                     </div>
                 </div>
                 <div class="card-section">
-                    <div id="map"></div>
+                    <div id="map" class="map"></div>
                 </div>
             </div>
         </div>
@@ -684,8 +700,9 @@
     </section> -->
 
     <script>$(document).ready(function () {
-            $(document).foundation();
-        });</script>
+        $(document).foundation();
+    });</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.3/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="./develop/script.js"></script>

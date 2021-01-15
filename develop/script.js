@@ -2,15 +2,17 @@
 //     $(document).foundation();
 // });
 
+<<<<<<< HEAD
 var cityData;
 var cityName;
+=======
+// Set global variable for ajax response on document event listener
+var cityChoice
+>>>>>>> 482f3bca47e1ae074274d2eeea8b2772d00afd95
 
 //Stats at a glance Card
-
-
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
-
   // SDK for GeoDB Cities per RapidAPI
   $(".removeOption").remove()
   let cityName = $("#cityInput").val()
@@ -28,9 +30,8 @@ $("#citySubmit").on("click", function (e) {
   // Requesting server data from GeoDB
   $.ajax(settings)
     .then(function (response) {
-      console.log(response)
+      cityChoice = response
       // Function to add buttons for additional searches
-      cityData = response
       if (response.data.length > 1) {
         $("#resultsContainer").css("display","block")
         for (let i = 0; i < response.data.length; i++) {
@@ -44,16 +45,71 @@ $("#citySubmit").on("click", function (e) {
 })
 
 $(document).on("click",".historyChoice", function() {
-  // debugger
+  console.log(cityChoice)
   let choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
-  buttonEl.text(cityData.data[choiceIndex].city + ", " + cityData.data[choiceIndex].region + ", " + cityData.data[choiceIndex].countryCode).attr("class","button historyItem")
+
+
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
-  weatherSection(cityData.data[choiceIndex].city,cityData.data[choiceIndex].region,cityData.data[choiceIndex].countryCode);
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
+  $(`#historyReveal`).append(buttonEl)
+  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
+
+
+  let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
+  $.ajax({
+    url: regionURL,
+    method: "GET"
+  })
+    .then(function(response) {
+      let lat =  (response[0].latlng[0]).toFixed(2)
+      let lon = (response[0].latlng[1]).toFixed(2)
+      let Offset = response[0].timezones[0];
+      let flag = response[0].flag
+
+      var latDirection = ""
+      var lonDirection = ""
+
+      if ( lat < 0) {
+        lat *= -1
+        latDirection = "S"
+      } else {
+        latDirection = "N"
+      }
+
+      if ( lon < 0) {
+        lon *= -1
+        lonDirection = "W"
+      } else {
+        lonDirection = "E"
+      }
+
+      function commaSeparator(num) {
+        var number = num.toString().split(".");
+        number[0] = number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return number.join(".");
+      }
+      
+      $("#flag").attr("src",flag)
+      $("#country").text("Country: " + response[0].name)
+      $("#capital").text("Capital: " + response[0].capital)
+      $("#region").text("Region: " + response[0].region)
+      $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection)
+      $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection)
+      $("#population").text("Country's Population: " + commaSeparator(response[0].population))
+      $("#language").text("Language: " + response[0].languages[0].name)
+      $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name)
+      $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0])
+      $("#localTime").text("Coutnry's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
+      $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
+    })
 });
+
+
 
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
@@ -67,40 +123,11 @@ $('#cityInput').on('keydown', function (e) {
 })
 
 
+
 //weather Card
 function weatherSection (city, state, country) {
+
   
-
-    //News
-$('#newsCard').on('click', function() {
-  $('.newsSection').css('display', 'block');
-  $('.newsSection')[0].scrollIntoView();
-});
-
-//Forecast
-$('#forecastCard').on('click', function() {
-  $('.forecastSection').css('display', 'block');
-  $('.forecastSection')[0].scrollIntoView();
-})
-
-//Weather
-$('#weatherCard').on('click', function() {
-  $('.weatherSection').css('display', 'block');
-  $('.weatherSection')[0].scrollIntoView();
-})
-
-//Map
-$('#mapCard').on('click', function() {
-  $('.mapSection').css('display', 'block');
-  $('.mapSection')[0].scrollIntoView();
-  
-})
-
-  if (cityName.length == 0) {
-    //error message
-    return 0;
-  } else {//opening sections **planning make it more dryer soon**
-//News
 $('#newsCard').on('click', function() {
   $('.newsSection').css('display', 'block');
   $('.newsSection')[0].scrollIntoView();
@@ -126,12 +153,6 @@ $('#mapCard').on('click', function() {
 })
 
 
-//stats
-$('#statsCard').on('click', function() {
-  $('.statsSection').css('display', 'block');
-  $('.statsSection')[0].scrollIntoView();
-  
-})
     //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
 
@@ -139,8 +160,11 @@ $('#statsCard').on('click', function() {
       url: url,
       method: "GET",
     }).then(function (response) {
+      console.log(url)
 
-      console.log(response);
+
+
+
       $('#map').html('');
       //country code 
       
@@ -208,7 +232,7 @@ $('#statsCard').on('click', function() {
       });
     });
   }
-};
+
 //end of weather card
 
 
@@ -298,7 +322,13 @@ function forecast(lat, lon){
 }
 //end of forecast card
 
+
 //closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
-})
+
+
+});
+
+
+
