@@ -4,6 +4,7 @@
 
 // Set global variable for ajax response on document event listener
 var cityChoice
+var choiceIndex
 
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
@@ -39,7 +40,7 @@ $("#citySubmit").on("click", function (e) {
 })
 
 $(document).on("click",".historyChoice", function() {
-  var choiceIndex = $(this).attr("data-index")
+  choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
@@ -52,25 +53,18 @@ $(document).on("click",".historyChoice", function() {
   // Weather card
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
   console.log(cityChoice)
-  let newsApiKey = "c9b43c267e644833952584f8a26202bb"
-  let newsUrl = "http://newsapi.org/v2/top-headlines?country=" + cityChoice.data[choiceIndex].countryCode + "&apiKey=" + newsApiKey
 
-  $.ajax({
-    url: newsUrl,
-    method: "GET"
-  })
-    .then(function(response) {
-      console.log(response)
-    })
+
 
   //Stats at a glance Card
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
+  
   $.ajax({
     url: regionURL,
     method: "GET"
   })
-    .then(function(response, choiceIndex) {
-      console.log(cityChoice)
+    .then(function(response) {
+      console.log(response)
 
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
@@ -113,7 +107,18 @@ $(document).on("click",".historyChoice", function() {
       $("#localTime").text("Coutnry's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
       $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
 
+      // News card
+      let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
+      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + response[0].name + "&api-key=" + newsApiKey
+      console.log(newsUrl)
 
+      // $.ajax({
+      //   url: newsUrl,
+      //   method: "GET"
+      // })
+      //   .then(function(response) {
+      //     console.log(response)
+      //   })
     })
 });
 
