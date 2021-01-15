@@ -3,6 +3,7 @@
 // });
 
 var cityData;
+var cityName;
 
 //Stats at a glance Card
 
