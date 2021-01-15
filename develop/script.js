@@ -2,14 +2,12 @@
 //     $(document).foundation();
 // });
 
-var cityData;
+// Set global variable for ajax response on document event listener
+var cityChoice
 
 //Stats at a glance Card
-
-
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
-
   // SDK for GeoDB Cities per RapidAPI
   $(".removeOption").remove()
   let cityName = $("#cityInput").val()
@@ -27,9 +25,8 @@ $("#citySubmit").on("click", function (e) {
   // Requesting server data from GeoDB
   $.ajax(settings)
     .then(function (response) {
-      console.log(response)
+      cityChoice = response
       // Function to add buttons for additional searches
-      cityData = response
       if (response.data.length > 1) {
         $("#resultsContainer").css("display","block")
         for (let i = 0; i < response.data.length; i++) {
@@ -43,11 +40,12 @@ $("#citySubmit").on("click", function (e) {
 })
 
 $(document).on("click",".historyChoice", function() {
-  // debugger
+  console.log(cityChoice)
   let choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
+
 
   buttonEl.text(cityData.data[choiceIndex].city + ", " + cityData.data[choiceIndex].region + ", " + cityData.data[choiceIndex].countryCode).attr("class","button historyItem")
   console.log(buttonEl)
@@ -107,6 +105,8 @@ $(document).on("click",".historyChoice", function() {
     })
 });
 
+
+
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
 //Auto Cap text on keydown feature
@@ -120,11 +120,18 @@ $('#cityInput').on('keydown', function (e) {
 
 
 //weather Card
+$("#citySubmit").on("click", function (e) {
+  e.preventDefault();
+  
+  //user input
+  let cityName = $("#cityInput");
+  cityName = cityName.val().trim();
+
+
+//weather Card
 function weatherSection (city, state, country) {
 
   
-
-    //News
 $('#newsCard').on('click', function() {
   $('.newsSection').css('display', 'block');
   $('.newsSection')[0].scrollIntoView();
@@ -157,8 +164,11 @@ $('#mapCard').on('click', function() {
       url: url,
       method: "GET",
     }).then(function (response) {
+      console.log(url)
 
-      console.log(response);
+
+
+
       $('#map').html('');
       //country code 
       
@@ -316,10 +326,13 @@ function forecast(lat, lon){
 }
 //end of forecast card
 
+
 //closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 
+
 });
+
 
 
