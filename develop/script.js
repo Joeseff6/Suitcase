@@ -8,6 +8,8 @@
 
 // Set global variable for ajax response on document event listener
 var cityChoice
+var choiceIndex
+
 
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
@@ -60,15 +62,19 @@ $(document).on("click",".historyChoice", function() {
   console.log(cityChoice)
   console.log(this);
   let choiceIndex = $(this).attr("data-index")
+  choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
 
 
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem").attr("data-close","")
   console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
+
+  // Weather card
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
+  console.log(cityChoice)
 
   //History Badge Functionality (Fahad)
   //=====================================
@@ -77,12 +83,18 @@ $(document).on("click",".historyChoice", function() {
   historyBadgeDisplay();
   //=====================================
 
+  $("#searchResultsReveal").foundation('close');
+  $("#historyReveal").foundation('close');
+  //Stats at a glance Card
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
+  
   $.ajax({
     url: regionURL,
     method: "GET"
   })
     .then(function(response) {
+      console.log(response)
+
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
       let Offset = response[0].timezones[0];
@@ -124,6 +136,31 @@ $(document).on("click",".historyChoice", function() {
       $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0])
       $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
       $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
+
+      // News card
+      let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
+      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
+      console.log(newsUrl)
+
+
+      $.ajax({
+        url: newsUrl,
+        method: "GET"
+      })
+        .then(function(response) {
+          console.log(response.response)
+          $(".newsItem").remove()
+          for (let i = 0; i < response.response.docs.length; i++) {
+            let articleImage = $("<img>")
+            let articleImageUrl = response.response.docs[i].multimedia[22].url
+            articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+            $("#newsArticles").append(articleImage)
+
+            let articleHeadline = $("<h5>")
+            articleHeadline.text(response.response.docs[i].headline.main).attr("class", "newsItem")
+            $("#newsArticles").append(articleHeadline)
+          }
+        })
     })
 });
 
