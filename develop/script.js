@@ -156,10 +156,12 @@ $(document).on("click",".historyChoice", function() {
             $("#newsArticles").append(articleImage)
 
             let articleHeadline = $("<a>")
-            articleHeadline.text(response.response.docs[i].headline.main).attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
+            articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
             $("#newsArticles").append(articleHeadline)
 
-            
+            let articleAbstract = $("<p>")
+            articleAbstract.text(response.response.docs[i].abstract)
+            $("#newsArticles").append(articleAbstract)
 
             $("#newsArticles").append(breakEl)
           }
