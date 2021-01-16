@@ -77,7 +77,6 @@ $(document).on("click",".searchItem", function() {
   buttonEl = $("<button>");
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history");;
   $(`#historyReveal`).append(buttonEl);
-  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
 
   //History Badge Functionality (Fahad)
@@ -206,6 +205,9 @@ $('#cityInput').on('keydown', function (e) {
 //weather Card
 function weatherSection (city, country, lat, lon) {
 
+ let mapLat = lat;
+ let mapLon = lon;
+
     //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
 
@@ -247,25 +249,11 @@ function weatherSection (city, country, lat, lon) {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
       })
-      console.log('coord: '+ lon);
       //country code 
       
-      //Call OpenLayers function
+      openLayers(mapLat, mapLon);
 
-      var map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([lon, lat]),
-          zoom: 10
-        })
-      });
       //current conditions
-
       //weather description
       let weatherDescription = response.weather[0].description;
       weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
@@ -465,4 +453,51 @@ function historyBadgeDisplay() {
 // };
 //Move this function to appropriate area once the Favorites functionality has been coded
 // favoritesBadgeDisplay(); 
+
 //===========================================================================================
+
+function openLayers(x, y){
+  //Call OpenLayers function
+
+      //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
+      var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([y, x]),
+          zoom: 10
+        })
+      });
+
+      var marker = new ol.Feature({
+        geometry: new ol.geom.Point(
+          ol.proj.fromLonLat([y,x])
+        ), 
+      });
+      marker.setStyle(new ol.style.Style({
+        image: new ol.style.Icon(({
+            src: 'Assets/Images/pin-icon-20px.png'
+        }))
+      }));
+
+      var vectorSource = new ol.source.Vector({
+        features: [marker]
+      });
+      var markerVectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+      });
+      map.addLayer(markerVectorLayer);
+}
+
+
+
+
+
+
+function submitSearch() {
+
+}
