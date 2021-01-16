@@ -27,32 +27,30 @@ body {
   padding-top: 0px;
 }
 
-#searchCard {
+#searchCard,
+section.grid-container .grid-x .card .card-divider,
+section.grid-container .grid-x .cell .card .card-section,
+footer {
   background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
 
-section.grid-container .grid-x .card .card-divider {
-  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+section.grid-container .grid-x .card .card-divider,
+section.grid-container .grid-x .cell .card .card-section,
+section.grid-container .tabs .tabs-title .cell .card .card-section,
+footer {
   color: white;
 }
 
-section.grid-container .grid-x .cell .card .card-section {
-  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: white;
+#currentWeatherIcon,
+#flagContainer {
+  text-align: center;
 }
 
 section.grid-container .tabs .tabs-title .cell .card .card-section {
   background-color: black;
-  color: white;
 }
 
 #historySection,
@@ -65,11 +63,23 @@ img {
   width: 250px;
 }
 
+#flag {
+  max-height: 300px;
+  max-width: 400px;
+  padding-bottom: 30px;
+}
+
 .button {
-  font-weight: 600;
+  font-weight: 900;
   border-radius: 10px;
-  border: 2px grey dotted;
-  background-color: #bc6c25;
+  /* border: 2px grey dotted; */
+  /* background-color: #bc6c25; */
+  background-color: #f79256;
+}
+
+.button:hover {
+  background-image: none;
+  background-color: #9c6644;
 }
 
 #cityInput {
@@ -90,19 +100,74 @@ img {
   border-radius: 25px;
 }
 
-.button:hover {
-  background-image: none;
-  background-color: #9c6644;
-}
-
-
-
-#forecastCards {
-  background-color: #ffdab9;
-  margin-bottom: 0px;
-}
-
 #map {
   height: 400px;
   width: 100%;
+}
+
+footer {
+  font-size: 15px;
+  height: 50px;
+  text-align: center;
+}
+
+p {
+  font-weight: 450;
+}
+
+section.grid-container .grid-x .card .grid-x .card-section {
+  background-color: lightslategrey;
+  color: white;
+}
+
+/* Scroll-to-Top Button */
+#topBtn {
+  position: fixed;
+  bottom: 75px;
+  right: 75px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  font-size: larger;
+  background-color: black;
+}
+#topBtn:hover {
+  background-color: crimson;
+}
+
+.badge {
+  height: 20px;
+}
+
+#searchResultsReveal {
+  background-image: url(https://images.unsplash.com/photo-1555532538-dcdbd01d373d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#historyReveal {
+  background-image: url(https://images.unsplash.com/photo-1473163928189-364b2c4e1135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#favoritesReveal {
+  background-image: url(https://images.unsplash.com/photo-1517330283827-2527c57981ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#revealCloseButton {
+  color: whitesmoke;
+}
+#revealCloseButton:hover {
+  color: grey;
 }
