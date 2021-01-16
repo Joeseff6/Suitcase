@@ -1,13 +1,28 @@
+//=========================================================================================
+//Note: For Foundation to work, all JS/JQuery must be written inside this function.
+//Note: Per Tish, this function has been added to the HTML instead (for safekeeping), and thus is disabled here.
 // $(document).ready(function () {
 //     $(document).foundation();
 // });
+//=========================================================================================
 
 // Set global variable for ajax response on document event listener
 var cityChoice
+var choiceIndex
+
+
+// Empty arrays for Badge Functionality (Fahad)
+//=============================================
+var historyArray = [];
+var FavoritesArray = []; 
+//=============================================
 
 //Stats at a glance Card
+
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
+  footerQuote(); //see footerQuote function at the end
+
   // SDK for GeoDB Cities per RapidAPI
   $(".removeOption").remove()
   let cityName = $("#cityInput").val()
@@ -33,27 +48,47 @@ $("#citySubmit").on("click", function (e) {
           let buttonEl = $("<button>");
           let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
           buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
-          $("#resultsSection").append(buttonEl)
+          $("#resultsSection").append(buttonEl);
+
+          //code to add results to Search Reveal (modal) (Fahad)
+          //====================================================
+          $("#searchResultsReveal").append(buttonEl);
+          //====================================================
         }
       }
     })
 })
 
+$("#addToFavorites").on("click", function() {
+  if (cityChoice !== null) {
+    let buttonEl = $("<button>")
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
+    $("#favoritesReveal").append(buttonEl)
+  }
+})
+
+// Function to fire when a search option is chosen
 $(document).on("click",".historyChoice", function() {
-  console.log(cityChoice)
-  let choiceIndex = $(this).attr("data-index")
+  choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
-  $("#resultsContainer").css("display","none")
+
+  // Push selected option to the history modal
   buttonEl = $("<button>")
-
-
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
-  console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
 
+  //History Badge Functionality (Fahad)
+  //=====================================
+  historyArray.push(cityChoice.data[choiceIndex].city);
+  historyBadgeDisplay();
+  //=====================================
+
+
+  //Stats at a glance Card
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
+  
   $.ajax({
     url: regionURL,
     method: "GET"
@@ -64,6 +99,7 @@ $(document).on("click",".historyChoice", function() {
 
         //call forecast function
       forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
+
 
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
@@ -100,11 +136,44 @@ $(document).on("click",".historyChoice", function() {
       $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection)
       $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection)
       $("#population").text("Country's Population: " + commaSeparator(response[0].population))
+      $("#area").text("Country's total area: " + commaSeparator(response[0].area) + " sq. km.")
       $("#language").text("Language: " + response[0].languages[0].name)
       $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name)
       $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0])
-      $("#localTime").text("Coutnry's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
+      $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
       $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
+
+      // News card
+      let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
+      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
+
+
+      $.ajax({
+        url: newsUrl,
+        method: "GET"
+      })
+        .then(function(response) {
+          $(".newsItem").remove()
+
+          for (let i = 0; i < response.response.docs.length; i++) {
+            var breakEl = $("<br>")
+            breakEl.attr("class", "newsItem")
+            let articleImage = $("<img>")
+            let articleImageUrl = response.response.docs[i].multimedia[22].url
+            articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+            $("#newsArticles").append(articleImage)
+
+            let articleHeadline = $("<a>")
+            articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
+            $("#newsArticles").append(articleHeadline)
+
+            let articleAbstract = $("<p>")
+            articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
+            $("#newsArticles").append(articleAbstract)
+
+            $("#newsArticles").append(breakEl)
+          }
+        })
     })
 
     return cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude;
@@ -136,6 +205,7 @@ function weatherSection (city, country, lat, lon) {
       method: "GET",
       
     }).then(function (response) {
+
       $('#map').html('');
 
       //News
@@ -193,7 +263,6 @@ function weatherSection (city, country, lat, lon) {
         return c.toUpperCase();
       });
       let weatherDesc = $("#weatherDesc");
-      console.log(weatherDescription);
       weatherDesc.text("Current reports show: " + weatherDescription);
 
       //Icon
@@ -247,7 +316,6 @@ function forecast(flat, flon){
         url: forecastUrl,
         method: 'GET',
     }).then(function (res) {
-        console.log(res);
         //Get forecast container div
         const forecastContainer = $('#forecastCards');
         //Clear Div
@@ -328,9 +396,64 @@ function forecast(flat, flon){
 //closing sections 
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
-
-
 });
 
+//footer quote function (Fahad)
+//============================================================================================
+//Should be triggered every time the 'citySubmit' button is pressed, as well as on page reload
+function footerQuote () {
+  let quoteArray = [" Not all those who wander are lost. | J.R.R. Tolkien"," If you don’t know where you’re going, any road will get you there. | Lewis Carroll", " The world is a book and those who do not travel read only one page. | St. Augustine", "Two roads diverged in a wood and I – I took the one less traveled by. | Robert Frost",
+  " Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
+  let quoteNum = Math.floor(Math.random() * quoteArray.length);
+  $("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
+}
+footerQuote ();
+//============================================================================================
 
+//Scroll-to-Top Button function (Fahad)
+//====================================================
+let topBtn = $("#topBtn")[0];
+window.onscroll = function() {scrollFunction()};
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topBtn.style.display = "block";
+    } else {
+      topBtn.style.display = "none";
+    }
+}
+$("#topBtn").on('click', function () {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+});
+//=====================================================
 
+// History badge function (Fahad)
+//==================================================
+function historyBadgeDisplay() {
+  let historyBadge = $("#historyBadge")[0];
+  historyBadge.textContent = historyArray.length;
+  if (historyArray.length > 0){
+    historyBadge.style.display = "block";
+    } else {
+    historyBadge.style.display = "none";
+  };
+};
+//=================================================
+
+// Favorites badge function (Fahad) (Will enable after Favorites functionality is coded)
+//===========================================================================================
+// function favoritesBadgeDisplay() {
+//   let favoritesBadge = $("#favoritesBadge")[0];
+//   favoritesBadge.textContent = favoritesArray.length;
+//   console.log($("#favoritesBadge")[0]);
+//   console.log(favoritesBadge);
+//   console.log(favoritesArray);
+//   if (favoritesArray.length > 0){
+//     favoritesBadge.style.display = "block";
+//     } else {
+//     favoritesBadge.style.display = "none";
+//   };
+// };
+//Move this function to appropriate area once the Favorites functionality has been coded
+// favoritesBadgeDisplay(); 
+//===========================================================================================
