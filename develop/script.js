@@ -23,24 +23,29 @@ $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
   $("#searchText").text("Choose your desired city")
+  $(".removeOption").remove()
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
-    $(".removeOption").remove()
     let cityName = $("#cityInput").val()
+    cityName = cityName.split(" ")
+    cityName = cityName.join("%20")
     const settings = {
       "async": true,
       "crossDomain": true,
-      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName ,
       "method": "GET",
       "headers": {
         "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
     };
-
     // Requesting server data from GeoDB
     $.ajax(settings)
+      // .fail(function() {
+      //   $("#searchText").text("No results found, please close")
+      // })
       .then(function (response) {
+        console.log("https://wft-geo-db.p.rapidapi.com/v1/geo/cities?sort=population&limit=10&namePrefix=" + cityName)
         cityChoice = response
         // Function to add buttons for additional searches
         if (response.data.length > 1) {
