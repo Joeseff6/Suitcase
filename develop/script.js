@@ -18,7 +18,7 @@ var FavoritesArray = [];
 //=============================================
 
 //Stats at a glance Card
-=======
+
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
@@ -62,7 +62,6 @@ $("#citySubmit").on("click", function (e) {
 $(document).on("click",".historyChoice", function() {
   choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
-  $("#resultsContainer").css("display","none")
   buttonEl = $("<button>")
 
 
@@ -144,11 +143,13 @@ $(document).on("click",".historyChoice", function() {
         url: newsUrl,
         method: "GET"
       })
-        .then(function(response) {
+        .done(function(response) {
           console.log(response.response)
           $(".newsItem").remove()
-          var breakEl = $("<br>")
+
           for (let i = 0; i < response.response.docs.length; i++) {
+            var breakEl = $("<br>")
+            breakEl.attr("class", "newsItem")
             let articleImage = $("<img>")
             let articleImageUrl = response.response.docs[i].multimedia[22].url
             articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
