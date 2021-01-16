@@ -18,7 +18,7 @@ var FavoritesArray = [];
 //=============================================
 
 //Stats at a glance Card
-=======
+
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
@@ -59,25 +59,30 @@ $("#citySubmit").on("click", function (e) {
     })
 })
 
+$("#addToFavorites").on("click", function() {
+  if (cityChoice !== null) {
+    let buttonEl = $("<button>")
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
+    $("#favoritesReveal").append(buttonEl)
+  }
+})
+
+// Function to fire when a search option is chosen
 $(document).on("click",".historyChoice", function() {
   choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
-  $("#resultsContainer").css("display","none")
+
+  // Push selected option to the history modal
   buttonEl = $("<button>")
-
-
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
-  console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
 
   // Weather card
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
-  console.log(cityChoice)
 
   //History Badge Functionality (Fahad)
   //=====================================
   historyArray.push(cityChoice.data[choiceIndex].city);
-  console.log(historyArray);
   historyBadgeDisplay();
   //=====================================
 
@@ -90,7 +95,8 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
-      console.log(response)
+
+      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name)
 
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
@@ -137,7 +143,6 @@ $(document).on("click",".historyChoice", function() {
       // News card
       let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
       let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
-      console.log(newsUrl)
 
 
       $.ajax({
@@ -145,17 +150,25 @@ $(document).on("click",".historyChoice", function() {
         method: "GET"
       })
         .then(function(response) {
-          console.log(response.response)
           $(".newsItem").remove()
+
           for (let i = 0; i < response.response.docs.length; i++) {
+            var breakEl = $("<br>")
+            breakEl.attr("class", "newsItem")
             let articleImage = $("<img>")
             let articleImageUrl = response.response.docs[i].multimedia[22].url
             articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
             $("#newsArticles").append(articleImage)
 
-            let articleHeadline = $("<h5>")
-            articleHeadline.text(response.response.docs[i].headline.main).attr("class", "newsItem")
+            let articleHeadline = $("<a>")
+            articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
             $("#newsArticles").append(articleHeadline)
+
+            let articleAbstract = $("<p>")
+            articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
+            $("#newsArticles").append(articleAbstract)
+
+            $("#newsArticles").append(breakEl)
           }
         })
     })
@@ -188,6 +201,7 @@ function weatherSection (city, country) {
       method: "GET",
       
     }).then(function (response) {
+
       $('#map').html('');
       $('#newsCard').on('click', function() {
         $('.newsSection').css('display', 'block');
@@ -247,7 +261,6 @@ function weatherSection (city, country) {
         return c.toUpperCase();
       });
       let weatherDesc = $("#weatherDesc");
-      console.log(weatherDescription);
       weatherDesc.text("Current reports show: " + weatherDescription);
 
       //Icon
@@ -300,7 +313,6 @@ function forecast(lat, lon){
         url: forecastUrl,
         method: 'GET',
     }).then(function (res) {
-        console.log(res);
         //Get forecast container div
         const forecastContainer = $('#forecastCards');
         //Clear Div
@@ -417,9 +429,6 @@ $("#topBtn").on('click', function () {
 function historyBadgeDisplay() {
   let historyBadge = $("#historyBadge")[0];
   historyBadge.textContent = historyArray.length;
-  console.log($("#historyBadge")[0]);
-  console.log(historyBadge);
-  console.log(historyArray);
   if (historyArray.length > 0){
     historyBadge.style.display = "block";
     } else {
