@@ -68,7 +68,8 @@
                         <input class="input-group-field" id="cityInput" type="text"
                             placeholder="eg; New York, London, Paris...">
                         <div class="input-group-button">
-                            <input id="citySubmit" type="submit" class="button" value="&#x1F50D">
+                            <input id="citySubmit" type="submit" data-open="searchResultsReveal" class="button"
+                                value="&#x1F50D">
                         </div>
                     </div>
                 </div>
@@ -88,6 +89,17 @@
             </div>
         </div>
     </section>
+
+    <!--Reveal for Search Results-->
+    <!--This is triggered by the 'citySubmit' button-->
+    <div class="reveal" id="searchResultsReveal" data-reveal data-close-on-click="true" data-animation-in="fade-in"
+        data-animation-out="fade-out">
+        <!--Append buttons as 'a' elements to this div for each previously searched city-->
+        <h2>Your search returned the following cities</h2>
+        <button class="close-button" data-close aria-label="Close reveal" type="button" id="revealCloseButton">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
     <!--Reveal for History-->
     <div class="reveal" id="historyReveal" data-reveal data-close-on-click="true" data-animation-in="fade-in"
