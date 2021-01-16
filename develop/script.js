@@ -41,15 +41,11 @@ $("#citySubmit").on("click", function (e) {
     };
     // Requesting server data from GeoDB
     $.ajax(settings)
-      // .fail(function() {
-      //   $("#searchText").text("No results found, please close")
-      // })
+
       .then(function (response) {
-        console.log("https://wft-geo-db.p.rapidapi.com/v1/geo/cities?sort=population&limit=10&namePrefix=" + cityName)
+        console.log(response)
         cityChoice = response
-        // Function to add buttons for additional searches
-        if (response.data.length > 1) {
-          $("#resultsContainer").css("display","block")
+        if (response.data) {
           for (let i = 0; i < response.data.length; i++) {
             let buttonEl = $("<button>");
             let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
@@ -61,10 +57,8 @@ $("#citySubmit").on("click", function (e) {
             $("#searchResultsReveal").append(buttonEl);
             //====================================================
           }
-        } 
+        }
       })
-  } else {
-    $("#searchText").text("No results found, please close")
   }
 })
 
