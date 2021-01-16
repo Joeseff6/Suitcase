@@ -120,15 +120,20 @@ $(document).on("click",".historyChoice", function() {
         .then(function(response) {
           console.log(response.response)
           $(".newsItem").remove()
+          var breakEl = $("<br>")
           for (let i = 0; i < response.response.docs.length; i++) {
             let articleImage = $("<img>")
             let articleImageUrl = response.response.docs[i].multimedia[22].url
             articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
             $("#newsArticles").append(articleImage)
 
-            let articleHeadline = $("<h5>")
-            articleHeadline.text(response.response.docs[i].headline.main).attr("class", "newsItem")
+            let articleHeadline = $("<a>")
+            articleHeadline.text(response.response.docs[i].headline.main).attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
             $("#newsArticles").append(articleHeadline)
+
+            
+
+            $("#newsArticles").append(breakEl)
           }
         })
     })
