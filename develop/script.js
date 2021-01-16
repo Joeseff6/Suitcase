@@ -91,6 +91,8 @@ $(document).on("click",".historyChoice", function() {
     .then(function(response) {
       console.log(response)
 
+      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name)
+
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
       let Offset = response[0].timezones[0];
