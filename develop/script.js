@@ -7,8 +7,8 @@
 //=========================================================================================
 
 // Set global variable for ajax response on document event listener
-var cityChoice
-var choiceIndex
+var cityChoice;
+var choiceIndex;
 
 
 // Empty arrays for Badge Functionality (Fahad)
@@ -22,63 +22,60 @@ var FavoritesArray = [];
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
-  $("#searchText").text("Choose your desired city")
+  $("#searchText").text("Choose your desired city");
+  $(".removeOption").remove();
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
-    $(".removeOption").remove()
-    let cityName = $("#cityInput").val()
+    let cityName = $("#cityInput").val();
+    cityName = cityName.split(" ");
+    cityName = cityName.join("%20");
     const settings = {
       "async": true,
       "crossDomain": true,
-      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName ,
       "method": "GET",
       "headers": {
         "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
     };
-
     // Requesting server data from GeoDB
     $.ajax(settings)
       .then(function (response) {
-        cityChoice = response
-        // Function to add buttons for additional searches
-        if (response.data.length > 1) {
-          $("#resultsContainer").css("display","block")
+        if (response.data.length >= 1) {
+          cityChoice = response;
           for (let i = 0; i < response.data.length; i++) {
             let buttonEl = $("<button>");
-            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
-            $("#resultsSection").append(buttonEl);
-
-            //code to add results to Search Reveal (modal) (Fahad)
-            //====================================================
+            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode;
+            buttonEl.text(cityOption).attr("class","button removeOption searchItem").attr("data-index",i).attr("data-type","search");
             $("#searchResultsReveal").append(buttonEl);
-            //====================================================
           }
-        } 
+        } else {
+          $("#searchText").text("No results found, please close");
+        }
       })
   } else {
-    $("#searchText").text("No results found, please close")
+    $("#searchText").text("No results found, please close");
   }
 })
 
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
-    let buttonEl = $("<button>")
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
-    $("#favoritesReveal").append(buttonEl)
+    let buttonEl = $("<button>");
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite");
+    $("#favoritesReveal").append(buttonEl);
   }
 })
 
 // Function to fire when a search option is chosen
-$(document).on("click",".historyChoice", function() {
-  choiceIndex = $(this).attr("data-index")
-  $(".removeOption").remove()
+$(document).on("click",".searchItem", function() {
+  console.log(cityChoice)
+  choiceIndex = $(this).attr("data-index");
+  $(".removeOption").remove();
 
   // Push selected option to the history modal
-  buttonEl = $("<button>")
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
+  buttonEl = $("<button>");
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history");;
   $(`#historyReveal`).append(buttonEl);
 
 
@@ -90,14 +87,14 @@ $(document).on("click",".historyChoice", function() {
 
 
   //Stats at a glance Card
-  let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
+  let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
   
   $.ajax({
     url: regionURL,
     method: "GET"
   })
     .then(function(response) {
-      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", which is located in " + response[0].name)
+      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name);
 
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
@@ -106,26 +103,26 @@ $(document).on("click",".historyChoice", function() {
       forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
 
-      let lat =  (response[0].latlng[0]).toFixed(2)
-      let lon = (response[0].latlng[1]).toFixed(2)
+      let lat =  (response[0].latlng[0]).toFixed(2);
+      let lon = (response[0].latlng[1]).toFixed(2);
       let Offset = response[0].timezones[0];
-      let flag = response[0].flag
+      let flag = response[0].flag;
 
-      var latDirection = ""
-      var lonDirection = ""
+      var latDirection = "";
+      var lonDirection = "";
 
       if ( lat < 0) {
-        lat *= -1
-        latDirection = "S"
+        lat *= -1;
+        latDirection = "S";
       } else {
-        latDirection = "N"
+        latDirection = "N";
       }
 
       if ( lon < 0) {
-        lon *= -1
-        lonDirection = "W"
+        lon *= -1;
+        lonDirection = "W";
       } else {
-        lonDirection = "E"
+        lonDirection = "E";
       }
 
       function commaSeparator(num) {
@@ -134,23 +131,23 @@ $(document).on("click",".historyChoice", function() {
         return number.join(".");
       }
       
-      $("#flag").attr("src",flag)
-      $("#country").text("Country: " + response[0].name)
-      $("#capital").text("Capital: " + response[0].capital)
-      $("#region").text("Region: " + response[0].region)
-      $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection)
-      $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection)
-      $("#population").text("Country's Population: " + commaSeparator(response[0].population))
-      $("#area").text("Country's total area: " + commaSeparator(response[0].area) + " sq. km.")
-      $("#language").text("Language: " + response[0].languages[0].name)
-      $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name)
-      $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0])
-      $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'))
-      $("#localTimeZone").text("Time Zone: " + response[0].timezones[0])
+      $("#flag").attr("src",flag);
+      $("#country").text("Country: " + response[0].name);
+      $("#capital").text("Capital: " + response[0].capital);
+      $("#region").text("Region: " + response[0].region);
+      $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection);
+      $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection);
+      $("#population").text("Country's Population: " + commaSeparator(response[0].population));
+      $("#area").text("Country's total area: " + commaSeparator(response[0].area) + " sq. km.");
+      $("#language").text("Language: " + response[0].languages[0].name);
+      $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name);
+      $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0]);
+      $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'));
+      $("#localTimeZone").text("Time Zone: " + response[0].timezones[0]);
 
       // News card
-      let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr"
-      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey
+      let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
+      let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey;
 
 
       $.ajax({
@@ -158,32 +155,32 @@ $(document).on("click",".historyChoice", function() {
         method: "GET"
       })
         .then(function(response) {
-          $(".newsItem").remove()
+          $(".newsItem").remove();
 
           console.log(response)
-          let articleCount = 0
+          let articleCount = 0;
           for (let i = 0; i < response.response.docs.length; i++) {
             if (response.response.docs[i].multimedia[22]) {
-              var breakEl = $("<br>")
-              breakEl.attr("class", "newsItem")
-              let articleImage = $("<img>")
-              let articleImageUrl = response.response.docs[i].multimedia[22].url
-              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
-              $("#newsArticles").append(articleImage)
+              var breakEl = $("<br>");
+              breakEl.attr("class", "newsItem");
+              let articleImage = $("<img>");
+              let articleImageUrl = response.response.docs[i].multimedia[22].url;
+              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem");
+              $("#newsArticles").append(articleImage);
   
-              let articleHeadline = $("<a>")
-              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
-              $("#newsArticles").append(articleHeadline)
+              let articleHeadline = $("<a>");
+              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank");
+              $("#newsArticles").append(articleHeadline);
   
-              let articleAbstract = $("<p>")
-              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
-              $("#newsArticles").append(articleAbstract)
+              let articleAbstract = $("<p>");
+              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem");
+              $("#newsArticles").append(articleAbstract);
   
-              $("#newsArticles").append(breakEl)
+              $("#newsArticles").append(breakEl);
               articleCount++
             }
           }
-          $("#newsText").text("News: " + articleCount + " articles found")
+          $("#newsText").text("News: " + articleCount + " articles found");
         })
     })
 
@@ -456,6 +453,7 @@ function historyBadgeDisplay() {
 // };
 //Move this function to appropriate area once the Favorites functionality has been coded
 // favoritesBadgeDisplay(); 
+
 //===========================================================================================
 
 function openLayers(x, y){
