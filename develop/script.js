@@ -54,12 +54,49 @@ $("#citySubmit").on("click", function (e) {
           $("#searchResultsReveal").append(buttonEl);
           //====================================================
         }
+  $("#searchText").text("Choose your desired city")
+  if ($("#cityInput").val()) {
+    // SDK for GeoDB Cities per RapidAPI
+    $(".removeOption").remove()
+    let cityName = $("#cityInput").val()
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+        "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
-    })
+    };
+
+    // Requesting server data from GeoDB
+    $.ajax(settings)
+      .then(function (response) {
+        cityChoice = response
+        // Function to add buttons for additional searches
+        if (response.data.length > 1) {
+          $("#resultsContainer").css("display","block")
+          for (let i = 0; i < response.data.length; i++) {
+            let buttonEl = $("<button>");
+            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
+            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+            $("#resultsSection").append(buttonEl);
+
+            //code to add results to Search Reveal (modal) (Fahad)
+            //====================================================
+            $("#searchResultsReveal").append(buttonEl);
+            //====================================================
+          }
+        } 
+      })
+  } else {
+    $("#searchText").text("No results found, please close")
+  }
 })
 
 $("#addToFavorites").on("click", function() {
-  if (cityChoice !== null) {
+  if (cityChoice) {
     let buttonEl = $("<button>")
     buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem").attr("data-close","")
     $("#favoritesReveal").append(buttonEl)
@@ -162,24 +199,30 @@ $(document).on("click",".historyChoice", function() {
         .then(function(response) {
           $(".newsItem").remove()
 
+          console.log(response)
+          let articleCount = 0
           for (let i = 0; i < response.response.docs.length; i++) {
-            var breakEl = $("<br>")
-            breakEl.attr("class", "newsItem")
-            let articleImage = $("<img>")
-            let articleImageUrl = response.response.docs[i].multimedia[22].url
-            articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
-            $("#newsArticles").append(articleImage)
-
-            let articleHeadline = $("<a>")
-            articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
-            $("#newsArticles").append(articleHeadline)
-
-            let articleAbstract = $("<p>")
-            articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
-            $("#newsArticles").append(articleAbstract)
-
-            $("#newsArticles").append(breakEl)
+            if (response.response.docs[i].multimedia[22]) {
+              var breakEl = $("<br>")
+              breakEl.attr("class", "newsItem")
+              let articleImage = $("<img>")
+              let articleImageUrl = response.response.docs[i].multimedia[22].url
+              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+              $("#newsArticles").append(articleImage)
+  
+              let articleHeadline = $("<a>")
+              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
+              $("#newsArticles").append(articleHeadline)
+  
+              let articleAbstract = $("<p>")
+              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
+              $("#newsArticles").append(articleAbstract)
+  
+              $("#newsArticles").append(breakEl)
+              articleCount++
+            }
           }
+          $("#newsText").text("News: " + articleCount + " articles found")
         })
     })
 
@@ -464,3 +507,13 @@ function historyBadgeDisplay() {
 //Move this function to appropriate area once the Favorites functionality has been coded
 // favoritesBadgeDisplay(); 
 //===========================================================================================
+
+
+
+
+
+
+
+function submitSearch() {
+
+}
