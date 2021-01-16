@@ -47,13 +47,8 @@ $("#citySubmit").on("click", function (e) {
           for (let i = 0; i < response.data.length; i++) {
             let buttonEl = $("<button>");
             let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode;
-            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i);
-            $("#resultsSection").append(buttonEl);
-
-            //code to add results to Search Reveal (modal) (Fahad)
-            //====================================================
+            buttonEl.text(cityOption).attr("class","button removeOption searchItem").attr("data-index",i).attr("data-type","search");
             $("#searchResultsReveal").append(buttonEl);
-            //====================================================
           }
         } else {
           $("#searchText").text("No results found, please close");
@@ -67,19 +62,20 @@ $("#citySubmit").on("click", function (e) {
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem");
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite");
     $("#favoritesReveal").append(buttonEl);
   }
 })
 
 // Function to fire when a search option is chosen
-$(document).on("click",".historyChoice", function() {
+$(document).on("click",".searchItem", function() {
+  console.log(cityChoice)
   choiceIndex = $(this).attr("data-index");
   $(".removeOption").remove();
 
   // Push selected option to the history modal
   buttonEl = $("<button>");
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem");
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history");;
   $(`#historyReveal`).append(buttonEl);
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
