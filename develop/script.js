@@ -45,7 +45,12 @@ $("#citySubmit").on("click", function (e) {
           let buttonEl = $("<button>");
           let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
           buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
-          $("#resultsSection").append(buttonEl)
+          $("#resultsSection").append(buttonEl);
+
+          //code to add results to Search Reveal (modal) (Fahad)
+          //====================================================
+          $("#searchResultsReveal").append(buttonEl);
+          //====================================================
         }
       }
     })
