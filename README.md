@@ -50,13 +50,13 @@ _So that I can be prepared when I travel to that country._
 
 ## Tasks to Complete the Job :white_check_mark:
 
-- [ ] When the user submits a destination in the search bar, data is requested and loaded into the HTML
-- [ ] When the "History" button is clicked, a list of the user's searches will be displayed
-- [ ] When the user clicks a favorite icon, their search will be saved to the "Favorites" modal
-- [ ] When the "Favorites" button is clicked, the user's favorite searches will show
-- [ ] When the user submits a destination, it will be added to a search history section
-- [ ] When one of the information card are clicked, the information for that card will be displayed
-- [ ] When the "x" button is clicked for the respective section, that section will disappear
+- [x] When the user submits a destination in the search bar, data is requested and loaded into the HTML
+- [x] When the "History" button is clicked, a list of the user's searches will be displayed
+- [x] When the user clicks a favorite icon, their search will be saved to the "Favorites" modal
+- [x] When the "Favorites" button is clicked, the user's favorite searches will show
+- [x] When the user submits a destination, it will be added to a search modal
+- [x] When one of the information cards is clicked on, the information for that card will be displayed
+- [x] When the "x" button is clicked for the respective section, that section will disappear
 - [ ] The following will be stored for persistence: Favorites, History
 - [ ] When the history, favorite, or search result is clicked, the results for the clicked item will be loaded into the HTML
 
@@ -68,4 +68,8 @@ _So that I can be prepared when I travel to that country._
 
 ### Development Photos
 
+#### Initial Webpage Design
 ![The homepage for the web application](./Assets/Images/Homepage.PNG)
+
+#### Current Webpage Design
+![The new webpage design](./Assets/Images/newDesign.PNG)
