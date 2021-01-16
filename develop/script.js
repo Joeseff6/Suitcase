@@ -160,7 +160,7 @@ $(document).on("click",".historyChoice", function() {
             $("#newsArticles").append(articleHeadline)
 
             let articleAbstract = $("<p>")
-            articleAbstract.text(response.response.docs[i].abstract)
+            articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
             $("#newsArticles").append(articleAbstract)
 
             $("#newsArticles").append(breakEl)
