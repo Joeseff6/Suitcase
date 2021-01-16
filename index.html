@@ -122,13 +122,12 @@
         </button>
     </div>
 
-    <!--Div for displaying current city-->
     <section class="grid-container" id="currentCityContainer" style="display: block;">
         <div class="grid-x">
             <div class="card" id="currentCityCard">
                 <div class="card-divider">
                     <!--insert current city name here. Also, grab the 'addToFavorite button ID here-->
-                    <h4 id="currentCityNameIntro">You are viewing: <span id="currentCityName"
+                    <h4 id="currentCityName">You are viewing: <span id="currentCityName"
                             style="font-weight: bolder;">Current
                             City Name</span></h4>
                     <div class="button-group align-right">
@@ -376,107 +375,18 @@
         <div class="grid-x">
             <div class="card" id="newsDivCard">
                 <div class="card-divider">
-                    <h4 class="cell auto">News <span class="h6">- Sourced from The New York Times</span></h4>
-                    <h4 class="cell auto"><span class="h6" id="newsText">abc</span></h4>
+                    <h4 id="newsText">News</h4>
                     <div class="button-group align-right">
-                        <a class="button" type="button" value="closeNews" id="closeNewsButton"><span>x</span></a>
+                        <a class=" button" type="button" value="closeNews" id="closeNewsButton"><span>x</span></a>
                     </div>
                 </div>
-                <div class="card-section">
-                    <div class="grid-y">
-                        <div class="card" id="newsArticle1" style="width: 300px;">
-                            <img id="newsImg1" style="width: 300px; height: 300px;">
-                            <div id="newsSection1" class="card-section1">
-                                <h4 id="newsTitle1">Card Title</h4>
-                                <p id="newsAbstract1">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle2" style="width: 300px;">
-                            <img id="newsImg2" style="width: 300px; height: 300px;">
-                            <div id="newsSection2" class="card-section1">
-                                <h4 id="newsTitle2">Card Title</h4>
-                                <p id="newsAbstract2">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle3" style="width: 300px;">
-                            <img id="newsImg3" style="width: 300px; height: 300px;">
-                            <div id="newsSection3" class="card-section1">
-                                <h4 id="newsTitle3">Card Title</h4>
-                                <p id="newsAbstract3">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle4" style="width: 300px;">
-                            <img id="newsImg4" style="width: 300px; height: 300px;">
-                            <div id="newsSection4" class="card-section1">
-                                <h4 id="newsTitle4">Card Title</h4>
-                                <p id="newsAbstract4">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle5" style="width: 300px;">
-                            <img id="newsImg5" style="width: 300px; height: 300px;">
-                            <div id="newsSection5" class="card-section1">
-                                <h4 id="newsTitle5">Card Title</h4>
-                                <p id="newsAbstract5">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle6" style="width: 300px;">
-                            <img id="newsImg6" style="width: 300px; height: 300px;">
-                            <div id="newsSection6" class="card-section1">
-                                <h4 id="newsTitle6">Card Title</h4>
-                                <p id="newsAbstract6">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle7" style="width: 300px;">
-                            <img id="newsImg7" style="width: 300px; height: 300px;">
-                            <div id="newsSection7" class="card-section1">
-                                <h4 id="newsTitle7">Card Title</h4>
-                                <p id="newsAbstract7">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle8" style="width: 300px;">
-                            <img id="newsImg8" style="width: 300px; height: 300px;">
-                            <div id="newsSection8" class="card-section1">
-                                <h4 id="newsTitle8">Card Title</h4>
-                                <p id="newsAbstract8">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle9" style="width: 300px;">
-                            <img id="newsImg9" style="width: 300px; height: 300px;">
-                            <div id="newsSection9" class="card-section1">
-                                <h4 id="newsTitle9">Card Title</h4>
-                                <p id="newsAbstract9">Card Description</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x">
-                        <div class="card" id="newsArticle10" style="width: 300px;">
-                            <img id="newsImg10" style="width: 300px; height: 300px;">
-                            <div id="newsSection10" class="card-section1">
-                                <h4 id="newsTitle10">Card Title</h4>
-                                <p id="newsAbstract10">Card Description</p>
-                            </div>
-                        </div>
+                <div class="grid-x">
+                    <div class="card-section" id="newsArticles">
+                        <!--Append News Articles Here-->
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
 
     <!--Footer with shuffled quotes-->

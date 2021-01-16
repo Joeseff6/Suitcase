@@ -14,10 +14,11 @@ var choiceIndex;
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
 var historyArray = [];
-var favoritesArray = []; 
+var FavoritesArray = []; 
 //=============================================
 
 //Stats at a glance Card
+
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
@@ -45,42 +46,17 @@ $("#citySubmit").on("click", function (e) {
           cityChoice = response;
           for (let i = 0; i < response.data.length; i++) {
             let buttonEl = $("<button>");
-            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i).attr("data-close","");
-            $("#resultsSection").append(buttonEl);
-            console.log(buttonEl);
-            //code to add results to Search Reveal (modal) (Fahad)
-            //====================================================
+            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode;
+            buttonEl.text(cityOption).attr("class","button removeOption searchItem").attr("data-index",i).attr("data-type","search");
             $("#searchResultsReveal").append(buttonEl);
           }
-
-        // Requesting server data from GeoDB
-        $.ajax(settings)
-          .then(function (response) {
-            cityChoice = response
-            // Function to add buttons for additional searches
-            if (response.data.length > 1) {
-              $("#resultsContainer").css("display","block")
-              for (let i = 0; i < response.data.length; i++) {
-                let buttonEl = $("<button>");
-                let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-                buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
-                $("#resultsSection").append(buttonEl);
-
-                //code to add results to Search Reveal (modal) (Fahad)
-                //====================================================
-                $("#searchResultsReveal").append(buttonEl);
-                //====================================================
-              }
-            } 
-          })
         } else {
-          $("#searchText").text("No results found, please close")
+          $("#searchText").text("No results found, please close");
         }
       })
-    } else {
-      $("#searchText").text("No results found, please close");
-    }
+  } else {
+    $("#searchText").text("No results found, please close");
+  }
 })
 
 $("#addToFavorites").on("click", function() {
@@ -90,8 +66,6 @@ $("#addToFavorites").on("click", function() {
     $("#favoritesReveal").append(buttonEl);
   }
 })
-
-
 
 // Function to fire when a search option is chosen
 $(document).on("click",".searchItem", function() {
@@ -104,22 +78,6 @@ $(document).on("click",".searchItem", function() {
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history");;
   $(`#historyReveal`).append(buttonEl);
 
-  // Add to Favorites functionality
-  $("#addToFavorites").on("click", function() {
-    if (cityChoice) {
-      let buttonEl = $("<button>");
-      buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem").attr("data-close","")
-      $("#favoritesReveal").append(buttonEl);
-
-    //   //Favorites Badge Functionality (Fahad)
-    //   //======================================
-    //   favoritesArray.push($("#currentCityName")[0].innerHTML);
-    //   console.log(favoritesArray);
-
-    //   //======================================
-    } 
-    // favoritesBadgeDisplay(); 
-  })
 
   //History Badge Functionality (Fahad)
   //=====================================
@@ -127,12 +85,6 @@ $(document).on("click",".searchItem", function() {
   historyBadgeDisplay();
   //=====================================
 
-
-
-
-  $("#searchResultsReveal").foundation('close');
-  $("#historyReveal").foundation('close');
-  $("#favoritesReveal").foundation('close');
 
   //Stats at a glance Card
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
@@ -487,21 +439,20 @@ function historyBadgeDisplay() {
 
 // Favorites badge function (Fahad) (Will enable after Favorites functionality is coded)
 //===========================================================================================
-function favoritesBadgeDisplay() {
-  let favoritesBadge = $("#favoritesBadge")[0];
-  favoritesBadge.textContent = favoritesArray.length;
-  console.log($("#favoritesBadge")[0]);
-  console.log(favoritesBadge);
-  console.log(favoritesArray);
-  if (favoritesArray.length > 0){
-    favoritesBadge.style.display = "block";
-    } else {
-    favoritesBadge.style.display = "none";
-  };
-};
+// function favoritesBadgeDisplay() {
+//   let favoritesBadge = $("#favoritesBadge")[0];
+//   favoritesBadge.textContent = favoritesArray.length;
+//   console.log($("#favoritesBadge")[0]);
+//   console.log(favoritesBadge);
+//   console.log(favoritesArray);
+//   if (favoritesArray.length > 0){
+//     favoritesBadge.style.display = "block";
+//     } else {
+//     favoritesBadge.style.display = "none";
+//   };
+// };
 //Move this function to appropriate area once the Favorites functionality has been coded
 // favoritesBadgeDisplay(); 
-
 //===========================================================================================
 
 function openLayers(x, y){
@@ -546,6 +497,6 @@ function openLayers(x, y){
 
 
 
-// function submitSearch() {
+function submitSearch() {
 
-// }
+}
