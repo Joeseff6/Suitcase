@@ -56,10 +56,7 @@ $("#citySubmit").on("click", function (e) {
           //====================================================
         }
       }
-    }).catch(function() {
-      console.log('Uh oh, something went wrong!');
-      return 0;
-    });
+    })
 })
 
 $("#addToFavorites").on("click", function() {
@@ -175,11 +172,8 @@ $(document).on("click",".historyChoice", function() {
 
             $("#newsArticles").append(breakEl)
           }
-        }).catch(function() {
-          console.log('Uh oh, something went wrong!');
-          return 0;
-        });
-    });
+        })
+    })
 
     return cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude;
 });
@@ -305,9 +299,6 @@ function weatherSection (city, country, lat, lon) {
         $(uvIndex).text("UV Index: " + uvIndexNum);
         
       });
-    }).catch(function() {
-      console.log('Uh oh, something went wrong!');
-      return 0;
     });
     return;
   }
@@ -396,10 +387,7 @@ function forecast(flat, flon){
           forecastContainer.append(card);
         }
         
-    }).catch(function() {
-      console.log('Uh oh, something went wrong!');
-      return 0;
-    });
+    })
 }
 //end of forecast card
 
