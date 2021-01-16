@@ -61,7 +61,7 @@ $("#citySubmit").on("click", function (e) {
 $("#addToFavorites").on("click", function() {
   if (cityChoice !== null) {
     let buttonEl = $("<button>")
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem").attr("data-close","")
     $("#favoritesReveal").append(buttonEl)
   }
 })
@@ -76,7 +76,7 @@ $(document).on("click",".historyChoice", function() {
 
   // Push selected option to the history modal
   buttonEl = $("<button>")
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")..attr("data-close","")
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem").attr("data-close","")
   $(`#historyReveal`).append(buttonEl);
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
@@ -89,6 +89,8 @@ $(document).on("click",".historyChoice", function() {
 
   $("#searchResultsReveal").foundation('close');
   $("#historyReveal").foundation('close');
+  $("#favoritesReveal").foundation('close');
+
   //Stats at a glance Card
   let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode
   
@@ -97,6 +99,8 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
+      $("#currentCityName").text(cityChoice.data[choiceIndex].city + ", " + response[0].name);
+
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 

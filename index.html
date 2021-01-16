@@ -96,7 +96,6 @@
         data-animation-out="fade-out">
         <!--Append buttons as 'a' elements to this div for each previously searched city-->
         <h2>Choose your desired city</h2>
-        <button class="button" data-close>Close</button>
         <button class="close-button" data-close aria-label="Close reveal" type="button" id="revealCloseButton">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -123,12 +122,13 @@
         </button>
     </div>
 
+    <!--Div for displaying current city-->
     <section class="grid-container" id="currentCityContainer" style="display: block;">
         <div class="grid-x">
             <div class="card" id="currentCityCard">
                 <div class="card-divider">
                     <!--insert current city name here. Also, grab the 'addToFavorite button ID here-->
-                    <h4 id="currentCityName">You are viewing: <span id="currentCityName"
+                    <h4 id="currentCityNameIntro">You are viewing: <span id="currentCityName"
                             style="font-weight: bolder;">Current
                             City Name</span></h4>
                     <div class="button-group align-right">
