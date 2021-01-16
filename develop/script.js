@@ -44,9 +44,9 @@ $("#citySubmit").on("click", function (e) {
         for (let i = 0; i < response.data.length; i++) {
           let buttonEl = $("<button>");
           let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-          buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+          buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i).attr("data-close","");
           $("#resultsSection").append(buttonEl);
-
+          console.log(buttonEl);
           //code to add results to Search Reveal (modal) (Fahad)
           //====================================================
           $("#searchResultsReveal").append(buttonEl);
@@ -58,6 +58,7 @@ $("#citySubmit").on("click", function (e) {
 
 $(document).on("click",".historyChoice", function() {
   console.log(cityChoice)
+  console.log(this);
   let choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
   $("#resultsContainer").css("display","none")

@@ -72,8 +72,8 @@ img {
 .button {
   font-weight: 900;
   border-radius: 10px;
-  /* border: 2px grey dotted; */
-  /* background-color: #bc6c25; */
+  border: 2px grey dotted;
+  /* background-color: silver; */
   background-color: #f79256;
 }
 
@@ -116,8 +116,10 @@ p {
 }
 
 section.grid-container .grid-x .card .grid-x .card-section {
-  background-color: lightslategrey;
+  background-color: rgb(157, 168, 179);
   color: white;
+  font-weight: 700;
+  text-shadow: black;
 }
 
 /* Scroll-to-Top Button */
@@ -131,10 +133,13 @@ section.grid-container .grid-x .card .grid-x .card-section {
   cursor: pointer;
   padding: 15px;
   font-size: larger;
-  background-color: black;
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 #topBtn:hover {
-  background-color: crimson;
+  background-image: url(https://images.unsplash.com/photo-1555532538-dcdbd01d373d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
 }
 
 .badge {
