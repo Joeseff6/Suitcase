@@ -76,9 +76,8 @@ $(document).on("click",".historyChoice", function() {
   buttonEl = $("<button>")
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   $(`#historyReveal`).append(buttonEl);
+  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
-  // Weather card
-  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region,cityChoice.data[choiceIndex].countryCode);
 
   //History Badge Functionality (Fahad)
   //=====================================
@@ -95,8 +94,12 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
+      weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
+        cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
-      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name)
+        //call forecast function
+      forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
+
 
       let lat =  (response[0].latlng[0]).toFixed(2)
       let lon = (response[0].latlng[1]).toFixed(2)
@@ -172,6 +175,8 @@ $(document).on("click",".historyChoice", function() {
           }
         })
     })
+
+    return cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude;
 });
 
 
@@ -190,8 +195,7 @@ $('#cityInput').on('keydown', function (e) {
 
 
 //weather Card
-function weatherSection (city, country) {
-
+function weatherSection (city, country, lat, lon) {
 
     //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
@@ -203,6 +207,8 @@ function weatherSection (city, country) {
     }).then(function (response) {
 
       $('#map').html('');
+
+      //News
       $('#newsCard').on('click', function() {
         $('.newsSection').css('display', 'block');
         $('.newsSection')[0].scrollIntoView();
@@ -225,7 +231,6 @@ function weatherSection (city, country) {
         $('.mapSection').css('display', 'block');
         $('.mapSection')[0].scrollIntoView();
         
-        
       })
       
       //Stats
@@ -233,12 +238,9 @@ function weatherSection (city, country) {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
       })
-      console.log(response.coord.lat, response.coord.lon);
+      console.log('coord: '+ lon);
       //country code 
       
-
-      //call forecast function
-      forecast(response.coord.lat, response.coord.lon);
       //Call OpenLayers function
 
       var map = new ol.Map({
@@ -249,7 +251,7 @@ function weatherSection (city, country) {
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([response.coord.lon, response.coord.lat]),
+          center: ol.proj.fromLonLat([lon, lat]),
           zoom: 10
         })
       });
@@ -299,15 +301,16 @@ function weatherSection (city, country) {
         
       });
     });
+    return;
   }
 
 //end of weather card
 
 
 //5 day forecast 
-function forecast(lat, lon){
+function forecast(flat, flon){
 
-    let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
         url: forecastUrl,
