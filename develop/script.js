@@ -121,29 +121,6 @@ $('#cityInput').on('keydown', function (e) {
 function weatherSection (city, state, country) {
 
   
-$('#newsCard').on('click', function() {
-  $('.newsSection').css('display', 'block');
-  $('.newsSection')[0].scrollIntoView();
-});
-
-//Forecast
-$('#forecastCard').on('click', function() {
-  $('.forecastSection').css('display', 'block');
-  $('.forecastSection')[0].scrollIntoView();
-})
-
-//Weather
-$('#weatherCard').on('click', function() {
-  $('.weatherSection').css('display', 'block');
-  $('.weatherSection')[0].scrollIntoView();
-})
-
-//Map
-$('#mapCard').on('click', function() {
-  $('.mapSection').css('display', 'block');
-  $('.mapSection')[0].scrollIntoView();
-  
-})
 
 
     //openWeather
@@ -153,18 +130,45 @@ $('#mapCard').on('click', function() {
       url: url,
       method: "GET",
     }).then(function (response) {
-      console.log(url)
-
-
-
-
       $('#map').html('');
+      $('#newsCard').on('click', function() {
+        $('.newsSection').css('display', 'block');
+        $('.newsSection')[0].scrollIntoView();
+      });
+      
+      //Forecast
+      $('#forecastCard').on('click', function() {
+        $('.forecastSection').css('display', 'block');
+        $('.forecastSection')[0].scrollIntoView();
+      })
+      
+      //Weather
+      $('#weatherCard').on('click', function() {
+        $('.weatherSection').css('display', 'block');
+        $('.weatherSection')[0].scrollIntoView();
+      })
+      
+      //Map
+      $('#mapCard').on('click', function() {
+        $('.mapSection').css('display', 'block');
+        $('.mapSection')[0].scrollIntoView();
+        
+        
+      })
+      
+      //Stats
+      $('#statsCard').on('click', function() {
+        $('.statsSection').css('display', 'block');
+        $('.statsSection')[0].scrollIntoView();
+      })
+      console.log(response.coord.lat, response.coord.lon);
       //country code 
       
 
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
-      //Call Google Maps function
+      //Call OpenLayers function
+
       var map = new ol.Map({
         target: 'map',
         layers: [
