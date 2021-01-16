@@ -128,8 +128,6 @@ $('#cityInput').on('keydown', function (e) {
 //weather Card
 function weatherSection (city, country, lat, lon) {
 
-    let cLat = lat;
-    let cLon = lon;
     //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
 
@@ -183,7 +181,7 @@ function weatherSection (city, country, lat, lon) {
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([cLon, cLat]),
+          center: ol.proj.fromLonLat([lon, lat]),
           zoom: 10
         })
       });
