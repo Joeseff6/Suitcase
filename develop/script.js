@@ -60,7 +60,7 @@ $("#citySubmit").on("click", function (e) {
 })
 
 $("#addToFavorites").on("click", function() {
-  if (cityChoice !== null) {
+  if (cityChoice) {
     let buttonEl = $("<button>")
     buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
     $("#favoritesReveal").append(buttonEl)
@@ -155,23 +155,27 @@ $(document).on("click",".historyChoice", function() {
         .then(function(response) {
           $(".newsItem").remove()
 
+          console.log(response)
+
           for (let i = 0; i < response.response.docs.length; i++) {
-            var breakEl = $("<br>")
-            breakEl.attr("class", "newsItem")
-            let articleImage = $("<img>")
-            let articleImageUrl = response.response.docs[i].multimedia[22].url
-            articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
-            $("#newsArticles").append(articleImage)
-
-            let articleHeadline = $("<a>")
-            articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
-            $("#newsArticles").append(articleHeadline)
-
-            let articleAbstract = $("<p>")
-            articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
-            $("#newsArticles").append(articleAbstract)
-
-            $("#newsArticles").append(breakEl)
+            if (response.response.docs[i].multimedia[22]) {
+              var breakEl = $("<br>")
+              breakEl.attr("class", "newsItem")
+              let articleImage = $("<img>")
+              let articleImageUrl = response.response.docs[i].multimedia[22].url
+              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+              $("#newsArticles").append(articleImage)
+  
+              let articleHeadline = $("<a>")
+              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
+              $("#newsArticles").append(articleHeadline)
+  
+              let articleAbstract = $("<p>")
+              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
+              $("#newsArticles").append(articleAbstract)
+  
+              $("#newsArticles").append(breakEl)
+            }
           }
         })
     })
