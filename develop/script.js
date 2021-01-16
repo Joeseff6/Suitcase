@@ -6,6 +6,7 @@
 var cityChoice
 
 //Stats at a glance Card
+
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   // SDK for GeoDB Cities per RapidAPI
@@ -120,7 +121,11 @@ $('#cityInput').on('keydown', function (e) {
 //weather Card
 function weatherSection (city, state, country) {
 
-  
+//Stats
+$('#statsCard').on('click', function() {
+  $('.statsSection').css('display', 'block');
+  $('.statsSection')[0].scrollIntoView();
+})
 
 
     //openWeather
