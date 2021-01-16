@@ -22,45 +22,49 @@ var FavoritesArray = [];
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
-
-  // SDK for GeoDB Cities per RapidAPI
-  $(".removeOption").remove()
-  let cityName = $("#cityInput").val()
-  const settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
-      "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
-    }
-  };
-
-  // Requesting server data from GeoDB
-  $.ajax(settings)
-    .then(function (response) {
-      cityChoice = response
-      // Function to add buttons for additional searches
-      if (response.data.length > 1) {
-        $("#resultsContainer").css("display","block")
-        for (let i = 0; i < response.data.length; i++) {
-          let buttonEl = $("<button>");
-          let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-          buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
-          $("#resultsSection").append(buttonEl);
-
-          //code to add results to Search Reveal (modal) (Fahad)
-          //====================================================
-          $("#searchResultsReveal").append(buttonEl);
-          //====================================================
-        }
+  $("#searchText").text("Choose your desired city")
+  if ($("#cityInput").val()) {
+    // SDK for GeoDB Cities per RapidAPI
+    $(".removeOption").remove()
+    let cityName = $("#cityInput").val()
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+        "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
-    })
+    };
+
+    // Requesting server data from GeoDB
+    $.ajax(settings)
+      .then(function (response) {
+        cityChoice = response
+        // Function to add buttons for additional searches
+        if (response.data.length > 1) {
+          $("#resultsContainer").css("display","block")
+          for (let i = 0; i < response.data.length; i++) {
+            let buttonEl = $("<button>");
+            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
+            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+            $("#resultsSection").append(buttonEl);
+
+            //code to add results to Search Reveal (modal) (Fahad)
+            //====================================================
+            $("#searchResultsReveal").append(buttonEl);
+            //====================================================
+          }
+        } 
+      })
+  } else {
+    $("#searchText").text("No results found, please close")
+  }
 })
 
 $("#addToFavorites").on("click", function() {
-  if (cityChoice !== null) {
+  if (cityChoice) {
     let buttonEl = $("<button>")
     buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
     $("#favoritesReveal").append(buttonEl)
@@ -76,6 +80,7 @@ $(document).on("click",".historyChoice", function() {
   buttonEl = $("<button>")
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   $(`#historyReveal`).append(buttonEl);
+  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
 
   //History Badge Functionality (Fahad)
@@ -93,10 +98,9 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
-
       $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", which is located in " + response[0].name)
 
-      weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region, cityChoice.data[choiceIndex].countryCode, 
+      weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
         //call forecast function
@@ -157,24 +161,30 @@ $(document).on("click",".historyChoice", function() {
         .then(function(response) {
           $(".newsItem").remove()
 
+          console.log(response)
+          let articleCount = 0
           for (let i = 0; i < response.response.docs.length; i++) {
-            var breakEl = $("<br>")
-            breakEl.attr("class", "newsItem")
-            let articleImage = $("<img>")
-            let articleImageUrl = response.response.docs[i].multimedia[22].url
-            articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
-            $("#newsArticles").append(articleImage)
-
-            let articleHeadline = $("<a>")
-            articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
-            $("#newsArticles").append(articleHeadline)
-
-            let articleAbstract = $("<p>")
-            articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
-            $("#newsArticles").append(articleAbstract)
-
-            $("#newsArticles").append(breakEl)
+            if (response.response.docs[i].multimedia[22]) {
+              var breakEl = $("<br>")
+              breakEl.attr("class", "newsItem")
+              let articleImage = $("<img>")
+              let articleImageUrl = response.response.docs[i].multimedia[22].url
+              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+              $("#newsArticles").append(articleImage)
+  
+              let articleHeadline = $("<a>")
+              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
+              $("#newsArticles").append(articleHeadline)
+  
+              let articleAbstract = $("<p>")
+              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
+              $("#newsArticles").append(articleAbstract)
+  
+              $("#newsArticles").append(breakEl)
+              articleCount++
+            }
           }
+          $("#newsText").text("News: " + articleCount + " articles found")
         })
     })
 
@@ -197,10 +207,13 @@ $('#cityInput').on('keydown', function (e) {
 
 
 //weather Card
-function weatherSection (city, state, country, lat, lon) {
+function weatherSection (city, country, lat, lon) {
+
+ let mapLat = lat;
+ let mapLon = lon;
 
     //openWeather
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
       url: url,
@@ -245,6 +258,7 @@ function weatherSection (city, state, country, lat, lon) {
       
       //Call OpenLayers function
 
+      //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
       var map = new ol.Map({
         target: 'map',
         layers: [
@@ -260,9 +274,10 @@ function weatherSection (city, state, country, lat, lon) {
 
       var marker = new ol.Feature({
         geometry: new ol.geom.Point(
-          ol.proj.fromLonLat([lon,lat])
-        ),  // Cordinates of New York's Town Hall
+          ol.proj.fromLonLat([mapLon,mapLat])
+        ), 
       });
+
       var vectorSource = new ol.source.Vector({
         features: [marker]
       });
@@ -270,8 +285,9 @@ function weatherSection (city, state, country, lat, lon) {
         source: vectorSource,
       });
       map.addLayer(markerVectorLayer);
+      //end of OpenLayer function
+      
       //current conditions
-
       //weather description
       let weatherDescription = response.weather[0].description;
       weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
@@ -472,3 +488,13 @@ function historyBadgeDisplay() {
 //Move this function to appropriate area once the Favorites functionality has been coded
 // favoritesBadgeDisplay(); 
 //===========================================================================================
+
+
+
+
+
+
+
+function submitSearch() {
+
+}
