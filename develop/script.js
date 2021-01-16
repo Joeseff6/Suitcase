@@ -156,7 +156,7 @@ $(document).on("click",".historyChoice", function() {
           $(".newsItem").remove()
 
           console.log(response)
-
+          let articleCount = 0
           for (let i = 0; i < response.response.docs.length; i++) {
             if (response.response.docs[i].multimedia[22]) {
               var breakEl = $("<br>")
@@ -175,8 +175,10 @@ $(document).on("click",".historyChoice", function() {
               $("#newsArticles").append(articleAbstract)
   
               $("#newsArticles").append(breakEl)
+              articleCount++
             }
           }
+          $("#newsText").text("News: " + articleCount + " articles found")
         })
     })
 
