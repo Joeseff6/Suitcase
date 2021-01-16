@@ -177,53 +177,56 @@ $('#cityInput').on('keydown', function (e) {
 
 
 //weather Card
-function weatherSection (city, state, country) {
-
-  
-$('#newsCard').on('click', function() {
-  $('.newsSection').css('display', 'block');
-  $('.newsSection')[0].scrollIntoView();
-});
-
-//Forecast
-$('#forecastCard').on('click', function() {
-  $('.forecastSection').css('display', 'block');
-  $('.forecastSection')[0].scrollIntoView();
-})
-
-//Weather
-$('#weatherCard').on('click', function() {
-  $('.weatherSection').css('display', 'block');
-  $('.weatherSection')[0].scrollIntoView();
-})
-
-//Map
-$('#mapCard').on('click', function() {
-  $('.mapSection').css('display', 'block');
-  $('.mapSection')[0].scrollIntoView();
-  
-})
+function weatherSection (city, country) {
 
 
     //openWeather
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
       url: url,
       method: "GET",
+      
     }).then(function (response) {
-      console.log(url)
-
-
-
-
       $('#map').html('');
+      $('#newsCard').on('click', function() {
+        $('.newsSection').css('display', 'block');
+        $('.newsSection')[0].scrollIntoView();
+      });
+      
+      //Forecast
+      $('#forecastCard').on('click', function() {
+        $('.forecastSection').css('display', 'block');
+        $('.forecastSection')[0].scrollIntoView();
+      })
+      
+      //Weather
+      $('#weatherCard').on('click', function() {
+        $('.weatherSection').css('display', 'block');
+        $('.weatherSection')[0].scrollIntoView();
+      })
+      
+      //Map
+      $('#mapCard').on('click', function() {
+        $('.mapSection').css('display', 'block');
+        $('.mapSection')[0].scrollIntoView();
+        
+        
+      })
+      
+      //Stats
+      $('#statsCard').on('click', function() {
+        $('.statsSection').css('display', 'block');
+        $('.statsSection')[0].scrollIntoView();
+      })
+      console.log(response.coord.lat, response.coord.lon);
       //country code 
       
 
       //call forecast function
       forecast(response.coord.lat, response.coord.lon);
-      //Call Google Maps function
+      //Call OpenLayers function
+
       var map = new ol.Map({
         target: 'map',
         layers: [
