@@ -22,6 +22,7 @@ var FavoritesArray = [];
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
+  $("#searchText").text("Choose your desired city")
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
     $(".removeOption").remove()
@@ -57,6 +58,8 @@ $("#citySubmit").on("click", function (e) {
           }
         } 
       })
+  } else {
+    $("#searchText").text("No results found, please close")
   }
 })
 
