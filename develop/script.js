@@ -56,7 +56,10 @@ $("#citySubmit").on("click", function (e) {
           //====================================================
         }
       }
-    })
+    }).catch(function() {
+      console.log('Uh oh, something went wrong!');
+      return 0;
+    });
 })
 
 $("#addToFavorites").on("click", function() {
@@ -76,7 +79,6 @@ $(document).on("click",".historyChoice", function() {
   buttonEl = $("<button>")
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   $(`#historyReveal`).append(buttonEl);
-  weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
 
   //History Badge Functionality (Fahad)
@@ -173,8 +175,11 @@ $(document).on("click",".historyChoice", function() {
 
             $("#newsArticles").append(breakEl)
           }
-        })
-    })
+        }).catch(function() {
+          console.log('Uh oh, something went wrong!');
+          return 0;
+        });
+    });
 
     return cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude;
 });
@@ -300,6 +305,9 @@ function weatherSection (city, country, lat, lon) {
         $(uvIndex).text("UV Index: " + uvIndexNum);
         
       });
+    }).catch(function() {
+      console.log('Uh oh, something went wrong!');
+      return 0;
     });
     return;
   }
@@ -388,7 +396,10 @@ function forecast(flat, flon){
           forecastContainer.append(card);
         }
         
-    })
+    }).catch(function() {
+      console.log('Uh oh, something went wrong!');
+      return 0;
+    });
 }
 //end of forecast card
 
