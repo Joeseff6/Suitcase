@@ -220,8 +220,6 @@ function weatherSection (city, country, lat, lon) {
       
     }).then(function (response) {
 
-      $('#map').html('');
-
       //News
       $('#newsCard').on('click', function() {
         $('.newsSection').css('display', 'block');
@@ -244,6 +242,11 @@ function weatherSection (city, country, lat, lon) {
       $('#mapCard').on('click', function() {
         $('.mapSection').css('display', 'block');
         $('.mapSection')[0].scrollIntoView();
+        if ($('#map')) {
+          openLayers(response.coord.lat, response.coord.lon);
+          console.log(response.coord.lat, response.coord.lon);
+        }
+        
         
       })
       
@@ -459,6 +462,7 @@ function historyBadgeDisplay() {
 //===========================================================================================
 
 function openLayers(x, y){
+  $('#map').html('');
   //Call OpenLayers function
 
       //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
@@ -493,6 +497,8 @@ function openLayers(x, y){
         source: vectorSource,
       });
       map.addLayer(markerVectorLayer);
+
+      return;
 }
 
 
