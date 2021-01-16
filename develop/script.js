@@ -59,12 +59,21 @@ $("#citySubmit").on("click", function (e) {
     })
 })
 
+$("#addToFavorites").on("click", function() {
+  if (cityChoice !== null) {
+    let buttonEl = $("<button>")
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem")
+    $("#favoritesReveal").append(buttonEl)
+  }
+})
+
+// Function to fire when a search option is chosen
 $(document).on("click",".historyChoice", function() {
   choiceIndex = $(this).attr("data-index")
   $(".removeOption").remove()
+
+  // Push selected option to the history modal
   buttonEl = $("<button>")
-
-
   buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button historyItem")
   console.log(buttonEl)
   $(`#historyReveal`).append(buttonEl);
