@@ -93,7 +93,10 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
-      weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
+
+      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", which is located in " + response[0].name)
+
+      weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].region, cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
         //call forecast function
@@ -194,10 +197,10 @@ $('#cityInput').on('keydown', function (e) {
 
 
 //weather Card
-function weatherSection (city, country, lat, lon) {
+function weatherSection (city, state, country, lat, lon) {
 
     //openWeather
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
       url: url,
@@ -254,6 +257,19 @@ function weatherSection (city, country, lat, lon) {
           zoom: 10
         })
       });
+
+      var marker = new ol.Feature({
+        geometry: new ol.geom.Point(
+          ol.proj.fromLonLat([lon,lat])
+        ),  // Cordinates of New York's Town Hall
+      });
+      var vectorSource = new ol.source.Vector({
+        features: [marker]
+      });
+      var markerVectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+      });
+      map.addLayer(markerVectorLayer);
       //current conditions
 
       //weather description
