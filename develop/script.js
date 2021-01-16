@@ -22,41 +22,42 @@ var FavoritesArray = [];
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
-
-  // SDK for GeoDB Cities per RapidAPI
-  $(".removeOption").remove()
-  let cityName = $("#cityInput").val()
-  const settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
-      "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
-    }
-  };
-
-  // Requesting server data from GeoDB
-  $.ajax(settings)
-    .then(function (response) {
-      cityChoice = response
-      // Function to add buttons for additional searches
-      if (response.data.length > 1) {
-        $("#resultsContainer").css("display","block")
-        for (let i = 0; i < response.data.length; i++) {
-          let buttonEl = $("<button>");
-          let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-          buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
-          $("#resultsSection").append(buttonEl);
-
-          //code to add results to Search Reveal (modal) (Fahad)
-          //====================================================
-          $("#searchResultsReveal").append(buttonEl);
-          //====================================================
-        }
+  if ($("#cityInput").val()) {
+    // SDK for GeoDB Cities per RapidAPI
+    $(".removeOption").remove()
+    let cityName = $("#cityInput").val()
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+        "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
-    })
+    };
+
+    // Requesting server data from GeoDB
+    $.ajax(settings)
+      .then(function (response) {
+        cityChoice = response
+        // Function to add buttons for additional searches
+        if (response.data.length > 1) {
+          $("#resultsContainer").css("display","block")
+          for (let i = 0; i < response.data.length; i++) {
+            let buttonEl = $("<button>");
+            let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
+            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+            $("#resultsSection").append(buttonEl);
+
+            //code to add results to Search Reveal (modal) (Fahad)
+            //====================================================
+            $("#searchResultsReveal").append(buttonEl);
+            //====================================================
+          }
+        } 
+      })
+  }
 })
 
 $("#addToFavorites").on("click", function() {
@@ -94,6 +95,8 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
+      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", which is located in " + response[0].name)
+
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
@@ -463,3 +466,13 @@ function historyBadgeDisplay() {
 //Move this function to appropriate area once the Favorites functionality has been coded
 // favoritesBadgeDisplay(); 
 //===========================================================================================
+
+
+
+
+
+
+
+function submitSearch() {
+
+}
