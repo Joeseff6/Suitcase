@@ -59,7 +59,6 @@ $(document).on("click",".historyChoice", function() {
     method: "GET"
   })
     .then(function(response) {
-      console.log('lat:'+cityChoice.data[choiceIndex].latitude);
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
