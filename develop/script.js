@@ -14,7 +14,7 @@ var choiceIndex
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
 var historyArray = [];
-var FavoritesArray = []; 
+var favoritesArray = []; 
 //=============================================
 
 //Stats at a glance Card
@@ -22,38 +22,20 @@ $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   footerQuote(); //see footerQuote function at the end
 
-  // SDK for GeoDB Cities per RapidAPI
-  $(".removeOption").remove()
-  let cityName = $("#cityInput").val()
-  const settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
-    "method": "GET",
-    "headers": {
-      "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
-      "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
-    }
-  };
+  // // SDK for GeoDB Cities per RapidAPI
+  // $(".removeOption").remove()
+  // let cityName = $("#cityInput").val()
+  // const settings = {
+  //   "async": true,
+  //   "crossDomain": true,
+  //   "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=" + cityName,
+  //   "method": "GET",
+  //   "headers": {
+  //     "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+  //     "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+  //   }
+  // };
 
-  // Requesting server data from GeoDB
-  $.ajax(settings)
-    .then(function (response) {
-      cityChoice = response
-      // Function to add buttons for additional searches
-      if (response.data.length > 1) {
-        $("#resultsContainer").css("display","block")
-        for (let i = 0; i < response.data.length; i++) {
-          let buttonEl = $("<button>");
-          let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-          buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i).attr("data-close","");
-          $("#resultsSection").append(buttonEl);
-          console.log(buttonEl);
-          //code to add results to Search Reveal (modal) (Fahad)
-          //====================================================
-          $("#searchResultsReveal").append(buttonEl);
-          //====================================================
-        }
   $("#searchText").text("Choose your desired city")
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
@@ -80,28 +62,43 @@ $("#citySubmit").on("click", function (e) {
           for (let i = 0; i < response.data.length; i++) {
             let buttonEl = $("<button>");
             let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
-            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+            buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i).attr("data-close","");
             $("#resultsSection").append(buttonEl);
-
+            console.log(buttonEl);
             //code to add results to Search Reveal (modal) (Fahad)
             //====================================================
             $("#searchResultsReveal").append(buttonEl);
             //====================================================
           }
-        } 
-      })
-  } else {
-    $("#searchText").text("No results found, please close")
+
+        // Requesting server data from GeoDB
+        $.ajax(settings)
+          .then(function (response) {
+            cityChoice = response
+            // Function to add buttons for additional searches
+            if (response.data.length > 1) {
+              $("#resultsContainer").css("display","block")
+              for (let i = 0; i < response.data.length; i++) {
+                let buttonEl = $("<button>");
+                let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode
+                buttonEl.text(cityOption).attr("class","button removeOption historyChoice").attr("data-index",i)
+                $("#resultsSection").append(buttonEl);
+
+                //code to add results to Search Reveal (modal) (Fahad)
+                //====================================================
+                $("#searchResultsReveal").append(buttonEl);
+                //====================================================
+              }
+            } 
+          })
+      } else {
+        $("#searchText").text("No results found, please close")
+      }
+    })
   }
 })
 
-$("#addToFavorites").on("click", function() {
-  if (cityChoice) {
-    let buttonEl = $("<button>")
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem").attr("data-close","")
-    $("#favoritesReveal").append(buttonEl)
-  }
-})
+
 
 // Function to fire when a search option is chosen
 $(document).on("click",".historyChoice", function() {
@@ -117,12 +114,31 @@ $(document).on("click",".historyChoice", function() {
   $(`#historyReveal`).append(buttonEl);
   weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode);
 
+  // Add to Favorites functionality
+  $("#addToFavorites").on("click", function() {
+    if (cityChoice) {
+      let buttonEl = $("<button>");
+      buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button favoriteItem").attr("data-close","")
+      $("#favoritesReveal").append(buttonEl);
+
+    //   //Favorites Badge Functionality (Fahad)
+    //   //======================================
+    //   favoritesArray.push($("#currentCityName")[0].innerHTML);
+    //   console.log(favoritesArray);
+
+    //   //======================================
+    } 
+    // favoritesBadgeDisplay(); 
+  })
 
   //History Badge Functionality (Fahad)
   //=====================================
   historyArray.push(cityChoice.data[choiceIndex].city);
   historyBadgeDisplay();
   //=====================================
+
+
+
 
   $("#searchResultsReveal").foundation('close');
   $("#historyReveal").foundation('close');
@@ -203,26 +219,34 @@ $(document).on("click",".historyChoice", function() {
           let articleCount = 0
           for (let i = 0; i < response.response.docs.length; i++) {
             if (response.response.docs[i].multimedia[22]) {
-              var breakEl = $("<br>")
-              breakEl.attr("class", "newsItem")
-              let articleImage = $("<img>")
-              let articleImageUrl = response.response.docs[i].multimedia[22].url
-              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
-              $("#newsArticles").append(articleImage)
+              for (n=0; n<=10; n++){
+              let articleImage = $("newsImg"[n])[0];
+              console.log(articleImage);
+              console.log($("#newsImg1"));
+              console.log($("#newsImg"))[n];
+              let articleHeadline = $("#newsTitle"[n])[0];
+              console.log(articleHeadline)
+              let articleAbstract = $("#newsAbstract"[n])[0];
+              console.log(articleAbstract)
+              }
+
+              // let articleImageUrl = response.response.docs[i].multimedia[22].url
+              // articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem")
+              // $("articleCardDivider"[i]).append(articleImage)
   
-              let articleHeadline = $("<a>")
-              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
-              $("#newsArticles").append(articleHeadline)
+              // let articleHeadline = $("<a>")
+              // articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank")
+              // $("articleCardDivider"[i]).append(articleHeadline)
   
-              let articleAbstract = $("<p>")
-              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
-              $("#newsArticles").append(articleAbstract)
+              // let articleAbstract = $("<p>")
+              // articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem")
+              // $("articleCardDivider"[i]).append(articleAbstract)
   
-              $("#newsArticles").append(breakEl)
-              articleCount++
+              // $("#newsArticles").append(breakEl)
+              // articleCount++
             }
           }
-          $("#newsText").text("News: " + articleCount + " articles found")
+          $("#newsText").text("Articles Found: " + articleCount)
         })
     })
 
@@ -492,20 +516,20 @@ function historyBadgeDisplay() {
 
 // Favorites badge function (Fahad) (Will enable after Favorites functionality is coded)
 //===========================================================================================
-// function favoritesBadgeDisplay() {
-//   let favoritesBadge = $("#favoritesBadge")[0];
-//   favoritesBadge.textContent = favoritesArray.length;
-//   console.log($("#favoritesBadge")[0]);
-//   console.log(favoritesBadge);
-//   console.log(favoritesArray);
-//   if (favoritesArray.length > 0){
-//     favoritesBadge.style.display = "block";
-//     } else {
-//     favoritesBadge.style.display = "none";
-//   };
-// };
+function favoritesBadgeDisplay() {
+  let favoritesBadge = $("#favoritesBadge")[0];
+  favoritesBadge.textContent = favoritesArray.length;
+  console.log($("#favoritesBadge")[0]);
+  console.log(favoritesBadge);
+  console.log(favoritesArray);
+  if (favoritesArray.length > 0){
+    favoritesBadge.style.display = "block";
+    } else {
+    favoritesBadge.style.display = "none";
+  };
+};
 //Move this function to appropriate area once the Favorites functionality has been coded
-// favoritesBadgeDisplay(); 
+
 //===========================================================================================
 
 
@@ -514,6 +538,6 @@ function historyBadgeDisplay() {
 
 
 
-function submitSearch() {
+// function submitSearch() {
 
-}
+// }
