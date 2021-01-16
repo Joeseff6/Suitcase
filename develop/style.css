@@ -131,11 +131,37 @@ section.grid-container .grid-x .card .grid-x .card-section {
   cursor: pointer;
   padding: 15px;
   font-size: larger;
+  background-color: black;
 }
 #topBtn:hover {
-  background-color: #9c6644;
+  background-color: crimson;
 }
 
 .badge {
   height: 20px;
+}
+
+#historyReveal {
+  /* background-color: darkgrey; */
+  background-image: url(https://images.unsplash.com/photo-1473163928189-364b2c4e1135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#favoritesReveal {
+  /* background-image: url(https://images.unsplash.com/photo-1516969412521-c917474012c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit); */
+  background-image: url(https://images.unsplash.com/photo-1517330283827-2527c57981ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#revealCloseButton {
+  color: whitesmoke;
+}
+#revealCloseButton:hover {
+  color: grey;
 }
