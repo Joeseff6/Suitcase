@@ -118,19 +118,7 @@ $('#cityInput').on('keydown', function (e) {
 
 
 //weather Card
-function weatherSection (city, state, country) {
-
-//Stats
-$('#statsCard').on('click', function() {
-  $('.statsSection').css('display', 'block');
-  $('.statsSection')[0].scrollIntoView();
-})
-
-//Stats
-$('#statsCard').on('click', function() {
-  $('.statsSection').css('display', 'block');
-  $('.statsSection')[0].scrollIntoView();
-})
+function weatherSection (city, country) {
 
 
     //openWeather
