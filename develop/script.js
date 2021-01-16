@@ -6,7 +6,6 @@
 var cityChoice
 
 //Stats at a glance Card
-
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
   // SDK for GeoDB Cities per RapidAPI
@@ -127,13 +126,20 @@ $('#statsCard').on('click', function() {
   $('.statsSection')[0].scrollIntoView();
 })
 
+//Stats
+$('#statsCard').on('click', function() {
+  $('.statsSection').css('display', 'block');
+  $('.statsSection')[0].scrollIntoView();
+})
+
 
     //openWeather
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
       url: url,
       method: "GET",
+      
     }).then(function (response) {
       $('#map').html('');
       $('#newsCard').on('click', function() {
