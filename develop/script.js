@@ -116,7 +116,8 @@ $("#citySubmit").on("click", function (e) {
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",choiceIndex);
+    let cityOption = cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode
+    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",choiceIndex);
     $("#favoritesReveal").append(buttonEl);
     favoritesIndices.push(choiceIndex)
 
@@ -145,9 +146,10 @@ $(document).on("click",".searchItem", function() {
     var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
       // Push selected option to the history modal
     buttonEl = $("<button>");
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",choiceIndex);
+    let cityOption = cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode
+    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",choiceIndex);
     $(`#historyReveal`).append(buttonEl);
-    historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
+    historyArray.push(cityOption);
   } 
   // else if (searchType === "history") {
 
