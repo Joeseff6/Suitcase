@@ -119,13 +119,13 @@ $("#addToFavorites").on("click", function() {
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
-    storeData()
   }
 })
 
 // Function to fire when a search option is chosen
 $(document).on("click",".searchItem", function() {
   console.log(cityChoice)
+  choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
   if (searchType === "search") {
@@ -150,7 +150,7 @@ $(document).on("click",".searchItem", function() {
   //History Badge Functionality (Fahad)
   //This is used for history badge, as well as local storage later
   //==============================================================
-  historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
+  historyArray.push(cityChoice.data[choiceIndex].city);
   historyBadgeDisplay();
   //==============================================================
   storeData()
@@ -160,11 +160,11 @@ $(document).on("click",".searchItem", function() {
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
   $("#favoritesReveal").foundation("close");
-  //====================================================================================================
+  //=====================================================================================================
 
 
   //Stats at a glance Card
-  
+
   $.ajax({
     url: regionURL,
     method: "GET"
@@ -173,7 +173,7 @@ $(document).on("click",".searchItem", function() {
       $("#currentCityName").text(cityChoice.data[choiceIndex].city + ", " +  response[0].name);
 
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
-        cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude,cityChoice.data[choiceIndex].region);
+        cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
         //call forecast function
       forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
@@ -268,7 +268,7 @@ $(document).on("click",".searchItem", function() {
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
 //Auto Cap text on keydown feature
-//============================================================================================
+//==============================================================
 $('#cityInput').on('keydown', function (e) {
   let input = $(this).val();
   input = input.toLowerCase().replace(/\b[a-z]/g, function (c) {
@@ -276,12 +276,12 @@ $('#cityInput').on('keydown', function (e) {
   });
   $(this).val(input);
 })
-//===========================================================================================
+//================================================================
 
 
 //weather Card
-//===========================================================================================
-function weatherSection (city, country, lat, lon, state) {
+//=================================================================
+function weatherSection (city, country, lat, lon) {
 
  let mapLat = lat;
  let mapLon = lon;
@@ -320,7 +320,7 @@ function weatherSection (city, country, lat, lon, state) {
         if ($('#map')){
           openLayers(response.coord.lat, response.coord.lon);
         }
-        
+
       })
       
       //Stats
@@ -477,8 +477,8 @@ function weatherSection (city, country, lat, lon, state) {
 //=======================================================================================
 
 
-//5 day forecast
-//======================================================================================== 
+//5 day forecast 
+//====================================================================================
 function forecast(flat, flon){
 
     let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
@@ -561,15 +561,15 @@ function forecast(flat, flon){
         
     })
 }
-//============================================================================================
+//===============================================================================
 
 
-//closing sections 
-//============================================================================================
+//closing sections
+//======================================================
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 });
-//=========================================================================================
+//========================================================
 
 //footer quote function (Fahad)
 //============================================================================================
@@ -676,6 +676,8 @@ function openLayers(x, y){
       return;
 }
 //==========================================================================================
+
+
 
 
 

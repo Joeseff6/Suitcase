@@ -202,6 +202,7 @@ section.grid-container .grid-x .card .card-section #forecastCards {
   font-size: 15px;
   border-bottom: 1px dotted black;
   padding-left: 10px;
+  padding-bottom: 10px;
   display: block;
   overflow-wrap: break-word;
   word-wrap: break-word;
