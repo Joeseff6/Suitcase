@@ -17,6 +17,47 @@ var historyArray = [];
 var favoritesArray = []; 
 //=============================================
 
+// Load stored data
+getData()
+
+console.log(favoritesArray)
+console.log(historyArray)
+// Function to set local storage
+function storeData() {
+  localStorage.setItem("Favorite Cities", JSON.stringify(favoritesArray)); 
+  localStorage.setItem("City History", JSON.stringify(historyArray));
+}
+
+// Function to retrieve local storage
+function getData() {
+  var storedFavorites = JSON.parse(localStorage.getItem("Favorite Cities"));
+  if (storedFavorites !== null) {
+    favoritesArray = storedFavorites;
+  }
+  var storedHistory = JSON.parse(localStorage.getItem("City History"));
+  if (storedHistory !== null) {
+    historyArray = storedHistory;
+  }
+
+  rendorData();
+}
+
+function rendorData() {
+  // Rendor Favorites
+  for (let i = 0; i < favoritesArray.length; i++) {
+    let buttonEl = $("<button>");
+    buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "");
+    $("#favoritesReveal").append(buttonEl);
+  }
+  
+  // Rendor History
+  for (let i = 0; i < historyArray.length; i++) {
+    let buttonEl = $("<button>");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","");
+    $(`#historyReveal`).append(buttonEl);
+  }
+}
+
 //Stats at a glance Card
 
 $("#citySubmit").on("click", function (e) {
@@ -27,6 +68,7 @@ $("#citySubmit").on("click", function (e) {
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
     let cityName = $("#cityInput").val();
+    $("#cityInput").val(``);
     cityName = cityName.split(" ");
     cityName = cityName.join("%20");
     const settings = {
@@ -75,13 +117,25 @@ $("#addToFavorites").on("click", function() {
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
+    storeData()
   }
 })
 
 // Function to fire when a search option is chosen
 $(document).on("click",".searchItem", function() {
   console.log(cityChoice)
+  let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
+  if (searchType === "search") {
+    var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+  } 
+  // else {
+  //   let cityArr = $(this).text()
+  //   cityArr = cityArr.split(",")
+  //   let cityName = cityArr[0]
+  //   let countryCode = cityArr[2]
+  //   var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+  // }
   $(".removeOption").remove();
 
   // Push selected option to the history modal
@@ -93,8 +147,10 @@ $(document).on("click",".searchItem", function() {
   //History Badge Functionality (Fahad)
   //This is used for history badge, as well as local storage later
   //==============================================================
-  historyArray.push(cityChoice.data[choiceIndex].city);
+  historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
   historyBadgeDisplay();
+  //==============================================================
+  storeData()
 
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
   //=====================================================================================================
@@ -105,7 +161,6 @@ $(document).on("click",".searchItem", function() {
 
 
   //Stats at a glance Card
-  let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
   
   $.ajax({
     url: regionURL,
