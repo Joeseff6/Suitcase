@@ -14,7 +14,7 @@ var choiceIndex;
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
 var historyArray = [];
-var FavoritesArray = []; 
+var favoritesArray = []; 
 //=============================================
 
 //Stats at a glance Card
@@ -47,7 +47,7 @@ $("#citySubmit").on("click", function (e) {
           for (let i = 0; i < response.data.length; i++) {
             let buttonEl = $("<button>");
             let cityOption = response.data[i].city + ", " + response.data[i].region + ", " + response.data[i].countryCode;
-            buttonEl.text(cityOption).attr("class","button removeOption searchItem").attr("data-index",i).attr("data-type","search");
+            buttonEl.text(cityOption).attr("class","button removeOption searchItem").attr("data-index",i).attr("data-type","search").attr("data-close","");
             $("#searchResultsReveal").append(buttonEl);
           }
         } else {
@@ -59,11 +59,22 @@ $("#citySubmit").on("click", function (e) {
   }
 })
 
+//Add to Favorites functionality
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite");
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "");
     $("#favoritesReveal").append(buttonEl);
+
+    //This section uploads city names into favoritesArray everytime the addToFavorites button is clicked (fahad)
+    //This helps with favorites badge as well as local storage later.
+    //==================================================================================================
+    let faveCity = (cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode)
+    console.log(faveCity);
+    favoritesArray.push(faveCity);
+    console.log(favoritesArray);
+    favoritesBadgeDisplay(); 
+    //==================================================================================================
   }
 })
 
@@ -75,15 +86,23 @@ $(document).on("click",".searchItem", function() {
 
   // Push selected option to the history modal
   buttonEl = $("<button>");
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history");;
+  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history").attr("data-close","");
   $(`#historyReveal`).append(buttonEl);
 
 
   //History Badge Functionality (Fahad)
-  //=====================================
+  //This is used for history badge, as well as local storage later
+  //==============================================================
   historyArray.push(cityChoice.data[choiceIndex].city);
   historyBadgeDisplay();
-  //=====================================
+  //==============================================================
+
+  //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
+  //=====================================================================================================
+  $("#historyReveal").foundation("close");
+  $("#searchResultsReveal").foundation("close");
+  $("#favoritesReveal").foundation("close");
+  //=====================================================================================================
 
 
   //Stats at a glance Card
@@ -439,19 +458,20 @@ function historyBadgeDisplay() {
 
 // Favorites badge function (Fahad) (Will enable after Favorites functionality is coded)
 //===========================================================================================
-// function favoritesBadgeDisplay() {
-//   let favoritesBadge = $("#favoritesBadge")[0];
-//   favoritesBadge.textContent = favoritesArray.length;
-//   console.log($("#favoritesBadge")[0]);
-//   console.log(favoritesBadge);
-//   console.log(favoritesArray);
-//   if (favoritesArray.length > 0){
-//     favoritesBadge.style.display = "block";
-//     } else {
-//     favoritesBadge.style.display = "none";
-//   };
-// };
+function favoritesBadgeDisplay() {
+  let favoritesBadge = $("#favoritesBadge")[0];
+  favoritesBadge.textContent = favoritesArray.length;
+  console.log($("#favoritesBadge")[0]);
+  console.log(favoritesBadge);
+  console.log(favoritesArray);
+  if (favoritesArray.length > 0){
+    favoritesBadge.style.display = "block";
+    } else {
+    favoritesBadge.style.display = "none";
+  };
+};
 //Move this function to appropriate area once the Favorites functionality has been coded
+
 // favoritesBadgeDisplay(); 
 //===========================================================================================
 
