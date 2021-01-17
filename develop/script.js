@@ -393,6 +393,9 @@ function weatherSection (city, country, lat, lon, state) {
         $(uvIndex).text("UV Index: " + uvIndexNum);
         
       });
+      }).catch(function (){
+        console.log('uh Oh, something went wrong');
+        return 0;
       })
     });
     return;
