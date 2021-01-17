@@ -184,6 +184,10 @@ $(document).on("click",".searchItem", function() {
   historyBadgeDisplay();
   //==============================================================
   storeData()
+<<<<<<< HEAD
+=======
+
+>>>>>>> d12b27b15e77a2085b67c77b56759de4dda8a910
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
   //=====================================================================================================
   $("#historyReveal").foundation("close");
