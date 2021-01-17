@@ -10,6 +10,8 @@
 var cityChoice;
 var choiceIndex;
 
+var queryCity;
+
 
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
@@ -90,6 +92,7 @@ $(document).on("click",".searchItem", function() {
   $(`#historyReveal`).append(buttonEl);
 
 
+
   //History Badge Functionality (Fahad)
   //This is used for history badge, as well as local storage later
   //==============================================================
@@ -113,7 +116,7 @@ $(document).on("click",".searchItem", function() {
     method: "GET"
   })
     .then(function(response) {
-      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name);
+      $("#currentCityName").text(cityChoice.data[choiceIndex].city + ", " +  response[0].name);
 
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
@@ -184,17 +187,17 @@ $(document).on("click",".searchItem", function() {
               breakEl.attr("class", "newsItem");
               let articleImage = $("<img>");
               let articleImageUrl = response.response.docs[i].multimedia[22].url;
-              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem");
+              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class","newsItem").attr("id", "newsImg");
               $("#newsArticles").append(articleImage);
-  
+
               let articleHeadline = $("<a>");
-              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank");
+              articleHeadline.text('"' + response.response.docs[i].headline.main + ' (' + response.response.docs[i].pub_date.substr(0,10) + ')"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank").attr("id", "newsHl");
               $("#newsArticles").append(articleHeadline);
-  
+
               let articleAbstract = $("<p>");
-              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem");
+              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem").attr("id","newsAbs");
               $("#newsArticles").append(articleAbstract);
-  
+
               $("#newsArticles").append(breakEl);
               articleCount++
             }
@@ -519,3 +522,4 @@ function openLayers(x, y){
 function submitSearch() {
 
 }
+
