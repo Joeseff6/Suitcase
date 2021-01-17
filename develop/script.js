@@ -14,6 +14,7 @@ const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 // Set global variable for ajax response on document event listener
 var cityChoice;
 var choiceIndex;
+var queryCity;
 
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
@@ -120,6 +121,7 @@ $("#citySubmit").on("click", function (e) {
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
   console.log(cityChoice)
+  choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
   let cityArr = $(this).text()
@@ -311,8 +313,8 @@ function openLayers(x, y){
 //==========================================================================================
 
 //weather Card
-//===========================================================================================
-function weatherSection (city, country, lat, lon, state) {
+//=================================================================
+function weatherSection (city, country, lat, lon) {
 
   let mapLat = lat;
   let mapLon = lon;
@@ -351,7 +353,7 @@ function weatherSection (city, country, lat, lon, state) {
         if ($('#map')){
           openLayers(response.coord.lat, response.coord.lon);
         }
-        
+
       })
       
       //Stats
@@ -589,7 +591,7 @@ function forecast(flat, flon){
       
   })
 }
-//============================================================================================
+//===============================================================================
 
 // Function to update news
 function newsSection(response) {
@@ -616,12 +618,12 @@ function newsSection(response) {
 }
 //=====================================================================================================
 
-//closing sections 
-//============================================================================================
+//closing sections
+//======================================================
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 });
-//=========================================================================================
+//========================================================
 
 //footer quote function (Fahad)
 //============================================================================================
