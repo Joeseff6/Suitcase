@@ -19,6 +19,47 @@ var historyArray = [];
 var favoritesArray = []; 
 //=============================================
 
+// Load stored data
+getData()
+
+console.log(favoritesArray)
+console.log(historyArray)
+// Function to set local storage
+function storeData() {
+  localStorage.setItem("Favorite Cities", JSON.stringify(favoritesArray)); 
+  localStorage.setItem("City History", JSON.stringify(historyArray));
+}
+
+// Function to retrieve local storage
+function getData() {
+  var storedFavorites = JSON.parse(localStorage.getItem("Favorite Cities"));
+  if (storedFavorites !== null) {
+    favoritesArray = storedFavorites;
+  }
+  var storedHistory = JSON.parse(localStorage.getItem("City History"));
+  if (storedHistory !== null) {
+    historyArray = storedHistory;
+  }
+
+  rendorData();
+}
+
+function rendorData() {
+  // Rendor Favorites
+  for (let i = 0; i < favoritesArray.length; i++) {
+    let buttonEl = $("<button>");
+    buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "");
+    $("#favoritesReveal").append(buttonEl);
+  }
+  
+  // Rendor History
+  for (let i = 0; i < historyArray.length; i++) {
+    let buttonEl = $("<button>");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","");
+    $(`#historyReveal`).append(buttonEl);
+  }
+}
+
 //Stats at a glance Card
 
 $("#citySubmit").on("click", function (e) {
@@ -29,6 +70,7 @@ $("#citySubmit").on("click", function (e) {
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
     let cityName = $("#cityInput").val();
+    $("#cityInput").val(``);
     cityName = cityName.split(" ");
     cityName = cityName.join("%20");
     const settings = {
@@ -77,13 +119,25 @@ $("#addToFavorites").on("click", function() {
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
+    storeData()
   }
 })
 
 // Function to fire when a search option is chosen
 $(document).on("click",".searchItem", function() {
   console.log(cityChoice)
+  let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
+  if (searchType === "search") {
+    var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+  } 
+  // else {
+  //   let cityArr = $(this).text()
+  //   cityArr = cityArr.split(",")
+  //   let cityName = cityArr[0]
+  //   let countryCode = cityArr[2]
+  //   var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+  // }
   $(".removeOption").remove();
 
   // Push selected option to the history modal
@@ -96,20 +150,20 @@ $(document).on("click",".searchItem", function() {
   //History Badge Functionality (Fahad)
   //This is used for history badge, as well as local storage later
   //==============================================================
-  historyArray.push(cityChoice.data[choiceIndex].city);
+  historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
   historyBadgeDisplay();
   //==============================================================
+  storeData()
 
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
   //=====================================================================================================
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
   $("#favoritesReveal").foundation("close");
-  //=====================================================================================================
+  //====================================================================================================
 
 
   //Stats at a glance Card
-  let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
   
   $.ajax({
     url: regionURL,
@@ -119,7 +173,7 @@ $(document).on("click",".searchItem", function() {
       $("#currentCityName").text(cityChoice.data[choiceIndex].city + ", " +  response[0].name);
 
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
-        cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
+        cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude,cityChoice.data[choiceIndex].region);
 
         //call forecast function
       forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
@@ -214,6 +268,7 @@ $(document).on("click",".searchItem", function() {
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
 //Auto Cap text on keydown feature
+//============================================================================================
 $('#cityInput').on('keydown', function (e) {
   let input = $(this).val();
   input = input.toLowerCase().replace(/\b[a-z]/g, function (c) {
@@ -221,11 +276,12 @@ $('#cityInput').on('keydown', function (e) {
   });
   $(this).val(input);
 })
-
+//===========================================================================================
 
 
 //weather Card
-function weatherSection (city, country, lat, lon) {
+//===========================================================================================
+function weatherSection (city, country, lat, lon, state) {
 
  let mapLat = lat;
  let mapLon = lon;
@@ -238,8 +294,6 @@ function weatherSection (city, country, lat, lon) {
       method: "GET",
       
     }).then(function (response) {
-
-      $('#map').html('');
 
       //News
       $('#newsCard').on('click', function() {
@@ -263,6 +317,9 @@ function weatherSection (city, country, lat, lon) {
       $('#mapCard').on('click', function() {
         $('.mapSection').css('display', 'block');
         $('.mapSection')[0].scrollIntoView();
+        if ($('#map')){
+          openLayers(response.coord.lat, response.coord.lon);
+        }
         
       })
       
@@ -319,14 +376,109 @@ function weatherSection (city, country, lat, lon) {
         $(uvIndex).text("UV Index: " + uvIndexNum);
         
       });
+      //rerun the function w/ diff url when error is caught
+      //will make it dryer code soon...
+    }).catch(function(){
+      let errorUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`
+      
+      $.ajax({
+        url: errorUrl,
+        method: 'GET',
+      }).then(function(error) {
+
+      //News
+      $('#newsCard').on('click', function() {
+        $('.newsSection').css('display', 'block');
+        $('.newsSection')[0].scrollIntoView();
+      });
+      
+      //Forecast
+      $('#forecastCard').on('click', function() {
+        $('.forecastSection').css('display', 'block');
+        $('.forecastSection')[0].scrollIntoView();
+      })
+      
+      //Weather
+      $('#weatherCard').on('click', function() {
+        $('.weatherSection').css('display', 'block');
+        $('.weatherSection')[0].scrollIntoView();
+      })
+      
+      //Map
+      $('#mapCard').on('click', function() {
+        $('.mapSection').css('display', 'block');
+        $('.mapSection')[0].scrollIntoView();
+        if ($('#map')){
+          openLayers(error.coord.lat, error.coord.lon);
+        }
+        
+      })
+      
+      //Stats
+      $('#statsCard').on('click', function() {
+        $('.statsSection').css('display', 'block');
+        $('.statsSection')[0].scrollIntoView();
+      })
+      //country code 
+      
+      openLayers(mapLat, mapLon);
+
+      //current conditions
+      //weather description
+      let weatherDescription = error.weather[0].description;
+      weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
+        return c.toUpperCase();
+      });
+      let weatherDesc = $("#weatherDesc");
+      weatherDesc.text("Current reports show: " + weatherDescription);
+
+      //Icon
+      let icon = error.weather[0].icon;
+      let iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+      let img = $("#conditionsIcon");
+      img.attr("src", iconUrl);
+
+      //Temperature
+      let temp = $("#temp");
+      let tempContent = error.main.temp;
+      //convert to int
+      tempContent = parseFloat(tempContent);
+      //convert from kelvin to fahrenheit
+      tempContent = "Temperature: " + tempContent.toFixed(0) + " °F";
+      $(temp).text(tempContent);
+
+      //Humidity
+      let humid = $("#humid");
+      $(humid).text("Humidity: " + error.main.humidity + "%");
+
+      //Wind Speed
+      let wind = $("#wind");
+      $(wind).text("Wind Speed: " + error.wind.speed.toFixed(0) + " MPH");
+
+      //UV Index
+      let eUvIndexUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${error.coord.lat}&lon=${error.coord.lon}&appid=${openWeatherKey}`;
+      $.ajax({
+        url: eUvIndexUrl,
+        method: "GET",
+      }).then(function (eData) {
+        let uvIndex = $('#uvIndex');
+        let uvIndexNum = eData.value;
+        $(uvIndex).text("UV Index: " + uvIndexNum);
+        
+      });
+      }).catch(function (){
+        console.log('uh Oh, something went wrong');
+        return 0;
+      })
     });
     return;
   }
 
-//end of weather card
+//=======================================================================================
 
 
-//5 day forecast 
+//5 day forecast
+//======================================================================================== 
 function forecast(flat, flon){
 
     let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
@@ -409,13 +561,15 @@ function forecast(flat, flon){
         
     })
 }
-//end of forecast card
+//============================================================================================
 
 
 //closing sections 
+//============================================================================================
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 });
+//=========================================================================================
 
 //footer quote function (Fahad)
 //============================================================================================
@@ -475,10 +629,16 @@ function favoritesBadgeDisplay() {
 };
 //Move this function to appropriate area once the Favorites functionality has been coded
 
+// favoritesBadgeDisplay(); 
 //===========================================================================================
 
+
+//Open Layers map
+//===========================================================================================
 function openLayers(x, y){
+  $('#map').html('');
   //Call OpenLayers function
+  $('#map').html('');
 
       //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
       var map = new ol.Map({
@@ -512,8 +672,10 @@ function openLayers(x, y){
         source: vectorSource,
       });
       map.addLayer(markerVectorLayer);
-}
 
+      return;
+}
+//==========================================================================================
 
 
 
