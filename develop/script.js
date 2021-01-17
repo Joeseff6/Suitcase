@@ -27,6 +27,7 @@ $("#citySubmit").on("click", function (e) {
   if ($("#cityInput").val()) {
     // SDK for GeoDB Cities per RapidAPI
     let cityName = $("#cityInput").val();
+    $("#cityInput").val(``);
     cityName = cityName.split(" ");
     cityName = cityName.join("%20");
     const settings = {
