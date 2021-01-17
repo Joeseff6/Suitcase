@@ -127,9 +127,8 @@
             <div class="card" id="currentCityCard">
                 <div class="card-divider">
                     <!--insert current city name here. Also, grab the 'addToFavorite button ID here-->
-                    <h4 id="currentCityName">You are viewing: <span id="currentCityName"
-                            style="font-weight: bolder;">Current
-                            City Name</span></h4>
+                    <h4>Now viewing: <span id="currentCityName" style="font-weight: bolder;"> --Waiting for
+                            Search-- </span></h4>
                     <div class="button-group align-right">
                         <a class="button" type="button" value="addToFavorites" id="addToFavorites"><i
                                 class="fa fa-heart" aria-hidden="true"></i></a>
@@ -204,7 +203,7 @@
                 <div class="grid-x">
                     <div class="card-section flex-container">
                         <div class="cell auto" id="flagContainer">
-                            <img id="flag" height="1000" width="1600">
+                            <img id="flag">
                             <p id="country">Country: </p>
                             <p id="localTime">Country's Local Time: </p>
                             <p id="localTimeZone">Time Zone: </p>
@@ -376,12 +375,13 @@
             <div class="card" id="newsDivCard">
                 <div class="card-divider">
                     <h4 id="newsText">News</h4>
+                    <h4> - sourced from The New York Times</h4>
                     <div class="button-group align-right">
                         <a class=" button" type="button" value="closeNews" id="closeNewsButton"><span>x</span></a>
                     </div>
                 </div>
-                <div class="grid-x">
-                    <div class="card-section" id="newsArticles">
+                <div class="card-section" id="newsArticlesSection">
+                    <div id="newsArticles">
                         <!--Append News Articles Here-->
                     </div>
                 </div>
