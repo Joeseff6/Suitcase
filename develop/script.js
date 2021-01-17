@@ -17,6 +17,47 @@ var historyArray = [];
 var favoritesArray = []; 
 //=============================================
 
+// Load stored data
+getData()
+
+console.log(favoritesArray)
+console.log(historyArray)
+// Function to set local storage
+function storeData() {
+  localStorage.setItem("Favorite Cities", JSON.stringify(favoritesArray)); 
+  localStorage.setItem("City History", JSON.stringify(historyArray));
+}
+
+// Function to retrieve local storage
+function getData() {
+  var storedFavorites = JSON.parse(localStorage.getItem("Favorite Cities"));
+  if (storedFavorites !== null) {
+    favoritesArray = storedFavorites;
+  }
+  var storedHistory = JSON.parse(localStorage.getItem("City History"));
+  if (storedHistory !== null) {
+    historyArray = storedHistory;
+  }
+
+  rendorData();
+}
+
+function rendorData() {
+  // Rendor Favorites
+  for (let i = 0; i < favoritesArray.length; i++) {
+    let buttonEl = $("<button>");
+    buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "");
+    $("#favoritesReveal").append(buttonEl);
+  }
+  
+  // Rendor History
+  for (let i = 0; i < historyArray.length; i++) {
+    let buttonEl = $("<button>");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","");
+    $(`#historyReveal`).append(buttonEl);
+  }
+}
+
 //Stats at a glance Card
 
 $("#citySubmit").on("click", function (e) {
@@ -76,6 +117,7 @@ $("#addToFavorites").on("click", function() {
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
+    storeData()
   }
 })
 
@@ -94,10 +136,10 @@ $(document).on("click",".searchItem", function() {
   //History Badge Functionality (Fahad)
   //This is used for history badge, as well as local storage later
   //==============================================================
-  historyArray.push(cityChoice.data[choiceIndex].city);
+  historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
   historyBadgeDisplay();
   //==============================================================
-
+  storeData()
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
   //=====================================================================================================
   $("#historyReveal").foundation("close");
