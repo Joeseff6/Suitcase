@@ -66,14 +66,13 @@ img {
 #flag {
   max-height: 300px;
   max-width: 400px;
-  padding-bottom: 30px;
+  margin: 20px;
 }
 
 .button {
   font-weight: 900;
   border-radius: 10px;
-  /* border: 2px grey dotted; */
-  /* background-color: #bc6c25; */
+
   background-color: #f79256;
 }
 
@@ -115,9 +114,10 @@ p {
   font-weight: 450;
 }
 
-section.grid-container .grid-x .card .grid-x .card-section {
-  background-color: lightslategrey;
-  color: white;
+section.grid-container .grid-x .card .grid-x .card-section,
+#newsArticlesSection {
+  background-color: rgb(216, 216, 216);
+  color: black;
 }
 
 /* Scroll-to-Top Button */
@@ -131,7 +131,7 @@ section.grid-container .grid-x .card .grid-x .card-section {
   cursor: pointer;
   padding: 15px;
   font-size: larger;
-  background-color: black;
+  background-color: rgb(24, 63, 121);
 }
 #topBtn:hover {
   background-color: crimson;
@@ -170,4 +170,40 @@ section.grid-container .grid-x .card .grid-x .card-section {
 }
 #revealCloseButton:hover {
   color: grey;
+}
+
+#newsImg {
+  width: 150px;
+  height: 150px;
+  margin: 20px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-box-shadow: 10px 10px 5px #ccc;
+  -webkit-box-shadow: 10px 10px 5px #ccc;
+}
+
+section.grid-container .grid-x .card .card-section #forecastCards {
+  height: 450px;
+}
+
+#newsHl {
+  font-size: 15px;
+  font-weight: 900;
+  display: inline-block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  padding-bottom: 10px;
+}
+
+#newsAbs {
+  font-size: 15px;
+  border-bottom: 1px dotted black;
+  padding-left: 10px;
+  display: block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
