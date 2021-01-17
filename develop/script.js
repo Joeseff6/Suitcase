@@ -162,6 +162,9 @@ $(document).on("click",".searchItem", function() {
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
 
+    var cityLat = cityChoice.data[choiceIndex].latitude
+    var cityLon = cityChoice.data[choiceIndex].longitude
+
     // Set regionUrl
     var regionUrl = ["https://restcountries.eu/rest/v2/alpha?codes=",cityCountryCode]
     regionUrl = regionUrl.join("");
@@ -170,7 +173,6 @@ $(document).on("click",".searchItem", function() {
   else if (searchType === "history") {
   }
   console.log(cityChoice)
-  console.log(regionUrl)
 
   storeData()
 
@@ -192,23 +194,20 @@ $(document).on("click",".searchItem", function() {
   })
     .then(function(response) {
       console.log(response)
-      $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name);
+      $("#currentCityName").text("You are viewing: " + cityName + ", " + response[0].name);
 
       statsSection(response)
 
-      weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
-        cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude,cityChoice.data[choiceIndex].region);
+      weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
 
         //call forecast function
-      forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
+      forecast(cityLat, cityLon);
 
 
       
       // News card
-
       let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
       let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey;
-
 
       $.ajax({
         url: newsUrl,
