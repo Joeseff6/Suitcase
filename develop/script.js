@@ -124,7 +124,18 @@ $("#addToFavorites").on("click", function() {
 // Function to fire when a search option is chosen
 $(document).on("click",".searchItem", function() {
   console.log(cityChoice)
+  let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
+  if (searchType === "search") {
+    var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+  } 
+  // else {
+  //   let cityArr = $(this).text()
+  //   cityArr = cityArr.split(",")
+  //   let cityName = cityArr[0]
+  //   let countryCode = cityArr[2]
+  //   var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+  // }
   $(".removeOption").remove();
 
   // Push selected option to the history modal
@@ -149,7 +160,6 @@ $(document).on("click",".searchItem", function() {
 
 
   //Stats at a glance Card
-  let regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
   
   $.ajax({
     url: regionURL,
