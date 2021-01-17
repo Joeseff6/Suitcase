@@ -157,7 +157,7 @@ $(document).on("click",".searchItem", function() {
     })
       .then(function(response) {
         console.log(response)
-        $("#currentCityName").text("You are viewing: " + cityName + ", " + response[0].name);  
+        $("#currentCityName").text(cityName + ", " + response[0].name);  
         statsSection(response)
         let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
         $.ajax({
@@ -195,7 +195,7 @@ $(document).on("click",".searchItem", function() {
             method: "GET"
           })
             .then(function(response) {
-              $("#currentCityName").text("You are viewing: " + cityName + ", " + response[0].name);
+              $("#currentCityName").text(cityName + ", " + response[0].name);
               statsSection(response)
               let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
               $.ajax({
