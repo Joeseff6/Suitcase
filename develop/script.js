@@ -87,6 +87,14 @@ $(document).on("click",".historyChoice", function() {
   historyArray.push(cityChoice.data[choiceIndex].city);
   historyBadgeDisplay();
   //=====================================
+  
+  //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
+  //=====================================================================================================
+  $("#historyReveal").foundation("close");
+  $("#searchResultsReveal").foundation("close");
+  $("#favoritesReveal").foundation("close");
+  //=====================================================================================================
+
 
 
   //Stats at a glance Card
