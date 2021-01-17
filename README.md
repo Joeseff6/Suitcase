@@ -57,8 +57,8 @@ _So that I can be prepared when I travel to that country._
 - [x] When the user submits a destination, it will be added to a search modal
 - [x] When one of the information cards is clicked on, the information for that card will be displayed
 - [x] When the "x" button is clicked for the respective section, that section will disappear
-- [ ] The following will be stored for persistence: Favorites, History
-- [ ] When the history, favorite, or search result is clicked, the results for the clicked item will be loaded into the HTML
+- [x] The following will be stored for persistence: Favorites, History
+- [x] When the history, favorite, or search result is clicked, the results for the clicked item will be loaded into the HTML
 
 ## Future Releases
 
