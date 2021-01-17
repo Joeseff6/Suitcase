@@ -472,6 +472,7 @@ function favoritesBadgeDisplay() {
 };
 //Move this function to appropriate area once the Favorites functionality has been coded
 
+// favoritesBadgeDisplay(); 
 //===========================================================================================
 
 function openLayers(x, y){
