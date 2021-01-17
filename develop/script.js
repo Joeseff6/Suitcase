@@ -9,7 +9,7 @@
 // Set global variable for ajax response on document event listener
 var cityChoice;
 var choiceIndex;
-
+console.log(cityChoice)
 
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
@@ -139,53 +139,43 @@ $(document).on("click",".searchItem", function() {
   console.log(cityChoice)
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
+  let cityArr = $(this).text()
+  cityArr = cityArr.split(",")
+  console.log(cityArr)
+  var cityName = cityArr[0].trim()
+  var cityRegion = cityArr[1].trim()
+  var cityCountryCode = cityArr[2].trim()
+
+
+  // If button from search is clicked
   if (searchType === "search") {
     historyIndices.push(choiceIndex);
-
-    // Set regionUrl
-    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
-      // Push selected option to the history modal
+    //History Badge Functionality (Fahad)
+    //This is used for history badge, as well as local storage later
+    //==============================================================
+    historyBadgeDisplay();
+    //==============================================================
+    // Push selected option to the history modal
     buttonEl = $("<button>");
-    let cityOption = cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode
+    let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
     buttonEl.text(cityOption).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",choiceIndex);
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
-  } 
-  // else if (searchType === "history") {
 
-  // }
-  //   let cityArr = $(this).text()
-  //   cityArr = cityArr.split(",")
-  //   let cityName = cityArr[0]
-  //   let countryCode = cityArr[2]
+    // Set regionUrl
+    var regionUrl = ["https://restcountries.eu/rest/v2/alpha?codes=",cityCountryCode]
+    regionUrl = regionUrl.join("");
+  }
+  // If button from History is clicked
+  else if (searchType === "history") {
+  }
+  console.log(cityChoice)
+  console.log(regionUrl)
 
-  //   const settings = {
-  //     "async": true,
-  //     "crossDomain": true,
-  //     "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName,
-  //     "method": "GET",
-  //     "headers": {
-  //       "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
-  //       "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
-  //     }
-  //   };
-  //   $.ajax(settings)
-  //     .then(function(response) {
-  //       cityChoice = response
-  //     })
-
-  // var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + countryCode;
+  storeData()
 
   $(".removeOption").remove();
 
-
-
-  //History Badge Functionality (Fahad)
-  //This is used for history badge, as well as local storage later
-  //==============================================================
-  historyBadgeDisplay();
-  //==============================================================
-  storeData()
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
   //=====================================================================================================
   $("#historyReveal").foundation("close");
@@ -201,7 +191,10 @@ $(document).on("click",".searchItem", function() {
     method: "GET"
   })
     .then(function(response) {
+      console.log(response)
       $("#currentCityName").text("You are viewing: " + cityChoice.data[choiceIndex].city + ", located in " + response[0].name);
+
+      statsSection(response)
 
       weatherSection(cityChoice.data[choiceIndex].city,cityChoice.data[choiceIndex].countryCode, 
         cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude,cityChoice.data[choiceIndex].region);
@@ -210,49 +203,9 @@ $(document).on("click",".searchItem", function() {
       forecast(cityChoice.data[choiceIndex].latitude, cityChoice.data[choiceIndex].longitude);
 
 
-      let lat =  (response[0].latlng[0]).toFixed(2);
-      let lon = (response[0].latlng[1]).toFixed(2);
-      let Offset = response[0].timezones[0];
-      let flag = response[0].flag;
-
-      var latDirection = "";
-      var lonDirection = "";
-
-      if ( lat < 0) {
-        lat *= -1;
-        latDirection = "S";
-      } else {
-        latDirection = "N";
-      }
-
-      if ( lon < 0) {
-        lon *= -1;
-        lonDirection = "W";
-      } else {
-        lonDirection = "E";
-      }
-
-      function commaSeparator(num) {
-        var number = num.toString().split(".");
-        number[0] = number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return number.join(".");
-      }
       
-      $("#flag").attr("src",flag);
-      $("#country").text("Country: " + response[0].name);
-      $("#capital").text("Capital: " + response[0].capital);
-      $("#region").text("Region: " + response[0].region);
-      $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection);
-      $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection);
-      $("#population").text("Country's Population: " + commaSeparator(response[0].population));
-      $("#area").text("Country's total area: " + commaSeparator(response[0].area) + " sq. km.");
-      $("#language").text("Language: " + response[0].languages[0].name);
-      $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name);
-      $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0]);
-      $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'));
-      $("#localTimeZone").text("Time Zone: " + response[0].timezones[0]);
-
       // News card
+
       let newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
       let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityChoice.data[choiceIndex].city + "," + response[0].name + "&api-key=" + newsApiKey;
 
@@ -263,31 +216,7 @@ $(document).on("click",".searchItem", function() {
       })
         .then(function(response) {
           $(".newsItem").remove();
-
-          console.log(response)
-          let articleCount = 0;
-          for (let i = 0; i < response.response.docs.length; i++) {
-            if (response.response.docs[i].multimedia[22]) {
-              var breakEl = $("<br>");
-              breakEl.attr("class", "newsItem");
-              let articleImage = $("<img>");
-              let articleImageUrl = response.response.docs[i].multimedia[22].url;
-              articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem");
-              $("#newsArticles").append(articleImage);
-  
-              let articleHeadline = $("<a>");
-              articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank");
-              $("#newsArticles").append(articleHeadline);
-  
-              let articleAbstract = $("<p>");
-              articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem");
-              $("#newsArticles").append(articleAbstract);
-  
-              $("#newsArticles").append(breakEl);
-              articleCount++
-            }
-          }
-          $("#newsText").text("News: " + articleCount + " articles found");
+          newsSection(response)
         })
     })
 
@@ -708,10 +637,72 @@ function openLayers(x, y){
 }
 //==========================================================================================
 
+function newsSection(response) {
+  let articleCount = 0;
+  for (let i = 0; i < response.response.docs.length; i++) {
+    if (response.response.docs[i].multimedia[22]) {
+      var breakEl = $("<br>");
+      breakEl.attr("class", "newsItem");
+      let articleImage = $("<img>");
+      let articleImageUrl = response.response.docs[i].multimedia[22].url;
+      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem");
+      $("#newsArticles").append(articleImage);
 
+      let articleHeadline = $("<a>");
+      articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank");
+      $("#newsArticles").append(articleHeadline);
 
+      let articleAbstract = $("<p>");
+      articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem");
+      $("#newsArticles").append(articleAbstract);
 
+      $("#newsArticles").append(breakEl);
+      articleCount++
+    }
+    $("#newsText").text("News: " + articleCount + " articles found");
+  }
+}
 
-function submitSearch() {
+function statsSection(response) {
+  let lat =  (response[0].latlng[0]).toFixed(2);
+  let lon = (response[0].latlng[1]).toFixed(2);
+  let Offset = response[0].timezones[0];
+  let flag = response[0].flag;
 
+  var latDirection = "";
+  var lonDirection = "";
+
+  if ( lat < 0) {
+    lat *= -1;
+    latDirection = "S";
+  } else {
+    latDirection = "N";
+  }
+
+  if ( lon < 0) {
+    lon *= -1;
+    lonDirection = "W";
+  } else {
+    lonDirection = "E";
+  }
+
+  function commaSeparator(num) {
+    var number = num.toString().split(".");
+    number[0] = number[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.join(".");
+  }
+  
+  $("#flag").attr("src",flag);
+  $("#country").text("Country: " + response[0].name);
+  $("#capital").text("Capital: " + response[0].capital);
+  $("#region").text("Region: " + response[0].region);
+  $("#lat").text("Country's Latitude: " + lat + "\u00B0" + latDirection);
+  $("#lon").text("Country's Longitude: " + lon + "\u00B0" + lonDirection);
+  $("#population").text("Country's Population: " + commaSeparator(response[0].population));
+  $("#area").text("Country's total area: " + commaSeparator(response[0].area) + " sq. km.");
+  $("#language").text("Language: " + response[0].languages[0].name);
+  $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name);
+  $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0]);
+  $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'));
+  $("#localTimeZone").text("Time Zone: " + response[0].timezones[0]);
 }
