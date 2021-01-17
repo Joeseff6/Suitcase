@@ -15,17 +15,19 @@ var choiceIndex;
 //=============================================
 var historyArray = [];
 var favoritesArray = []; 
+var historyIndices = [];
+var favoritesIndices = [];
 //=============================================
 
 // Load stored data
 getData()
 
-console.log(favoritesArray)
-console.log(historyArray)
 // Function to set local storage
 function storeData() {
   localStorage.setItem("Favorite Cities", JSON.stringify(favoritesArray)); 
   localStorage.setItem("City History", JSON.stringify(historyArray));
+  localStorage.setItem("History Indices", JSON.stringify(historyIndices));
+  localStorage.setItem("Favorites Indices", JSON.stringify(favoritesIndices));
 }
 
 // Function to retrieve local storage
@@ -39,6 +41,15 @@ function getData() {
     historyArray = storedHistory;
   }
 
+  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"))
+  if (storedHistoryIndices !== null) {
+    historyIndices = storedHistoryIndices;
+  }
+
+  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"))
+  if (storedFavIndices !== null) {
+    favoritesIndices = storedFavIndices;
+  }
   rendorData();
 }
 
@@ -46,14 +57,14 @@ function rendorData() {
   // Rendor Favorites
   for (let i = 0; i < favoritesArray.length; i++) {
     let buttonEl = $("<button>");
-    buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "");
+    buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",favoritesIndices[i]);
     $("#favoritesReveal").append(buttonEl);
   }
   
   // Rendor History
   for (let i = 0; i < historyArray.length; i++) {
     let buttonEl = $("<button>");
-    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]);
     $(`#historyReveal`).append(buttonEl);
   }
 }
@@ -105,8 +116,9 @@ $("#citySubmit").on("click", function (e) {
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
-    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "");
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",choiceIndex);
     $("#favoritesReveal").append(buttonEl);
+    favoritesIndices.push(choiceIndex)
 
     //This section uploads city names into favoritesArray everytime the addToFavorites button is clicked (fahad)
     //This helps with favorites badge as well as local storage later.
@@ -127,34 +139,51 @@ $(document).on("click",".searchItem", function() {
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
   if (searchType === "search") {
-    var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+    historyIndices.push(choiceIndex);
+
+    // Set regionUrl
+    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
+      // Push selected option to the history modal
+    buttonEl = $("<button>");
+    buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",choiceIndex);
+    $(`#historyReveal`).append(buttonEl);
+    historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
   } 
-  // else {
+  // else if (searchType === "history") {
+
+  // }
   //   let cityArr = $(this).text()
   //   cityArr = cityArr.split(",")
   //   let cityName = cityArr[0]
   //   let countryCode = cityArr[2]
-  //   var regionURL = "https://restcountries.eu/rest/v2/alpha?codes=" + cityChoice.data[choiceIndex].countryCode;
-  // }
+
+  //   const settings = {
+  //     "async": true,
+  //     "crossDomain": true,
+  //     "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName,
+  //     "method": "GET",
+  //     "headers": {
+  //       "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+  //       "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+  //     }
+  //   };
+  //   $.ajax(settings)
+  //     .then(function(response) {
+  //       cityChoice = response
+  //     })
+
+  // var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + countryCode;
+
   $(".removeOption").remove();
 
-  // Push selected option to the history modal
-  buttonEl = $("<button>");
-  buttonEl.text(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode).attr("class","button searchItem").attr("data-type","history").attr("data-close","");
-  $(`#historyReveal`).append(buttonEl);
 
 
   //History Badge Functionality (Fahad)
   //This is used for history badge, as well as local storage later
   //==============================================================
-  historyArray.push(cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode);
   historyBadgeDisplay();
-<<<<<<< HEAD
   //==============================================================
   storeData()
-=======
-
->>>>>>> 1f9754dee73b4c20602f6c64f14ab7e6c8b05858
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
   //=====================================================================================================
   $("#historyReveal").foundation("close");
@@ -166,7 +195,7 @@ $(document).on("click",".searchItem", function() {
   //Stats at a glance Card
   
   $.ajax({
-    url: regionURL,
+    url: regionUrl,
     method: "GET"
   })
     .then(function(response) {
