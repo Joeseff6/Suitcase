@@ -599,15 +599,17 @@ function newsSection(response) {
     if (response.response.docs[i].multimedia[22]) {
       var breakEl = $("<br>");
       breakEl.attr("class", "newsItem");
+      console.log(response.response.docs[i].pub_date)
       let articleImage = $("<img>");
       let articleImageUrl = response.response.docs[i].multimedia[22].url;
-      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem");
+      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id","newsImg");
       $("#newsArticles").append(articleImage);
       let articleHeadline = $("<a>");
-      articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank");
+      let articlePubDate = (response.response.docs[i].pub_date).substr(0,10);
+      articleHeadline.text('"' + response.response.docs[i].headline.main + '" (' + articlePubDate +')').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank").attr("id", "newsHl");
       $("#newsArticles").append(articleHeadline);
       let articleAbstract = $("<p>");
-      articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem");
+      articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem").attr("id","newsAbs");
       $("#newsArticles").append(articleAbstract);
       $("#newsArticles").append(breakEl);
       articleCount++
