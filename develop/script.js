@@ -598,7 +598,6 @@ function newsSection(response) {
     if (response.response.docs[i].multimedia[22]) {
       var breakEl = $("<br>");
       breakEl.attr("class", "newsItem");
-      console.log(response.response.docs[i].pub_date)
       let articleImage = $("<img>");
       let articleImageUrl = response.response.docs[i].multimedia[22].url;
       articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id","newsImg");
