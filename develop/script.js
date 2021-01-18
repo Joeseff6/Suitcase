@@ -120,13 +120,11 @@ $("#citySubmit").on("click", function (e) {
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
-  console.log(cityChoice)
   choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
   let cityArr = $(this).text()
   cityArr = cityArr.split(",")
-  console.log(cityArr)
   var cityName = cityArr[0].trim()
   var cityRegion = cityArr[1].trim()
   var cityCountryCode = cityArr[cityArr.length-1].trim()
@@ -155,7 +153,6 @@ $(document).on("click",".searchItem", function() {
       method: "GET"
     })
       .then(function(response) {
-        console.log(response)
         $("#currentCityName").text(cityName + ", " + response[0].name);  
         statsSection(response)
         let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
@@ -271,7 +268,7 @@ function statsSection(response) {
 function openLayers(x, y){
   $('#map').html('');
   //Call OpenLayers function
-  $('#map').html('');
+
 
       //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
       var map = new ol.Map({
@@ -312,7 +309,8 @@ function openLayers(x, y){
 
 //weather Card
 //=================================================================
-function weatherSection (city, country, lat, lon) {
+function weatherSection (city, country, lat, lon, state) {
+
 
   let mapLat = lat;
   let mapLon = lon;
@@ -698,7 +696,6 @@ $("#addToFavorites").on("click", function() {
     //This helps with favorites badge as well as local storage later.
     //==================================================================================================
     let faveCity = (cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode)
-    console.log(faveCity);
     favoritesArray.push(faveCity);
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
