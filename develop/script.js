@@ -149,8 +149,7 @@ $(document).on("click",".searchItem", function() {
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
     forecast(cityLat, cityLon);
 
-    var regionUrl = ["https://restcountries.eu/rest/v2/alpha?codes=",cityCountryCode]
-    regionUrl = regionUrl.join("");
+    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
     $.ajax({
       url: regionUrl,
       method: "GET"
@@ -188,8 +187,7 @@ $(document).on("click",".searchItem", function() {
           weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
           forecast(cityLat, cityLon);
 
-          var regionUrl = ["https://restcountries.eu/rest/v2/alpha?codes=",cityCountryCode]
-          regionUrl = regionUrl.join("");
+          var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
           $.ajax({
             url: regionUrl,
             method: "GET"
