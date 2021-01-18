@@ -272,6 +272,7 @@ function openLayers(x, y){
   $('#map').html('');
   //Call OpenLayers function
 
+
       //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
       var map = new ol.Map({
         target: 'map',
@@ -312,6 +313,7 @@ function openLayers(x, y){
 //weather Card
 //=================================================================
 function weatherSection (city, country, lat, lon, state) {
+
 
   let mapLat = lat;
   let mapLon = lon;
