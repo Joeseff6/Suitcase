@@ -120,13 +120,11 @@ $("#citySubmit").on("click", function (e) {
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
-  console.log(cityChoice)
   choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
   let cityArr = $(this).text()
   cityArr = cityArr.split(",")
-  console.log(cityArr)
   var cityName = cityArr[0].trim()
   var cityRegion = cityArr[1].trim()
   var cityCountryCode = cityArr[cityArr.length-1].trim()
@@ -155,7 +153,6 @@ $(document).on("click",".searchItem", function() {
       method: "GET"
     })
       .then(function(response) {
-        console.log(response)
         $("#currentCityName").text(cityName + ", " + response[0].name);  
         statsSection(response)
         let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
@@ -599,7 +596,6 @@ function newsSection(response) {
     if (response.response.docs[i].multimedia[22]) {
       var breakEl = $("<br>");
       breakEl.attr("class", "newsItem");
-      console.log(response.response.docs[i].pub_date)
       let articleImage = $("<img>");
       let articleImageUrl = response.response.docs[i].multimedia[22].url;
       articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id","newsImg");
@@ -700,7 +696,6 @@ $("#addToFavorites").on("click", function() {
     //This helps with favorites badge as well as local storage later.
     //==================================================================================================
     let faveCity = (cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode)
-    console.log(faveCity);
     favoritesArray.push(faveCity);
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
