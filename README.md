@@ -62,8 +62,9 @@ _So that I can be prepared when I travel to that country._
 
 ## Future Releases
 
-* To be determined
-
+* Add stats about the corona-virus
+* Add plane ticket details
+* Have currency exchange from country currency to USD
 ## Screenshots :camera:
 
 ### Development Photos
