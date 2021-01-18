@@ -94,6 +94,10 @@ img {
   box-shadow: none;
 }
 
+.cardsContainer {
+  cursor: pointer;
+}
+
 #cityInput:hover {
   background-color: white;
   border-radius: 25px;
