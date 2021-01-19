@@ -25,7 +25,9 @@ var favoritesIndices = [];
 //=============================================
 
 // Load stored data
-getData()
+getData();
+historyBadgeDisplay();
+favoritesBadgeDisplay();
 
 // Function to set local storage
 function storeData() {
@@ -61,16 +63,16 @@ function getData() {
 function rendorData() {
   // Rendor Favorites
   for (let i = 0; i < favoritesArray.length; i++) {
-    let buttonEl = $("<button>");
+    let buttonEl = $("<button/>");
     buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",favoritesIndices[i]);
-    $("#favoritesReveal").append(buttonEl);
+    $("#favoritesRevealButtons").append(buttonEl);
   }
   
   // Rendor History
   for (let i = 0; i < historyArray.length; i++) {
-    let buttonEl = $("<button>");
-    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]);
-    $(`#historyReveal`).append(buttonEl);
+    let buttonEl = $("<button/>");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]).attr("data-close","historyReveal1");
+    $("#historyRevealButtons").append(buttonEl);
   }
 }
 
@@ -131,17 +133,19 @@ $(document).on("click",".searchItem", function() {
 
   if (searchType === "search") {
     historyIndices.push(choiceIndex);
-    //History Badge Functionality (Fahad)
-    //This is used for history badge, as well as local storage later
-    //==============================================================
-    historyBadgeDisplay();
-    //==============================================================
     // Push selected option to the history modal
     buttonEl = $("<button>");
     let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
     buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close","").attr("data-index",choiceIndex);
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
+
+    //History Badge Functionality (Fahad)
+    //This is used for history badge, as well as local storage later
+    //==============================================================
+    historyBadgeDisplay();
+    //==============================================================
+
     var cityLat = cityChoice.data[choiceIndex].latitude
     var cityLon = cityChoice.data[choiceIndex].longitude
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
@@ -715,3 +719,22 @@ $('#cityInput').on('keydown', function (e) {
   $(this).val(input);
 })
 //===========================================================================================
+
+function clearLocalHistory (){
+  localStorage.clear("City History");
+  historyArray = [];
+  $("#historyRevealButtons")[0].innerHTML = "";
+  historyBadgeDisplay();
+  $("#historyReveal").foundation("close");
+};
+$("#clearLocalHistory").on('click', clearLocalHistory);
+
+
+function clearLocalFavorites (){
+  localStorage.clear("Favorite Cities");
+  favoritesArray = [];
+  $("#favoritesRevealButtons")[0].innerHTML = "";
+  favoritesBadgeDisplay();
+  $("#favoritesReveal").foundation("close");
+};
+$("#clearLocalFavorites").on('click', clearLocalFavorites);
