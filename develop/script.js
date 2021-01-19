@@ -123,8 +123,8 @@ $(document).on("click",".searchItem", function() {
   choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
-  let cityArr = $(this).text()
-  cityArr = cityArr.split(",")
+  var cityText = $(this).text()
+  var cityArr = cityText.split(",")
   var cityName = cityArr[0].trim()
   var cityRegion = cityArr[1].trim()
   var cityCountryCode = cityArr[cityArr.length-1].trim()
@@ -715,3 +715,55 @@ $('#cityInput').on('keydown', function (e) {
   $(this).val(input);
 })
 //===========================================================================================
+
+var testcityname = "Houston"
+var testcityregion = "Texas"
+var testcitycountrycode = "US"
+var obj1 = {
+  city: "Houston",
+  region: "Texas",
+  countryCode: "US"
+}
+
+var obj2 = {
+  city: "Dallas",
+  region: "Texas",
+  countryCode: "US"
+}
+
+var data = [obj1,obj2]
+console.log(data)
+var arr = []
+var myindex
+
+
+function findIndex(cityName,cityRegion,cityCountryCode,object) {
+  for (let i = 0; i < data.length; i++) {
+    arr.push(Object.values(object[i]))
+    var cityindex = $.inArray(cityName, arr[i])
+    var regionindex = $.inArray(cityRegion, arr[i])
+    var countryindex = $.inArray(cityCountryCode, arr[i])
+
+    if (cityindex !== -1 && regionindex !== -1 && countryindex !== -1) {
+      myindex = i
+      break
+    }
+  }
+
+  console.log(myindex)
+  // console.log(arr)
+  // var cityindex = $.inArray(cityName, arr)
+  // console.log(cityindex)
+  // var regionindex = $.inArray(cityRegion, arr)
+  // console.log(regionindex)
+  // var countryindex = $.inArray(cityCountryCode, arr)
+  // console.log(countryindex)
+
+  // if (cityindex !== -1 && regionindex !==-1 && countryindex !== -1) {
+  //   console.log("Pass!")
+  // } else {
+  //   console.log("Fail!")
+  // }
+}
+
+findIndex(testcityname,testcityregion,testcitycountrycode,data)
