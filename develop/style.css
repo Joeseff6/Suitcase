@@ -11,6 +11,7 @@ body {
 #pageTitle {
   font-family: "Great Vibes", cursive;
   font-size: 150px;
+  text-shadow: 1px 1px rgb(155, 150, 150);
 }
 
 #pageTitle,
@@ -94,7 +95,7 @@ img {
   box-shadow: none;
 }
 
-.cardsContainer {
+.cardsContainer:hover {
   cursor: pointer;
 }
 
@@ -108,10 +109,13 @@ img {
   width: 100%;
 }
 
-footer {
+.footer {
   font-size: 15px;
   height: 50px;
+  width: 100%;
   text-align: center;
+  position: fixed;
+  bottom: 0;
 }
 
 p {
@@ -184,12 +188,13 @@ section.grid-container .grid-x .card .grid-x .card-section,
   border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
+  box-shadow: none;
   -moz-box-shadow: 10px 10px 5px #82a9bf;
   -webkit-box-shadow: 10px 10px 5px #8fb5c9;
 }
 
-section.grid-container .grid-x .card .card-section #forecastCards {
-  height: 450px;
+#forecastCard {
+  height: 100%;
 }
 
 #newsHl {
@@ -211,4 +216,17 @@ section.grid-container .grid-x .card .card-section #forecastCards {
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+}
+
+#clearLocalFavorites:hover,
+#clearLocalHistory:hover {
+  background-color: crimson;
+}
+
+#cardsContainer {
+  cursor: pointer;
+}
+
+section.forecastSection .grid-x .card .grid-x .card {
+  margin-bottom: 0px;
 }
