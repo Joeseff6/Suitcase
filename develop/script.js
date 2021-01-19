@@ -8,13 +8,12 @@
 
 // Setting constant variables
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
-const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96"
+const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
 // Set global variables for document event listener
 var cityChoice;
 var index;
 var queryCity;
-var index;
 
 // Empty arrays for Badge Functionality (Fahad)
 //=============================================
