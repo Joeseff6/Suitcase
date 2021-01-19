@@ -24,7 +24,7 @@ var favoritesIndices = [];
 //=============================================
 
 // Load stored data
-getData()
+getData();
 
 // Function to set local storage
 function storeData() {
@@ -686,20 +686,20 @@ function favoritesBadgeDisplay() {
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
-    let cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode
+    let cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
     buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close", "").attr("data-index",index);
     $("#favoritesReveal").append(buttonEl);
-    favoritesIndices.push(index)
+    favoritesIndices.push(index);
 
     //This section uploads city names into favoritesArray everytime the addToFavorites button is clicked (fahad)
     //This helps with favorites badge as well as local storage later.
     //==================================================================================================
-    let faveCity = (cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode)
+    let faveCity = (cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode);
     favoritesArray.push(faveCity);
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
-    storeData()
+    storeData();
   }
 })
 //=====================================================================================================
@@ -718,16 +718,16 @@ $('#cityInput').on('keydown', function (e) {
 // Function to find correct index of any button choice clicked
 //============================================================================================
 function findIndex(cityName,cityRegion,cityCountryCode,object) {
-  var arr = []
+  var arr = [];
   for (let i = 0; i < object.length; i++) {
     arr.push(Object.values(object[i]))
-    var cityindex = $.inArray(cityName, arr[i])
-    var regionindex = $.inArray(cityRegion, arr[i])
-    var countryindex = $.inArray(cityCountryCode, arr[i])
+    var cityindex = $.inArray(cityName, arr[i]);
+    var regionindex = $.inArray(cityRegion, arr[i]);
+    var countryindex = $.inArray(cityCountryCode, arr[i]);
 
     if (cityindex !== -1 && regionindex !== -1 && countryindex !== -1) {
-      index = i
-      break
+      index = i;
+      break;
     }
   }
 }
