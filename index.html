@@ -30,6 +30,7 @@
     <!--The comment above will remain in the code permanently, as it explains why the script is in  the head. -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css"
         integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/motion-ui@1.2.3/dist/motion-ui.min.css" />
 
     <!--Google Fonts-->
@@ -49,6 +50,14 @@
 </head>
 
 <body>
+
+    <!--Splash Screen Experiment-->
+    <div class="splash">
+        <p class="fade-in" id="splashTitle">Suitcase</p>
+        <p class="fade-in2" id="splashSubTitle">Travel Informed!</p>
+        <p class="fade-in3" id="splashText">Your new favorite travel app!</p>
+    </div>
+
 
     <!-- Scroll-to-Top button -->
     <button class="button" id="topBtn" title="Scroll-to-Top" style="display: none;">&#8593</button>
@@ -127,7 +136,8 @@
         </div>
     </div>
 
-    <section class="grid-container" id="currentCityContainer" style="display: block;">
+    <!-- Container for Now Viewing card-->
+    <section class="grid-container" id="currentCityContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="currentCityCard">
                 <div class="card-divider">
@@ -145,7 +155,7 @@
     </section>
 
     <!--Container for Information Cards-->
-    <section class="grid-container" id="cardsContainer" style="display: block;">
+    <section class="grid-container" id="cardsContainer" style="display: none;">
         <div class="grid-x">
             <div class="cell auto">
                 <div class="card" id="statsCard">
@@ -175,7 +185,7 @@
                 </div>
             </div>
             <div class="cell auto">
-                <div class="card" id="forecastCard" style="text-align: center;">
+                <div class="card" id="forecastInfoCard" style="text-align: center;">
                     <img
                         src="https://images.unsplash.com/photo-1592210454359-9043f067919b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080">
                     <div class="card-section">
@@ -196,7 +206,7 @@
     </section>
 
     <!--Container for stats (change display to "block" to show)-->
-    <section class="grid-container statsSection" id="statsContainer" style="display: block;">
+    <section class="grid-container statsSection" id="statsContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="statsCard">
                 <div class="card-divider">
@@ -234,7 +244,7 @@
 
     <!--Container for Map (change display to "block" to show)-->
 
-    <section class="grid-container mapSection" id="mapContainer" style="display: block;">
+    <section class="grid-container mapSection" id="mapContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="mapDivCard">
                 <div class="card-divider">
@@ -253,7 +263,7 @@
     </section>
 
     <!-- Container for Weather (change display to "block" to show)-->
-    <section class="grid-container weatherSection" id="weatherContainer" style="display: block;">
+    <section class="grid-container weatherSection" id="weatherContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="weatherDivCard">
                 <div class="card-divider">
@@ -285,7 +295,7 @@
 
     <!--Container for Weather Forecast (change display to "block to show)-->
 
-    <section class="grid-container forecastSection" id="forecastContainer" style="display: block;">
+    <section class="grid-container forecastSection" id="forecastContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="forecastDivCard">
                 <div class="card-divider">
@@ -375,7 +385,7 @@
 
     <!--Container for News (change display to "block" to show)-->
 
-    <section class="grid-container newsSection" id="newsContainer" style="display: block;">
+    <section class="grid-container newsSection" id="newsContainer" style="display: none;">
         <div class="grid-x">
             <div class="card" id="newsDivCard">
                 <div class="card-divider">
@@ -396,17 +406,13 @@
 
     <!--Footer with shuffled quotes-->
     <footer class="footer" data-sticky-container>
-        <div class="wrap row small-up-1 medium-up-3 sticky" data-sticky data-stick-to="bottom"
-            data-btm-anchor="foo2:top">
-            <p id="footerMessage">Footer</p>
-        </div>
+        <p id="footerMessage">Footer</p>
     </footer>
 
 
 
 
     <!--Put Scripts here-->
-
     <script>$(document).ready(function () {
             $(document).foundation();
         });</script>

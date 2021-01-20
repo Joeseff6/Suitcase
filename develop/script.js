@@ -122,6 +122,7 @@ $("#citySubmit").on("click", function (e) {
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
+  $("#cardsContainer").attr("style", "display: block");
   choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   choiceIndex = $(this).attr("data-index");
@@ -335,7 +336,7 @@ function weatherSection (city, country, lat, lon, state) {
       });
       
       //Forecast
-      $('#forecastCard').on('click', function() {
+      $('#forecastInfoCard').on('click', function() {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       })
@@ -426,7 +427,7 @@ function weatherSection (city, country, lat, lon, state) {
       });
       
       //Forecast
-      $('#forecastCard').on('click', function() {
+      $('#forecastInfoCard').on('click', function() {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       })
@@ -720,6 +721,8 @@ $('#cityInput').on('keydown', function (e) {
 })
 //===========================================================================================
 
+//Function to reset Reveals and delete local storage (fahad)
+//===========================================================================================
 function clearLocalHistory (){
   localStorage.clear("City History");
   historyArray = [];
@@ -738,3 +741,25 @@ function clearLocalFavorites (){
   $("#favoritesReveal").foundation("close");
 };
 $("#clearLocalFavorites").on('click', clearLocalFavorites);
+//==========================================================================================
+
+//Splash Screen Functionality (fahad)
+//==========================================================================================
+function makeSplash (){
+  var splash = $(".splash");
+  console.log (splash);
+  setTimeout (()=>{
+    splash.addClass("fade-out");
+  },3500);
+  makeFunctional();
+};
+function makeFunctional (){
+  var splash = $(".splash");
+  console.log (splash);
+  setTimeout (()=>{
+    splash.addClass("display-none");
+  },4500);
+}
+
+$("document").ready(makeSplash);
+//============================================================================================

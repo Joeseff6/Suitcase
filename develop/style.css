@@ -7,8 +7,10 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  padding-bottom: 20px;
 }
-#pageTitle {
+#pageTitle,
+#splashTitle {
   font-family: "Great Vibes", cursive;
   font-size: 150px;
   text-shadow: 1px 1px rgb(155, 150, 150);
@@ -111,7 +113,7 @@ img {
 
 .footer {
   font-size: 15px;
-  height: 50px;
+  height: 30px;
   width: 100%;
   text-align: center;
   position: fixed;
@@ -229,4 +231,72 @@ section.grid-container .grid-x .card .grid-x .card-section,
 
 section.forecastSection .grid-x .card .grid-x .card {
   margin-bottom: 0px;
+}
+
+.splash {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+  line-height: 200vh;
+}
+
+.splash.fade-out {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  opacity: 0;
+  z-index: -10;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+  transition: all 1s;
+}
+
+.splash.display-none {
+  display: none;
+}
+
+#splashSubTitle,
+#splashText {
+  font-size: 30px;
+}
+
+#splashText {
+  line-height: 90vh;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards;
+}
+
+.fade-in2 {
+  opacity: 0;
+  animation: fadeIn 3s ease-in forwards;
+}
+
+.fade-in3 {
+  opacity: 0;
+  animation: fadeIn 3s ease-in forwards;
 }
