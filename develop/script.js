@@ -122,6 +122,7 @@ $("#citySubmit").on("click", function (e) {
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
+  $("#currentCityContainer").attr("style", "display: block");
   $("#cardsContainer").attr("style", "display: block");
   choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
@@ -137,7 +138,7 @@ $(document).on("click",".searchItem", function() {
     // Push selected option to the history modal
     buttonEl = $("<button>");
     let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
-    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close","").attr("data-index",choiceIndex);
+    buttonEl.text(cityOption).attr("class","button searchItem blue").attr("data-close","").attr("data-index",choiceIndex);
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
 
@@ -635,7 +636,7 @@ function footerQuote () {
   " Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
   let quoteNum = Math.floor(Math.random() * quoteArray.length);
   $("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
-}
+};
 footerQuote ();
 //============================================================================================
 
@@ -693,7 +694,7 @@ $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
     let cityOption = cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode
-    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close", "").attr("data-index",choiceIndex);
+    buttonEl.text(cityOption).attr("class","button searchItem magenta").attr("data-close", "").attr("data-index",choiceIndex);
     $("#favoritesReveal").append(buttonEl);
     favoritesIndices.push(choiceIndex)
 
@@ -728,6 +729,7 @@ function clearLocalHistory (){
   historyArray = [];
   $("#historyRevealButtons")[0].innerHTML = "";
   historyBadgeDisplay();
+  $(".blue").remove();
   $("#historyReveal").foundation("close");
 };
 $("#clearLocalHistory").on('click', clearLocalHistory);
@@ -738,6 +740,7 @@ function clearLocalFavorites (){
   favoritesArray = [];
   $("#favoritesRevealButtons")[0].innerHTML = "";
   favoritesBadgeDisplay();
+  $(".magenta").remove();
   $("#favoritesReveal").foundation("close");
 };
 $("#clearLocalFavorites").on('click', clearLocalFavorites);
