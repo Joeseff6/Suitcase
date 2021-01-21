@@ -16,6 +16,10 @@ body {
   text-shadow: 1px 1px rgb(155, 150, 150);
 }
 
+.searchItem {
+  display: block;
+  margin: 15;
+}
 #pageTitle,
 #pageSubtitle {
   color: white;
@@ -87,9 +91,10 @@ img {
 #cityInput {
   position: relative;
   background-color: rgb(242, 242, 242);
-  border-radius: 25px;
   border: 2px grey solid;
   font-size: 20px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
 #cityInput input:focus {
@@ -97,13 +102,12 @@ img {
   box-shadow: none;
 }
 
-.cardsContainer:hover {
-  cursor: pointer;
-}
-
 #cityInput:hover {
   background-color: white;
-  border-radius: 25px;
+}
+
+.cardsContainer:hover {
+  cursor: pointer;
 }
 
 #map {
