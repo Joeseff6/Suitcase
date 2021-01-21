@@ -115,7 +115,7 @@ $("#citySubmit").on("click", function (e) {
         }
       })
   } else {
-    $("#searchText").text("No results found, please close");
+    $("#searchText").text("No results found, please close.");
   }
 })
 
@@ -123,7 +123,6 @@ $("#citySubmit").on("click", function (e) {
 $(document).on("click",".searchItem", function() {
   $("#currentCityContainer").attr("style", "display: block");
   $("#cardsContainer").attr("style", "display: block");
-  choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
   var cityText = $(this).text()
   var cityArr = cityText.split(",")
@@ -134,17 +133,17 @@ $(document).on("click",".searchItem", function() {
   if (searchType === "search") {
     findIndex(cityName,cityRegion,cityCountryCode,cityChoice.data)
     historyIndices.push(index);
-    //History Badge Functionality (Fahad)
-    //This is used for history badge, as well as local storage later
-    //==============================================================
-    historyBadgeDisplay();
-    //==============================================================
     // Push selected option to the history modal
     buttonEl = $("<button>");
     let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
     buttonEl.text(cityOption).attr("class","button searchItem blue").attr("data-close","").attr("data-index",index);
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
+    //History Badge Functionality (Fahad)
+    //This is used for history badge, as well as local storage later
+    //==============================================================
+    historyBadgeDisplay();
+    //==============================================================
     var cityLat = cityChoice.data[index].latitude
     var cityLon = cityChoice.data[index].longitude
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
@@ -660,6 +659,9 @@ $("#topBtn").on('click', function () {
 function historyBadgeDisplay() {
   let historyBadge = $("#historyBadge")[0];
   historyBadge.textContent = historyArray.length;
+  console.log($("#historyBadge")[0]);
+  console.log(historyBadge);
+  console.log(historyArray);
   if (historyArray.length > 0){
     historyBadge.style.display = "block";
     } else {
@@ -725,10 +727,10 @@ $('#cityInput').on('keydown', function (e) {
 function clearLocalHistory (){
   localStorage.clear("City History");
   historyArray = [];
-  $("#historyRevealButtons")[0].innerHTML = "";
+  // $("#historyRevealButtons")[0].innerHTML = "";
   historyBadgeDisplay();
-  $(".blue").remove();
-  $("#historyReveal").foundation("close");
+  $("button").remove(".blue");
+  // $("#historyReveal").foundation("close");
 };
 $("#clearLocalHistory").on('click', clearLocalHistory);
 
@@ -736,10 +738,10 @@ $("#clearLocalHistory").on('click', clearLocalHistory);
 function clearLocalFavorites (){
   localStorage.clear("Favorite Cities");
   favoritesArray = [];
-  $("#favoritesRevealButtons")[0].innerHTML = "";
+  // $("#favoritesRevealButtons")[0].innerHTML = "";
   favoritesBadgeDisplay();
-  $(".magenta").remove();
-  $("#favoritesReveal").foundation("close");
+  $("button").remove(".magenta");
+  // $("#favoritesReveal").foundation("close");
 };
 $("#clearLocalFavorites").on('click', clearLocalFavorites);
 //==========================================================================================
