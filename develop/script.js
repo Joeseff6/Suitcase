@@ -25,6 +25,8 @@ var favoritesIndices = [];
 
 // Load stored data
 getData();
+historyBadgeDisplay();
+favoritesBadgeDisplay();
 
 // Function to set local storage
 function storeData() {
@@ -60,16 +62,16 @@ function getData() {
 function rendorData() {
   // Rendor Favorites
   for (let i = 0; i < favoritesArray.length; i++) {
-    let buttonEl = $("<button>");
+    let buttonEl = $("<button/>");
     buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",favoritesIndices[i]);
-    $("#favoritesReveal").append(buttonEl);
+    $("#favoritesRevealButtons").append(buttonEl);
   }
   
   // Rendor History
   for (let i = 0; i < historyArray.length; i++) {
-    let buttonEl = $("<button>");
-    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]);
-    $(`#historyReveal`).append(buttonEl);
+    let buttonEl = $("<button/>");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]).attr("data-close","historyReveal1");
+    $("#historyRevealButtons").append(buttonEl);
   }
 }
 
@@ -113,12 +115,14 @@ $("#citySubmit").on("click", function (e) {
         }
       })
   } else {
-    $("#searchText").text("No results found, please close");
+    $("#searchText").text("No results found, please close.");
   }
 })
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
+  $("#currentCityContainer").attr("style", "display: block");
+  $("#cardsContainer").attr("style", "display: block");
   let searchType = $(this).attr("data-type");
   var cityText = $(this).text()
   var cityArr = cityText.split(",")
@@ -129,17 +133,17 @@ $(document).on("click",".searchItem", function() {
   if (searchType === "search") {
     findIndex(cityName,cityRegion,cityCountryCode,cityChoice.data)
     historyIndices.push(index);
+    // Push selected option to the history modal
+    buttonEl = $("<button>");
+    let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
+    buttonEl.text(cityOption).attr("class","button searchItem blue").attr("data-close","").attr("data-index",index);
+    $(`#historyReveal`).append(buttonEl);
+    historyArray.push(cityOption);
     //History Badge Functionality (Fahad)
     //This is used for history badge, as well as local storage later
     //==============================================================
     historyBadgeDisplay();
     //==============================================================
-    // Push selected option to the history modal
-    buttonEl = $("<button>");
-    let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
-    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close","").attr("data-index",index);
-    $(`#historyReveal`).append(buttonEl);
-    historyArray.push(cityOption);
     var cityLat = cityChoice.data[index].latitude
     var cityLon = cityChoice.data[index].longitude
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
@@ -330,7 +334,7 @@ function weatherSection (city, country, lat, lon, state) {
       });
       
       //Forecast
-      $('#forecastCard').on('click', function() {
+      $('#forecastInfoCard').on('click', function() {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       })
@@ -421,7 +425,7 @@ function weatherSection (city, country, lat, lon, state) {
       });
       
       //Forecast
-      $('#forecastCard').on('click', function() {
+      $('#forecastInfoCard').on('click', function() {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       })
@@ -629,7 +633,7 @@ function footerQuote () {
   " Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
   let quoteNum = Math.floor(Math.random() * quoteArray.length);
   $("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
-}
+};
 footerQuote ();
 //============================================================================================
 
@@ -655,6 +659,9 @@ $("#topBtn").on('click', function () {
 function historyBadgeDisplay() {
   let historyBadge = $("#historyBadge")[0];
   historyBadge.textContent = historyArray.length;
+  console.log($("#historyBadge")[0]);
+  console.log(historyBadge);
+  console.log(historyArray);
   if (historyArray.length > 0){
     historyBadge.style.display = "block";
     } else {
@@ -687,7 +694,7 @@ $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
     let cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
-    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close", "").attr("data-index",index);
+    buttonEl.text(cityOption).attr("class","button searchItem magenta").attr("data-close", "").attr("data-index",index);
     $("#favoritesReveal").append(buttonEl);
     favoritesIndices.push(index);
 
@@ -715,6 +722,50 @@ $('#cityInput').on('keydown', function (e) {
 })
 //===========================================================================================
 
+//Function to reset Reveals and delete local storage (fahad)
+//===========================================================================================
+function clearLocalHistory (){
+  localStorage.clear("City History");
+  historyArray = [];
+  // $("#historyRevealButtons")[0].innerHTML = "";
+  historyBadgeDisplay();
+  $("button").remove(".blue");
+  // $("#historyReveal").foundation("close");
+};
+$("#clearLocalHistory").on('click', clearLocalHistory);
+
+
+function clearLocalFavorites (){
+  localStorage.clear("Favorite Cities");
+  favoritesArray = [];
+  // $("#favoritesRevealButtons")[0].innerHTML = "";
+  favoritesBadgeDisplay();
+  $("button").remove(".magenta");
+  // $("#favoritesReveal").foundation("close");
+};
+$("#clearLocalFavorites").on('click', clearLocalFavorites);
+//==========================================================================================
+
+//Splash Screen Functionality (fahad)
+//==========================================================================================
+function makeSplash (){
+  var splash = $(".splash");
+  console.log (splash);
+  setTimeout (()=>{
+    splash.addClass("fade-out");
+  },3500);
+  makeFunctional();
+};
+function makeFunctional (){
+  var splash = $(".splash");
+  console.log (splash);
+  setTimeout (()=>{
+    splash.addClass("display-none");
+  },4500);
+}
+
+$("document").ready(makeSplash);
+//============================================================================================
 // Function to find correct index of any button choice clicked
 //============================================================================================
 function findIndex(cityName,cityRegion,cityCountryCode,object) {
