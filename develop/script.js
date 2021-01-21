@@ -47,12 +47,12 @@ function getData() {
     historyArray = storedHistory;
   }
 
-  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"))
+  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"));
   if (storedHistoryIndices !== null) {
     historyIndices = storedHistoryIndices;
   }
 
-  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"))
+  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"));
   if (storedFavIndices !== null) {
     favoritesIndices = storedFavIndices;
   }
@@ -113,11 +113,11 @@ $("#citySubmit").on("click", function (e) {
         } else {
           $("#searchText").text("No results found, please close");
         }
-      })
+      });
   } else {
     $("#searchText").text("No results found, please close.");
   }
-})
+});
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
@@ -144,7 +144,7 @@ $(document).on("click",".searchItem", function() {
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
     forecast(cityLat, cityLon);
 
-    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
+    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode;
     $.ajax({
       url: regionUrl,
       method: "GET"
@@ -160,8 +160,8 @@ $(document).on("click",".searchItem", function() {
           .then(function(response) {
             $(".newsItem").remove();
             newsSection(response);
-          })
-      })
+          });
+      });
   } else {
     const settings = {
       "async": true,
@@ -190,7 +190,7 @@ $(document).on("click",".searchItem", function() {
         })
           .then(function(response) {
             $("#currentCityName").text(cityName + ", " + response[0].name);
-            statsSection(response)
+            statsSection(response);
             let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
             $.ajax({
               url: newsUrl,
@@ -198,12 +198,12 @@ $(document).on("click",".searchItem", function() {
             })
               .then(function(response) {
                 $(".newsItem").remove();
-                newsSection(response)
-              })
-          })
-        })
+                newsSection(response);
+              });
+          });
+        });
   }
-  storeData()
+  storeData();
   $(".removeOption").remove();
   
   //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
@@ -333,13 +333,13 @@ function weatherSection (city, country, lat, lon, state) {
       $('#forecastInfoCard').on('click', function() {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
-      })
+      });
       
       //Weather
       $('#weatherCard').on('click', function() {
         $('.weatherSection').css('display', 'block');
         $('.weatherSection')[0].scrollIntoView();
-      })
+      });
       
       //Map
       $('#mapCard').on('click', function() {
@@ -349,13 +349,13 @@ function weatherSection (city, country, lat, lon, state) {
           openLayers(response.coord.lat, response.coord.lon);
         }
 
-      })
+      });
       
       //Stats
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
-      })
+      });
       //country code 
       
       openLayers(mapLat, mapLon);
