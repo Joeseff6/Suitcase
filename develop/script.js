@@ -226,7 +226,7 @@ function statsSection(response) {
   let flag = response[0].flag;
   var latDirection = "";
   var lonDirection = "";
-
+  currencyConverter(response[0].currencies[0].code,response[0].currencies[0].symbol);
   if ( lat < 0) {
     lat *= -1;
     latDirection = "S";
@@ -733,3 +733,22 @@ function findIndex(cityName,cityRegion,cityCountryCode,object) {
 }
 //============================================================================================
 
+function currencyConverter(code, symbol){
+  codeUrl = `https://free.currconv.com/api/v7/convert?q=USD_${code}&compact=ultra&apiKey=b46f7e5a17445272929f`
+
+  $.ajax({
+    url: codeUrl,
+    method: 'GET',
+  }).then(function (response){
+    let value = response;
+    value = JSON.stringify(value);
+    value = value.split(':');
+    value = value[1].split('}');
+    value = Math.round(parseInt(value));
+    value = JSON.stringify(value);
+
+    let codeVal = code;
+  
+    $('#curSymbol').text(symbol+""+value + " " +codeVal);
+    })
+}
