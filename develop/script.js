@@ -182,10 +182,7 @@ $(document).on("click",".searchItem", function() {
     // Requesting server data from GeoDB
     $.ajax(settings)
       .then(function (response) {
-        console.log(response);
         findIndex(cityName,cityRegion,cityCountryCode,response.data)
-        var cityIdNum = response.data[index].id;
-        console.log(cityIdNum);
         cityLat = response.data[index].latitude;
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
@@ -199,7 +196,6 @@ $(document).on("click",".searchItem", function() {
         })
           .then(function(response) {
             $("#currentCityName").text(cityName + ", " + response[0].name);
-            console.log(response);
             statsSection(response)
             let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
             $.ajax({
@@ -327,7 +323,6 @@ function weatherSection (city, country, lat, lon, state) {
       method: "GET",
       
     }).then(function (response) {
-      console.log(response);
 
       //News
       $('#newsCard').on('click', function() {
@@ -500,10 +495,7 @@ function weatherSection (city, country, lat, lon, state) {
         $(uvIndex).text("UV Index: " + uvIndexNum);
         
       });
-      }).catch(function (){
-        console.log('uh Oh, something went wrong');
-        return 0;
-      })
+      });
     });
     return;
   }
