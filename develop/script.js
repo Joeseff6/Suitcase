@@ -668,9 +668,6 @@ function historyBadgeDisplay() {
 function favoritesBadgeDisplay() {
   let favoritesBadge = $("#favoritesBadge")[0];
   favoritesBadge.textContent = favoritesArray.length;
-  console.log($("#favoritesBadge")[0]);
-  console.log(favoritesBadge);
-  console.log(favoritesArray);
   if (favoritesArray.length > 0){
     favoritesBadge.style.display = "block";
     } else {
@@ -696,7 +693,6 @@ $("#addToFavorites").on("click", function() {
     //==================================================================================================
     let faveCity = (cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode);
     favoritesArray.push(faveCity);
-    console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
     storeData();
