@@ -723,10 +723,10 @@ $('#cityInput').on('keydown', function (e) {
 function clearLocalHistory (){
   localStorage.clear("City History");
   historyArray = [];
-  // $("#historyRevealButtons")[0].innerHTML = "";
   historyBadgeDisplay();
   $("button").remove(".hisItem");
   // $("#historyReveal").foundation("close");
+
 };
 $("#clearLocalHistory").on('click', clearLocalHistory);
 
@@ -734,10 +734,10 @@ $("#clearLocalHistory").on('click', clearLocalHistory);
 function clearLocalFavorites (){
   localStorage.clear("Favorite Cities");
   favoritesArray = [];
-  // $("#favoritesRevealButtons")[0].innerHTML = "";
   favoritesBadgeDisplay();
   $("button").remove(".faveItem");
   // $("#favoritesReveal").foundation("close");
+
 };
 $("#clearLocalFavorites").on('click', clearLocalFavorites);
 //==========================================================================================
