@@ -148,6 +148,7 @@ $(document).on("click",".searchItem", function() {
     var cityLon = cityChoice.data[index].longitude
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
     forecast(cityLat, cityLon);
+    getGMT(cityLat, cityLon);
 
     var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
     $.ajax({
@@ -181,11 +182,15 @@ $(document).on("click",".searchItem", function() {
     // Requesting server data from GeoDB
     $.ajax(settings)
       .then(function (response) {
+        console.log(response);
         findIndex(cityName,cityRegion,cityCountryCode,response.data)
+        var cityIdNum = response.data[index].id;
+        console.log(cityIdNum);
         cityLat = response.data[index].latitude;
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
         forecast(cityLat, cityLon);
+        getGMT(cityLat, cityLon);
 
         var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
         $.ajax({
@@ -194,6 +199,7 @@ $(document).on("click",".searchItem", function() {
         })
           .then(function(response) {
             $("#currentCityName").text(cityName + ", " + response[0].name);
+            console.log(response);
             statsSection(response)
             let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
             $.ajax({
@@ -218,15 +224,11 @@ $(document).on("click",".searchItem", function() {
   //====================================================================================================
 });
 
-// Functions used in script
-//=====================================================================================================
-
 // Function to update stats
 //=====================================================================================================
 function statsSection(response) {
   let lat =  (response[0].latlng[0]).toFixed(2);
   let lon = (response[0].latlng[1]).toFixed(2);
-  let Offset = response[0].timezones[0];
   let flag = response[0].flag;
   var latDirection = "";
   var lonDirection = "";
@@ -261,8 +263,7 @@ function statsSection(response) {
   $("#language").text("Language: " + response[0].languages[0].name);
   $("#currency").text("Currency: " + response[0].currencies[0].code + ", " + response[0].currencies[0].name);
   $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0]);
-  $("#localTime").text("City's Local Time: " + moment().utcOffset(Offset).format('h:mmA'));
-  $("#localTimeZone").text("Time Zone: " + response[0].timezones[0]);
+
 }
 //=====================================================================================================
 
@@ -326,6 +327,7 @@ function weatherSection (city, country, lat, lon, state) {
       method: "GET",
       
     }).then(function (response) {
+      console.log(response);
 
       //News
       $('#newsCard').on('click', function() {
@@ -659,9 +661,6 @@ $("#topBtn").on('click', function () {
 function historyBadgeDisplay() {
   let historyBadge = $("#historyBadge")[0];
   historyBadge.textContent = historyArray.length;
-  console.log($("#historyBadge")[0]);
-  console.log(historyBadge);
-  console.log(historyArray);
   if (historyArray.length > 0){
     historyBadge.style.display = "block";
     } else {
@@ -670,7 +669,7 @@ function historyBadgeDisplay() {
 };
 //=================================================
 
-// Favorites badge function (Fahad) (Will enable after Favorites functionality is coded)
+// Favorites badge function (Fahad)
 //===========================================================================================
 function favoritesBadgeDisplay() {
   let favoritesBadge = $("#favoritesBadge")[0];
@@ -681,12 +680,9 @@ function favoritesBadgeDisplay() {
     favoritesBadge.style.display = "none";
   };
 };
-//Move this function to appropriate area once the Favorites functionality has been coded
-
-// favoritesBadgeDisplay(); 
-//===========================================================================================
 
 //Add to Favorites functionality
+//============================================================================================
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
@@ -746,7 +742,6 @@ $("#clearLocalFavorites").on('click', clearLocalFavorites);
 //==========================================================================================
 function makeSplash (){
   var splash = $(".splash");
-  console.log (splash);
   setTimeout (()=>{
     splash.addClass("fade-out");
   },3500);
@@ -754,7 +749,6 @@ function makeSplash (){
 };
 function makeFunctional (){
   var splash = $(".splash");
-  console.log (splash);
   setTimeout (()=>{
     splash.addClass("display-none");
   },4500);
@@ -778,4 +772,28 @@ function findIndex(cityName,cityRegion,cityCountryCode,object) {
     }
   }
 }
+//============================================================================================
+
+//Function for retrieving local time and time zone
+//=============================================================================================
+function getGMT(flat, flon){
+  let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
+
+  $.ajax({
+      url: forecastUrl,
+      method: 'GET',
+  }).then(function (res) {
+        var utcOffset = (res.timezone_offset)/60;
+        var timeZone = String(utcOffset/60);
+        var timeZoneFirst = timeZone.substr(0,1);
+        if (timeZoneFirst === "-") {
+        var gmtZone = ("GMT "+ timeZone);
+        } else {
+          var gmtZone = ("GMT +"+ timeZone);
+        };
+        var currentLocalTime = moment().utcOffset(utcOffset).format('h:mmA');
+        $("#localTime").text("City's Local Time: " + currentLocalTime);
+        $("#localTimeZone").text("Time Zone: " + gmtZone);
+  })
+};
 //============================================================================================
