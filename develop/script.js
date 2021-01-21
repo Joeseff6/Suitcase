@@ -63,14 +63,14 @@ function rendorData() {
   // Rendor Favorites
   for (let i = 0; i < favoritesArray.length; i++) {
     let buttonEl = $("<button/>");
-    buttonEl.text(favoritesArray[i]).attr("class","button searchItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",favoritesIndices[i]);
+    buttonEl.text(favoritesArray[i]).attr("class","button searchItem faveItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",favoritesIndices[i]);
     $("#favoritesRevealButtons").append(buttonEl);
   }
   
   // Rendor History
   for (let i = 0; i < historyArray.length; i++) {
     let buttonEl = $("<button/>");
-    buttonEl.text(historyArray[i]).attr("class","button searchItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]).attr("data-close","historyReveal1");
+    buttonEl.text(historyArray[i]).attr("class","button searchItem hisItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]).attr("data-close","historyReveal1");
     $("#historyRevealButtons").append(buttonEl);
   }
 }
@@ -136,7 +136,7 @@ $(document).on("click",".searchItem", function() {
     // Push selected option to the history modal
     buttonEl = $("<button>");
     let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
-    buttonEl.text(cityOption).attr("class","button searchItem blue").attr("data-close","").attr("data-index",index);
+    buttonEl.text(cityOption).attr("class","button searchItem hisItem").attr("data-close","").attr("data-index",index);
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
     //History Badge Functionality (Fahad)
@@ -675,9 +675,6 @@ function historyBadgeDisplay() {
 function favoritesBadgeDisplay() {
   let favoritesBadge = $("#favoritesBadge")[0];
   favoritesBadge.textContent = favoritesArray.length;
-  console.log($("#favoritesBadge")[0]);
-  console.log(favoritesBadge);
-  console.log(favoritesArray);
   if (favoritesArray.length > 0){
     favoritesBadge.style.display = "block";
     } else {
@@ -694,7 +691,7 @@ $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
     let cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
-    buttonEl.text(cityOption).attr("class","button searchItem magenta").attr("data-close", "").attr("data-index",index);
+    buttonEl.text(cityOption).attr("class","button searchItem faveItem").attr("data-close", "").attr("data-index",index);
     $("#favoritesReveal").append(buttonEl);
     favoritesIndices.push(index);
 
@@ -703,7 +700,6 @@ $("#addToFavorites").on("click", function() {
     //==================================================================================================
     let faveCity = (cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode);
     favoritesArray.push(faveCity);
-    console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
     storeData();
@@ -728,7 +724,9 @@ function clearLocalHistory (){
   localStorage.clear("City History");
   historyArray = [];
   historyBadgeDisplay();
-  $("button").remove(".blue");
+  $("button").remove(".hisItem");
+  // $("#historyReveal").foundation("close");
+
 };
 $("#clearLocalHistory").on('click', clearLocalHistory);
 
@@ -737,7 +735,9 @@ function clearLocalFavorites (){
   localStorage.clear("Favorite Cities");
   favoritesArray = [];
   favoritesBadgeDisplay();
-  $("button").remove(".magenta");
+  $("button").remove(".faveItem");
+  // $("#favoritesReveal").foundation("close");
+
 };
 $("#clearLocalFavorites").on('click', clearLocalFavorites);
 //==========================================================================================
