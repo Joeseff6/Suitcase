@@ -123,29 +123,24 @@ $("#citySubmit").on("click", function (e) {
 $(document).on("click",".searchItem", function() {
   $("#currentCityContainer").attr("style", "display: block");
   $("#cardsContainer").attr("style", "display: block");
-  let searchType = $(this).attr("data-type");
-  var cityText = $(this).text()
-  var cityArr = cityText.split(",")
-  var cityName = cityArr[0].trim()
-  var cityRegion = cityArr[1].trim()
-  var cityCountryCode = cityArr[cityArr.length-1].trim()
+  var searchType = $(this).attr("data-type");
+  var cityText = $(this).text();
+  var cityArr = cityText.split(",");
+  var cityName = cityArr[0].trim();
+  var cityRegion = cityArr[1].trim();
+  var cityCountryCode = cityArr[cityArr.length-1].trim();
 
   if (searchType === "search") {
-    findIndex(cityName,cityRegion,cityCountryCode,cityChoice.data)
+    findHisCopy(cityText);
+    findIndex(cityName,cityRegion,cityCountryCode,cityChoice.data);
     historyIndices.push(index);
-    // Push selected option to the history modal
-    buttonEl = $("<button>");
-    let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
-    buttonEl.text(cityOption).attr("class","button searchItem hisItem").attr("data-close","").attr("data-index",index);
-    $(`#historyReveal`).append(buttonEl);
-    historyArray.push(cityOption);
     //History Badge Functionality (Fahad)
     //This is used for history badge, as well as local storage later
     //==============================================================
     historyBadgeDisplay();
     //==============================================================
-    var cityLat = cityChoice.data[index].latitude
-    var cityLon = cityChoice.data[index].longitude
+    var cityLat = cityChoice.data[index].latitude;
+    var cityLon = cityChoice.data[index].longitude;
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
     forecast(cityLat, cityLon);
     getGMT(cityLat, cityLon);
@@ -157,7 +152,7 @@ $(document).on("click",".searchItem", function() {
     })
       .then(function(response) {
         $("#currentCityName").text(cityName + ", " + response[0].name);  
-        statsSection(response)
+        statsSection(response);
         let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
         $.ajax({
           url: newsUrl,
@@ -165,7 +160,7 @@ $(document).on("click",".searchItem", function() {
         })
           .then(function(response) {
             $(".newsItem").remove();
-            newsSection(response)
+            newsSection(response);
           })
       })
   } else {
@@ -182,10 +177,8 @@ $(document).on("click",".searchItem", function() {
     // Requesting server data from GeoDB
     $.ajax(settings)
       .then(function (response) {
-        console.log(response);
-        findIndex(cityName,cityRegion,cityCountryCode,response.data)
-        var cityIdNum = response.data[index].id;
-        console.log(cityIdNum);
+        cityChoice = response;
+        findIndex(cityName,cityRegion,cityCountryCode,response.data);
         cityLat = response.data[index].latitude;
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
@@ -613,7 +606,7 @@ function newsSection(response) {
       articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem").attr("id","newsAbs");
       $("#newsArticles").append(articleAbstract);
       $("#newsArticles").append(breakEl);
-      articleCount++
+      articleCount++;
     }
     $("#newsText").text("News: " + articleCount + " articles found");
   }
@@ -685,17 +678,11 @@ function favoritesBadgeDisplay() {
 //============================================================================================
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
-    let buttonEl = $("<button>");
-    let cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
-    buttonEl.text(cityOption).attr("class","button searchItem faveItem").attr("data-close", "").attr("data-index",index);
-    $("#favoritesReveal").append(buttonEl);
-    favoritesIndices.push(index);
-
+    var cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
+    findFaveCopy(cityOption)
     //This section uploads city names into favoritesArray everytime the addToFavorites button is clicked (fahad)
     //This helps with favorites badge as well as local storage later.
     //==================================================================================================
-    let faveCity = (cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode);
-    favoritesArray.push(faveCity);
     favoritesBadgeDisplay(); 
     //==================================================================================================
     storeData();
@@ -761,7 +748,7 @@ $("document").ready(makeSplash);
 function findIndex(cityName,cityRegion,cityCountryCode,object) {
   var arr = [];
   for (let i = 0; i < object.length; i++) {
-    arr.push(Object.values(object[i]))
+    arr.push(Object.values(object[i]));
     var cityindex = $.inArray(cityName, arr[i]);
     var regionindex = $.inArray(cityRegion, arr[i]);
     var countryindex = $.inArray(cityCountryCode, arr[i]);
@@ -773,6 +760,7 @@ function findIndex(cityName,cityRegion,cityCountryCode,object) {
   }
 }
 //============================================================================================
+
 
 //Function for retrieving local time and time zone
 //=============================================================================================
@@ -797,3 +785,23 @@ function getGMT(flat, flon){
   })
 };
 //============================================================================================
+function findFaveCopy(cityText) {
+  var faveCityExist = $.inArray(cityText,favoritesArray);
+  if (faveCityExist === -1) {
+    let buttonEl = $("<button>");
+    buttonEl.text(cityText).attr("class","button searchItem faveItem").attr("data-close", "").attr("data-index",index);
+    $("#favoritesReveal").append(buttonEl);
+    favoritesIndices.push(index);
+    favoritesArray.push(cityText);
+  }
+}
+
+function findHisCopy(cityText) {
+  var hisCityExist = $.inArray(cityText,historyArray);
+  if (hisCityExist === -1) {
+    buttonEl = $("<button>");
+    buttonEl.text(cityText).attr("class","button searchItem hisItem").attr("data-close","").attr("data-index",index).attr("data-type","history");
+    $(`#historyReveal`).append(buttonEl);
+    historyArray.push(cityText);
+  }
+}
