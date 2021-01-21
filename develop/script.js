@@ -10,10 +10,9 @@
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
-
-// Set global variable for ajax response on document event listener
+// Set global variables for document event listener
 var cityChoice;
-var choiceIndex;
+var index;
 var queryCity;
 
 // Empty arrays for Badge Functionality (Fahad)
@@ -25,7 +24,7 @@ var favoritesIndices = [];
 //=============================================
 
 // Load stored data
-getData()
+getData();
 
 // Function to set local storage
 function storeData() {
@@ -120,19 +119,16 @@ $("#citySubmit").on("click", function (e) {
 
 // Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
-  console.log(cityChoice)
-  choiceIndex = $(this).attr("data-index");
   let searchType = $(this).attr("data-type");
-  choiceIndex = $(this).attr("data-index");
-  let cityArr = $(this).text()
-  cityArr = cityArr.split(",")
-  console.log(cityArr)
+  var cityText = $(this).text()
+  var cityArr = cityText.split(",")
   var cityName = cityArr[0].trim()
   var cityRegion = cityArr[1].trim()
   var cityCountryCode = cityArr[cityArr.length-1].trim()
 
   if (searchType === "search") {
-    historyIndices.push(choiceIndex);
+    findIndex(cityName,cityRegion,cityCountryCode,cityChoice.data)
+    historyIndices.push(index);
     //History Badge Functionality (Fahad)
     //This is used for history badge, as well as local storage later
     //==============================================================
@@ -141,11 +137,11 @@ $(document).on("click",".searchItem", function() {
     // Push selected option to the history modal
     buttonEl = $("<button>");
     let cityOption = cityName + ", " + cityRegion + ", " + cityCountryCode
-    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close","").attr("data-index",choiceIndex);
+    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close","").attr("data-index",index);
     $(`#historyReveal`).append(buttonEl);
     historyArray.push(cityOption);
-    var cityLat = cityChoice.data[choiceIndex].latitude
-    var cityLon = cityChoice.data[choiceIndex].longitude
+    var cityLat = cityChoice.data[index].latitude
+    var cityLon = cityChoice.data[index].longitude
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
     forecast(cityLat, cityLon);
 
@@ -155,7 +151,6 @@ $(document).on("click",".searchItem", function() {
       method: "GET"
     })
       .then(function(response) {
-        console.log(response)
         $("#currentCityName").text(cityName + ", " + response[0].name);  
         statsSection(response)
         let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
@@ -169,43 +164,44 @@ $(document).on("click",".searchItem", function() {
           })
       })
   } else {
-      const settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName ,
-        "method": "GET",
-        "headers": {
-          "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
-          "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
-        }
-      };
-      // Requesting server data from GeoDB
-      $.ajax(settings)
-        .then(function (response) {
-          cityLat = response.data[choiceIndex].latitude;
-          cityLon = response.data[choiceIndex].longitude;
-          weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
-          forecast(cityLat, cityLon);
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName ,
+      "method": "GET",
+      "headers": {
+        "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+        "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
+      }
+    };
+    // Requesting server data from GeoDB
+    $.ajax(settings)
+      .then(function (response) {
+        findIndex(cityName,cityRegion,cityCountryCode,response.data)
+        cityLat = response.data[index].latitude;
+        cityLon = response.data[index].longitude;
+        weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
+        forecast(cityLat, cityLon);
 
-          var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
-          $.ajax({
-            url: regionUrl,
-            method: "GET"
-          })
-            .then(function(response) {
-              $("#currentCityName").text(cityName + ", " + response[0].name);
-              statsSection(response)
-              let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
-              $.ajax({
-                url: newsUrl,
-                method: "GET"
-              })
-                .then(function(response) {
-                  $(".newsItem").remove();
-                  newsSection(response)
-                })
+        var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
+        $.ajax({
+          url: regionUrl,
+          method: "GET"
+        })
+          .then(function(response) {
+            $("#currentCityName").text(cityName + ", " + response[0].name);
+            statsSection(response)
+            let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
+            $.ajax({
+              url: newsUrl,
+              method: "GET"
             })
+              .then(function(response) {
+                $(".newsItem").remove();
+                newsSection(response)
+              })
           })
+        })
   }
   storeData()
   $(".removeOption").remove();
@@ -601,13 +597,14 @@ function newsSection(response) {
       breakEl.attr("class", "newsItem");
       let articleImage = $("<img>");
       let articleImageUrl = response.response.docs[i].multimedia[22].url;
-      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem");
+      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id","newsImg");
       $("#newsArticles").append(articleImage);
       let articleHeadline = $("<a>");
-      articleHeadline.text('"' + response.response.docs[i].headline.main + '"').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank");
+      let articlePubDate = (response.response.docs[i].pub_date).substr(0,10);
+      articleHeadline.text('"' + response.response.docs[i].headline.main + '" (' + articlePubDate +')').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank").attr("id", "newsHl");
       $("#newsArticles").append(articleHeadline);
       let articleAbstract = $("<p>");
-      articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem");
+      articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem").attr("id","newsAbs");
       $("#newsArticles").append(articleAbstract);
       $("#newsArticles").append(breakEl);
       articleCount++
@@ -689,21 +686,20 @@ function favoritesBadgeDisplay() {
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     let buttonEl = $("<button>");
-    let cityOption = cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode
-    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close", "").attr("data-index",choiceIndex);
+    let cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
+    buttonEl.text(cityOption).attr("class","button searchItem").attr("data-close", "").attr("data-index",index);
     $("#favoritesReveal").append(buttonEl);
-    favoritesIndices.push(choiceIndex)
+    favoritesIndices.push(index);
 
     //This section uploads city names into favoritesArray everytime the addToFavorites button is clicked (fahad)
     //This helps with favorites badge as well as local storage later.
     //==================================================================================================
-    let faveCity = (cityChoice.data[choiceIndex].city + ", " + cityChoice.data[choiceIndex].region + ", " + cityChoice.data[choiceIndex].countryCode)
-    console.log(faveCity);
+    let faveCity = (cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode);
     favoritesArray.push(faveCity);
     console.log(favoritesArray);
     favoritesBadgeDisplay(); 
     //==================================================================================================
-    storeData()
+    storeData();
   }
 })
 //=====================================================================================================
@@ -718,3 +714,21 @@ $('#cityInput').on('keydown', function (e) {
   $(this).val(input);
 })
 //===========================================================================================
+
+// Function to find correct index of any button choice clicked
+//============================================================================================
+function findIndex(cityName,cityRegion,cityCountryCode,object) {
+  var arr = [];
+  for (let i = 0; i < object.length; i++) {
+    arr.push(Object.values(object[i]))
+    var cityindex = $.inArray(cityName, arr[i]);
+    var regionindex = $.inArray(cityRegion, arr[i]);
+    var countryindex = $.inArray(cityCountryCode, arr[i]);
+
+    if (cityindex !== -1 && regionindex !== -1 && countryindex !== -1) {
+      index = i;
+      break;
+    }
+  }
+}
+//============================================================================================
