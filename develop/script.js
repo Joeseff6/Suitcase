@@ -744,8 +744,7 @@ function currencyConverter(code, symbol){
     value = JSON.stringify(value);
     value = value.split(':');
     value = value[1].split('}');
-    value = Math.round(parseInt(value));
-    value = JSON.stringify(value);
+   value = parseFloat(value).toFixed(2);
 
     let codeVal = code;
   
