@@ -1,0 +1,285 @@
+/* Credit for all images go to Unsplash at www.unsplash.com */
+
+html * {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  background-image: url(https://images.unsplash.com/photo-1561723071-ea12542227e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  padding-bottom: 20px;
+}
+
+#topBtn {
+  position: fixed;
+  bottom: 75px;
+  right: 75px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  font-size: larger;
+  background-color: rgb(24, 63, 121);
+}
+#topBtn:hover {
+  background-color: crimson;
+}
+
+#pageTitle,
+#splashTitle {
+  font-family: "Great Vibes", cursive;
+  font-size: 150px;
+  text-shadow: 1px 1px rgb(155, 150, 150);
+}
+
+#pageTitle,
+#pageSubtitle {
+  color: white;
+  text-align: center;
+}
+
+#pageTitleSection {
+  padding-bottom: 0px;
+}
+
+#pageSubtitleSection {
+  padding-top: 0px;
+}
+
+.searchItem {
+  display: block;
+  margin: 15;
+}
+
+#searchCard,
+section.grid-container .grid-x .card .card-divider,
+section.grid-container .grid-x .cell .card .card-section,
+footer {
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+section.grid-container .grid-x .card .card-divider,
+section.grid-container .grid-x .cell .card .card-section,
+section.grid-container .tabs .tabs-title .cell .card .card-section,
+footer {
+  color: white;
+}
+
+#searchResultsReveal,
+#historyReveal,
+#favoritesReveal {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#searchResultsReveal {
+  background-image: url(https://images.unsplash.com/photo-1555532538-dcdbd01d373d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+}
+
+#historyReveal {
+  background-image: url(https://images.unsplash.com/photo-1473163928189-364b2c4e1135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+}
+
+#favoritesReveal {
+  background-image: url(https://images.unsplash.com/photo-1517330283827-2527c57981ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit);
+}
+
+#revealCloseButton {
+  color: whitesmoke;
+}
+#revealCloseButton:hover {
+  color: grey;
+}
+
+.badge {
+  height: 20px;
+}
+
+#clearLocalFavorites:hover,
+#clearLocalHistory:hover {
+  background-color: crimson;
+}
+
+#cardsContainer {
+  cursor: pointer;
+}
+
+#currentWeatherIcon,
+#flagContainer {
+  text-align: center;
+}
+
+section.grid-container .tabs .tabs-title .cell .card .card-section {
+  background-color: black;
+}
+
+section.grid-container .grid-x .card .grid-x .card-section,
+#newsArticlesSection {
+  background-color: #b9dbed;
+  color: black;
+}
+
+img {
+  height: 200px;
+  width: 250px;
+}
+
+#flag {
+  max-height: 300px;
+  max-width: 400px;
+  margin: 20px;
+}
+
+.button {
+  font-weight: 900;
+  border-radius: 10px;
+  background-color: #f79256;
+}
+
+.button:hover {
+  background-image: none;
+  background-color: #9c6644;
+}
+
+#cityInput {
+  position: relative;
+  background-color: rgb(242, 242, 242);
+  border: 2px grey solid;
+  font-size: 20px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+#cityInput input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#cityInput:hover {
+  background-color: white;
+}
+
+.cardsContainer:hover {
+  cursor: pointer;
+}
+
+.map {
+  height: 400px;
+  width: 100%;
+}
+
+p {
+  font-weight: 450;
+}
+
+#forecastCard {
+  height: 100%;
+}
+
+#newsImg {
+  width: 150px;
+  height: 150px;
+  margin: 20px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  box-shadow: none;
+  -moz-box-shadow: 10px 10px 5px #82a9bf;
+  -webkit-box-shadow: 10px 10px 5px #8fb5c9;
+}
+
+#newsHl {
+  font-size: 15px;
+  font-weight: 900;
+  display: inline-block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  padding-bottom: 10px;
+}
+
+#newsAbs {
+  font-size: 15px;
+  border-bottom: 1px dotted black;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  display: block;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+section.forecastSection .grid-x .card .grid-x .card {
+  margin-bottom: 0px;
+}
+
+.splash,
+.splash.fade-out {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
+.splash.fade-out {
+  opacity: 0;
+  z-index: -10;
+  text-align: center;
+  transition: all 1s;
+}
+
+.splash.display-none {
+  display: none;
+}
+
+#splashSubTitle,
+#splashText {
+  font-size: 30px;
+}
+
+#splashText {
+  line-height: 90vh;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in1 {
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards;
+}
+
+.fade-in2,
+.fade-in3 {
+  opacity: 0;
+  animation: fadeIn 3s ease-in forwards;
+}
+
+.footer {
+  font-size: 15px;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+}
