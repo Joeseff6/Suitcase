@@ -1,13 +1,12 @@
 //=========================================================================================================================================
 //Credits and Acknowledgements
 //Line 237: marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
-//Line 604: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
+//Line 593: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
 //=========================================================================================================================================
 
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
-// Set global variables for document event listener
 var cityChoice;
 var index;
 var queryCity;
@@ -632,7 +631,7 @@ function currencyConverter(code, symbol){
     value = JSON.stringify(value);
     value = value.split(':');
     value = value[1].split('}');
-   value = parseFloat(value).toFixed(2);
+    value = parseFloat(value).toFixed(2);
 
     let codeVal = code;
   
