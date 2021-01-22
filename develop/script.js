@@ -36,12 +36,12 @@ function getData() {
     historyArray = storedHistory;
   }
 
-  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"))
+  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"));
   if (storedHistoryIndices !== null) {
     historyIndices = storedHistoryIndices;
   }
 
-  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"))
+  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"));
   if (storedFavIndices !== null) {
     favoritesIndices = storedFavIndices;
   }
@@ -96,11 +96,11 @@ $("#citySubmit").on("click", function (e) {
         } else {
           $("#searchText").text("No results found, please close");
         }
-      })
+      });
   } else {
     $("#searchText").text("No results found, please close.");
   }
-})
+});
 
 $(document).on("click",".searchItem", function() {
 
@@ -112,6 +112,8 @@ $(document).on("click",".searchItem", function() {
   var cityName = cityArr[0].trim();
   var cityRegion = cityArr[1].trim();
   var cityCountryCode = cityArr[cityArr.length-1].trim();
+  var countrySearchTerm = cityCountryCode.split(" ")
+  countrySearchTerm = countrySearchTerm.join("%20")
 
   if (searchType === "search") {
     findHisCopy(cityText);
@@ -124,7 +126,7 @@ $(document).on("click",".searchItem", function() {
     forecast(cityLat, cityLon);
     getGMT(cityLat, cityLon);
 
-    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
+    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode;
     $.ajax({
       url: regionUrl,
       method: "GET"
@@ -132,21 +134,30 @@ $(document).on("click",".searchItem", function() {
       .then(function(response) {
         $("#currentCityName").text(cityName + ", " + response[0].name);  
         statsSection(response);
-        let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
-        $.ajax({
-          url: newsUrl,
-          method: "GET"
+        const settings = {
+          "async": true,
+          "crossDomain": true,
+          "url": "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI?q=" + cityName + "," + countrySearchTerm +"&pageNumber=1&pageSize=10&autoCorrect=true&safeSearch=true&withThumbnails=true&fromPublishedDate=null&toPublishedDate=null",
+          "method": "GET",
+          "headers": {
+            "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+            "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
+          }
+        };
+
+        $.ajax(settings).done(function (response) {
+          console.log(response);
         })
           .then(function(response) {
             $(".newsItem").remove();
             newsSection(response);
-          })
-      })
+          });
+      });
   } else {
     const settings = {
       "async": true,
       "crossDomain": true,
-      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName ,
+      "url": "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10&sort=countryCode&namePrefix=" + cityName,
       "method": "GET",
       "headers": {
         "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
@@ -170,20 +181,29 @@ $(document).on("click",".searchItem", function() {
         })
           .then(function(response) {
             $("#currentCityName").text(cityName + ", " + response[0].name);
-            statsSection(response)
-            let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
-            $.ajax({
-              url: newsUrl,
-              method: "GET"
+            statsSection(response);
+            const settings = {
+              "async": true,
+              "crossDomain": true,
+              "url": "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI?q=" + cityName + "," + countrySearchTerm +"&pageNumber=1&pageSize=10&autoCorrect=true&safeSearch=true&withThumbnails=true&fromPublishedDate=null&toPublishedDate=null",
+              "method": "GET",
+              "headers": {
+                "x-rapidapi-key": "4158f96d1emsh29be4d938fb2c05p1b6561jsn48bbd9b8afa1",
+                "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
+              }
+            };
+    
+            $.ajax(settings).done(function (response) {
+              console.log(response);
             })
               .then(function(response) {
                 $(".newsItem").remove();
-                newsSection(response)
-              })
-          })
-        })
+                newsSection(response);
+            });
+          });
+        });
   }
-  storeData()
+  storeData();
   $(".removeOption").remove();
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
@@ -287,12 +307,10 @@ function weatherSection (city, country, lat, lon, state) {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       });
-
       $('#weatherCard').on('click', function() {
         $('.weatherSection').css('display', 'block');
         $('.weatherSection')[0].scrollIntoView();
       });
-
       $('#mapCard').on('click', function() {
         $('.mapSection').css('display', 'block');
         $('.mapSection')[0].scrollIntoView();
@@ -483,27 +501,24 @@ function forecast(flat, flon){
 
 function newsSection(response) {
   let articleCount = 0;
-  for (let i = 0; i < response.response.docs.length; i++) {
-    if (response.response.docs[i].multimedia[22]) {
+  for (let i = 0; i < response.value.length; i++) {
       var breakEl = $("<br>");
       breakEl.attr("class", "newsItem");
       let articleImage = $("<img>");
-      let articleImageUrl = response.response.docs[i].multimedia[22].url;
-
-      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id", "newsImg").attr("alt", response.response.docs[0].snippet);
+      let articleImageUrl = response.value[i].image.url;
+      articleImage.attr("src", articleImageUrl).attr("class", "newsItem").attr("id", "newsImg").attr("alt", response.value[i].title);
       $("#newsArticles").append(articleImage);
       let articleHeadline = $("<a>");
-      let articlePubDate = (response.response.docs[i].pub_date).substr(0,10);
-      articleHeadline.text('"' + response.response.docs[i].headline.main + '" (' + articlePubDate +')').attr("class", "newsItem").attr("href", response.response.docs[i].web_url).attr("target","_blank").attr("id", "newsHl");
+      let articlePubDate = (response.value[i].datePublished).substr(0,10);
+      articleHeadline.text('"' + response.value[i].title + '" (' + articlePubDate +')').attr("class", "newsItem").attr("href", response.value[i].url).attr("target","_blank").attr("id", "newsHl");
       $("#newsArticles").append(articleHeadline);
       let articleAbstract = $("<p>");
-      articleAbstract.text(response.response.docs[i].abstract).attr("class","newsItem").attr("id","newsAbs");
+      articleAbstract.text(response.value[i].description).attr("class","newsItem").attr("id","newsAbs");
       $("#newsArticles").append(articleAbstract);
       $("#newsArticles").append(breakEl);
       articleCount++;
     }
     $("#newsText").text("News: " + articleCount + " articles found");
-  }
 }
 
 $('a[value*="close"').on('click', function() {
