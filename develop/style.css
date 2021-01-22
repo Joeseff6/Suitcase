@@ -203,9 +203,10 @@ p {
 }
 
 #newsHl {
+  height: 30px;
   font-size: 15px;
   font-weight: 900;
-  display: inline-block;
+  display: inline;
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
