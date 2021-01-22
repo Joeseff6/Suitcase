@@ -185,7 +185,7 @@ p {
   font-weight: 450;
 }
 
-#forecastCard {
+.forecastCard {
   height: 100%;
 }
 
