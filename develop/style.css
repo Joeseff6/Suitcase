@@ -97,10 +97,14 @@ footer {
   background-image: url(https://images.unsplash.com/photo-1517330283827-2527c57981ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit);
 }
 
-#revealCloseButton {
+#searchRevealClose,
+#historyRevealClose,
+#favoritesRevealClose {
   color: whitesmoke;
 }
-#revealCloseButton:hover {
+#searchRevealClose:hover,
+#historyRevealClose:hover,
+#favoritesRevealClose :hover {
   color: grey;
 }
 
@@ -185,7 +189,7 @@ p {
   font-weight: 450;
 }
 
-#forecastCard {
+.forecastCard {
   height: 100%;
 }
 
