@@ -288,3 +288,14 @@ section.forecastSection .grid-x .card .grid-x .card {
   position: fixed;
   bottom: 0;
 }
+
+div.scroll {
+  margin: 4px, 4px;
+  padding: 4px;
+  background-color: #b9dbed;
+  width: 100%;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: justify;
+}
