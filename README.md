@@ -1,7 +1,7 @@
 # Suitcase :city_sunrise: :airplane: :city_sunset:
 A web application that provides the user with information about a inquired destination
 
-## Link to My Deployed Application :link:
+## Link to Deployed Application :link:
 
 _https://joeseff6.github.io/Suitcase/_
 
@@ -16,13 +16,19 @@ This application will dynamically generate information provided by requested dat
 
 ### Third-Party APIs 
 * jQuery
-* Dayjs
 * Foundation
+* Moment.js
+* Google Font
+* Font awesome
 
 ### Server-side APIs
 * OpenWeather
 * REST Countries
-* Google Maps APIs 
+* Openlayer
+* GeoDB
+* Currency convertor
+* New York Times Article 
+
 
 ## User Story :book:
 
@@ -64,7 +70,9 @@ _So that I can be prepared when I travel to that country._
 
 * Add stats about the corona-virus
 * Add plane ticket details
-* Have currency exchange from country currency to USD
+* Display tourist attractions
+* Add section for (public) webcams
+* Add autocomplete city name function
 ## Screenshots :camera:
 
 ### Development Photos
