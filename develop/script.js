@@ -1,12 +1,9 @@
-//=========================================================================================
-//Note: For Foundation to work, all JS/JQuery must be written inside this function.
-//Note: Per Tish, this function has been added to the HTML instead (for safekeeping), and thus is disabled here.
-// $(document).ready(function () {
-//     $(document).foundation();
-// });
-//=========================================================================================
+//=========================================================================================================================================
+//Credits and Acknowledgements
+//Line 237: marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
+//Line 604: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
+//=========================================================================================================================================
 
-// Setting constant variables
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
@@ -14,21 +11,15 @@ const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 var cityChoice;
 var index;
 var queryCity;
-
-// Empty arrays for Badge Functionality (Fahad)
-//=============================================
 var historyArray = [];
 var favoritesArray = []; 
 var historyIndices = [];
 var favoritesIndices = [];
-//=============================================
 
-// Load stored data
 getData();
 historyBadgeDisplay();
 favoritesBadgeDisplay();
 
-// Function to set local storage
 function storeData() {
   localStorage.setItem("Favorite Cities", JSON.stringify(favoritesArray)); 
   localStorage.setItem("City History", JSON.stringify(historyArray));
@@ -36,7 +27,6 @@ function storeData() {
   localStorage.setItem("Favorites Indices", JSON.stringify(favoritesIndices));
 }
 
-// Function to retrieve local storage
 function getData() {
   var storedFavorites = JSON.parse(localStorage.getItem("Favorite Cities"));
   if (storedFavorites !== null) {
@@ -60,14 +50,12 @@ function getData() {
 }
 
 function rendorData() {
-  // Rendor Favorites
   for (let i = 0; i < favoritesArray.length; i++) {
     let buttonEl = $("<button/>");
     buttonEl.text(favoritesArray[i]).attr("class","button searchItem faveItem").attr("data-type","favorite").attr("data-close", "").attr("data-index",favoritesIndices[i]);
     $("#favoritesRevealButtons").append(buttonEl);
   }
-  
-  // Rendor History
+
   for (let i = 0; i < historyArray.length; i++) {
     let buttonEl = $("<button/>");
     buttonEl.text(historyArray[i]).attr("class","button searchItem hisItem").attr("data-type","history").attr("data-close","").attr("data-index",historyIndices[i]).attr("data-close","historyReveal1");
@@ -75,16 +63,13 @@ function rendorData() {
   }
 }
 
-// Event listener to fire when search button is clicked
 $("#citySubmit").on("click", function (e) {
   e.preventDefault();
-  // See footerQuote function at the end
   footerQuote(); 
   $("#searchText").text("Choose your desired city");
   $(".removeOption").remove();
 
   if ($("#cityInput").val()) {
-    // SDK for GeoDB Cities per RapidAPI
     let cityName = $("#cityInput").val();
     $("#cityInput").val(``);
     cityName = cityName.split(" ");
@@ -99,7 +84,6 @@ $("#citySubmit").on("click", function (e) {
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
     };
-    // Requesting server data from GeoDB
     $.ajax(settings)
       .then(function (response) {
         if (response.data.length >= 1) {
@@ -119,8 +103,8 @@ $("#citySubmit").on("click", function (e) {
   }
 });
 
-// Function to fire when a search, history, or favorites button is clicked on
 $(document).on("click",".searchItem", function() {
+
   $("#currentCityContainer").attr("style", "display: block");
   $("#cardsContainer").attr("style", "display: block");
   var searchType = $(this).attr("data-type");
@@ -134,11 +118,7 @@ $(document).on("click",".searchItem", function() {
     findHisCopy(cityText);
     findIndex(cityName,cityRegion,cityCountryCode,cityChoice.data);
     historyIndices.push(index);
-    //History Badge Functionality (Fahad)
-    //This is used for history badge, as well as local storage later
-    //==============================================================
     historyBadgeDisplay();
-    //==============================================================
     var cityLat = cityChoice.data[index].latitude;
     var cityLon = cityChoice.data[index].longitude;
     weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
@@ -174,7 +154,6 @@ $(document).on("click",".searchItem", function() {
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
     };
-    // Requesting server data from GeoDB
     $.ajax(settings)
       .then(function (response) {
         cityChoice = response;
@@ -183,7 +162,9 @@ $(document).on("click",".searchItem", function() {
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
         forecast(cityLat, cityLon);
+
         getGMT(cityLat, cityLon);
+
 
         var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
         $.ajax({
@@ -208,23 +189,19 @@ $(document).on("click",".searchItem", function() {
   storeData();
   $(".removeOption").remove();
   
-  //Foundation function being recalled after adding 'data-close' attribute to dynamically added buttons
-  //=====================================================================================================
+
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
   $("#favoritesReveal").foundation("close");
-  //====================================================================================================
 });
 
-// Function to update stats
-//=====================================================================================================
 function statsSection(response) {
   let lat =  (response[0].latlng[0]).toFixed(2);
   let lon = (response[0].latlng[1]).toFixed(2);
   let flag = response[0].flag;
   var latDirection = "";
   var lonDirection = "";
-
+  currencyConverter(response[0].currencies[0].code,response[0].currencies[0].symbol);
   if ( lat < 0) {
     lat *= -1;
     latDirection = "S";
@@ -257,16 +234,10 @@ function statsSection(response) {
   $("#callingCode").text("Country Calling Code: +" + response[0].callingCodes[0]);
 
 }
-//=====================================================================================================
 
-//Open Layers map
-//===========================================================================================
 function openLayers(x, y){
   $('#map').html('');
-  //Call OpenLayers function
 
-
-      //marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
       var map = new ol.Map({
         target: 'map',
         layers: [
@@ -279,7 +250,6 @@ function openLayers(x, y){
           zoom: 10
         })
       });
-
       var marker = new ol.Feature({
         geometry: new ol.geom.Point(
           ol.proj.fromLonLat([y,x])
@@ -290,7 +260,6 @@ function openLayers(x, y){
             src: 'Assets/Images/pin-icon-20px.png'
         }))
       }));
-
       var vectorSource = new ol.source.Vector({
         features: [marker]
       });
@@ -298,20 +267,14 @@ function openLayers(x, y){
         source: vectorSource,
       });
       map.addLayer(markerVectorLayer);
-
       return;
 }
-//==========================================================================================
 
-//weather Card
-//=================================================================
+
 function weatherSection (city, country, lat, lon, state) {
-
-
   let mapLat = lat;
   let mapLon = lon;
 
-    //openWeather
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=imperial&appid=${openWeatherKey}`;
 
     $.ajax({
@@ -320,45 +283,34 @@ function weatherSection (city, country, lat, lon, state) {
       
     }).then(function (response) {
 
-      //News
       $('#newsCard').on('click', function() {
         $('.newsSection').css('display', 'block');
         $('.newsSection')[0].scrollIntoView();
       });
-      
-      //Forecast
+
       $('#forecastInfoCard').on('click', function() {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       });
-      
-      //Weather
       $('#weatherCard').on('click', function() {
         $('.weatherSection').css('display', 'block');
         $('.weatherSection')[0].scrollIntoView();
       });
-      
-      //Map
       $('#mapCard').on('click', function() {
         $('.mapSection').css('display', 'block');
         $('.mapSection')[0].scrollIntoView();
         if ($('#map')){
           openLayers(response.coord.lat, response.coord.lon);
-        }
-
+        };
       });
-      
-      //Stats
+
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
       });
-      //country code 
       
       openLayers(mapLat, mapLon);
 
-      //current conditions
-      //weather description
       let weatherDescription = response.weather[0].description;
       weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
         return c.toUpperCase();
@@ -366,30 +318,23 @@ function weatherSection (city, country, lat, lon, state) {
       let weatherDesc = $("#weatherDesc");
       weatherDesc.text("Current reports show: " + weatherDescription);
 
-      //Icon
       let icon = response.weather[0].icon;
       let iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
       let img = $("#conditionsIcon");
-      img.attr("src", iconUrl);
+      img.attr("src", iconUrl).attr("alt", weatherDescription);
 
-      //Temperature
       let temp = $("#temp");
       let tempContent = response.main.temp;
-      //convert to int
       tempContent = parseFloat(tempContent);
-      //convert from kelvin to fahrenheit
       tempContent = "Temperature: " + tempContent.toFixed(0) + " °F";
       $(temp).text(tempContent);
 
-      //Humidity
       let humid = $("#humid");
       $(humid).text("Humidity: " + response.main.humidity + "%");
 
-      //Wind Speed
       let wind = $("#wind");
       $(wind).text("Wind Speed: " + response.wind.speed.toFixed(0) + " MPH");
 
-      //UV Index
       let uvIndexUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${response.coord.lat}&lon=${response.coord.lon}&appid=${openWeatherKey}`;
 
       $.ajax({
@@ -401,8 +346,7 @@ function weatherSection (city, country, lat, lon, state) {
         $(uvIndex).text("UV Index: " + uvIndexNum);
         
       });
-      //rerun the function w/ diff url when error is caught
-      //will make it dryer code soon...
+
     }).catch(function(){
       let errorUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`
       
@@ -410,46 +354,33 @@ function weatherSection (city, country, lat, lon, state) {
         url: errorUrl,
         method: 'GET',
       }).then(function(error) {
+        $('#newsCard').on('click', function() {
+            $('.newsSection').css('display', 'block');
+            $('.newsSection')[0].scrollIntoView();
+          });
+          $('#forecastInfoCard').on('click', function() {
+            $('.forecastSection').css('display', 'block');
+            $('.forecastSection')[0].scrollIntoView();
+          })     
+          $('#weatherCard').on('click', function() {
+            $('.weatherSection').css('display', 'block');
+            $('.weatherSection')[0].scrollIntoView();
+          })      
+          $('#mapCard').on('click', function() {
+            $('.mapSection').css('display', 'block');
+            $('.mapSection')[0].scrollIntoView();
+            if ($('#map')){
+              openLayers(error.coord.lat, error.coord.lon);
+        }       
+      })      
 
-      //News
-      $('#newsCard').on('click', function() {
-        $('.newsSection').css('display', 'block');
-        $('.newsSection')[0].scrollIntoView();
-      });
-      
-      //Forecast
-      $('#forecastInfoCard').on('click', function() {
-        $('.forecastSection').css('display', 'block');
-        $('.forecastSection')[0].scrollIntoView();
-      })
-      
-      //Weather
-      $('#weatherCard').on('click', function() {
-        $('.weatherSection').css('display', 'block');
-        $('.weatherSection')[0].scrollIntoView();
-      })
-      
-      //Map
-      $('#mapCard').on('click', function() {
-        $('.mapSection').css('display', 'block');
-        $('.mapSection')[0].scrollIntoView();
-        if ($('#map')){
-          openLayers(error.coord.lat, error.coord.lon);
-        }
-        
-      })
-      
-      //Stats
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
       })
-      //country code 
       
       openLayers(mapLat, mapLon);
 
-      //current conditions
-      //weather description
       let weatherDescription = error.weather[0].description;
       weatherDescription = weatherDescription.toLowerCase().replace(/\b[a-z]/g, function (c) {
         return c.toUpperCase();
@@ -457,30 +388,23 @@ function weatherSection (city, country, lat, lon, state) {
       let weatherDesc = $("#weatherDesc");
       weatherDesc.text("Current reports show: " + weatherDescription);
 
-      //Icon
       let icon = error.weather[0].icon;
       let iconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
       let img = $("#conditionsIcon");
-      img.attr("src", iconUrl);
+      img.attr("src", iconUrl).attr("alt", weatherDescription);
 
-      //Temperature
       let temp = $("#temp");
       let tempContent = error.main.temp;
-      //convert to int
       tempContent = parseFloat(tempContent);
-      //convert from kelvin to fahrenheit
       tempContent = "Temperature: " + tempContent.toFixed(0) + " °F";
       $(temp).text(tempContent);
 
-      //Humidity
       let humid = $("#humid");
       $(humid).text("Humidity: " + error.main.humidity + "%");
 
-      //Wind Speed
       let wind = $("#wind");
       $(wind).text("Wind Speed: " + error.wind.speed.toFixed(0) + " MPH");
 
-      //UV Index
       let eUvIndexUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${error.coord.lat}&lon=${error.coord.lon}&appid=${openWeatherKey}`;
       $.ajax({
         url: eUvIndexUrl,
@@ -495,10 +419,8 @@ function weatherSection (city, country, lat, lon, state) {
     });
     return;
   }
-//=======================================================================================
 
-//5 day forecast
-//======================================================================================== 
+
 function forecast(flat, flon){
 
   let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
@@ -507,31 +429,22 @@ function forecast(flat, flon){
       url: forecastUrl,
       method: 'GET',
   }).then(function (res) {
-      //Get forecast container div
       const forecastContainer = $('#forecastCards');
-      //Clear Div
       $('#forecastCards').html('');
-      //loop through response
       for (let i = 1; i < res.daily.length && i < 6; i++) {
-        //create card div
         let card = $('<div>');
-        //give it an id of index
         card.attr('id', i);
-        //give div class card
         card.attr('class', 'card');
 
-        //create another div for icon
         let cardSectionImg = $('<div>');
         cardSectionImg.attr('class', 'card-section');
         let icon = $('<img>');
         let iconUrl = "https://openweathermap.org/img/wn/" + res.daily[i].weather[0].icon + "@2x.png"
-        icon.attr('src', iconUrl);
+        icon.attr('src', iconUrl).attr('alt', res.daily[i].weather[0].description);
 
-        //create another div for text
         let cardSectionText = $('<div>');
         cardSectionText.attr('class', 'card-section');
 
-        //get date
         let datePTag = $('<p>');
         let time = res.daily[i].dt;
         let secs = time * 1000;
@@ -542,47 +455,36 @@ function forecast(flat, flon){
         datePTag.text(date)
         cardSectionImg.append(datePTag);
 
-        //get max temp
         let maxTempTag = $('<p>');
         let maxTemp = res.daily[i].temp.max;
         maxTempTag.text('Max Temp: ' + maxTemp.toFixed(0) + " °F");
 
-        //get min temp
         let minTempTag = $('<p>');
         let minTemp = res.daily[i].temp.min;
         minTempTag.text('Min Temp: ' + minTemp.toFixed(0) + " °F");
 
-        //get humidity
         let humidTag = $('<p>');
         let humid = res.daily[i].humidity;
         humidTag.text('Humidity: ' + humid + '%');
 
-        //get wind speed
         let windSpeedTag = $('<p>');
         let windSpeed = res.daily[i].wind_speed;
         windSpeedTag.text('Wind Speed: ' + windSpeed.toFixed(0) + ' MPH');
         
-        //append img tag to forecast container
         card.append(cardSectionImg);
-        //append icon to img tag
         cardSectionImg.append(icon);
         card.css("width", '125px');
-        //append card text to card
         card.append(cardSectionText);
-        //append max temp tag to text section & etc.
         cardSectionText.append(maxTempTag);
         cardSectionText.append(minTempTag);
         cardSectionText.append(humidTag);
         cardSectionText.append(windSpeedTag);
-        //append card to forecast container
         forecastContainer.append(card);
       }
       
   })
 }
-//===============================================================================
 
-// Function to update news
 function newsSection(response) {
   let articleCount = 0;
   for (let i = 0; i < response.response.docs.length; i++) {
@@ -591,7 +493,8 @@ function newsSection(response) {
       breakEl.attr("class", "newsItem");
       let articleImage = $("<img>");
       let articleImageUrl = response.response.docs[i].multimedia[22].url;
-      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id","newsImg");
+
+      articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id", "newsImg").attr("alt", response.response.docs[0].snippet);
       $("#newsArticles").append(articleImage);
       let articleHeadline = $("<a>");
       let articlePubDate = (response.response.docs[i].pub_date).substr(0,10);
@@ -606,18 +509,11 @@ function newsSection(response) {
     $("#newsText").text("News: " + articleCount + " articles found");
   }
 }
-//=====================================================================================================
 
-//closing sections
-//======================================================
 $('a[value*="close"').on('click', function() {
   $(this).closest('section').css('display', 'none');
 });
-//========================================================
 
-//footer quote function (Fahad)
-//============================================================================================
-//Should be triggered every time the 'citySubmit' button is pressed, as well as on page reload
 function footerQuote () {
   let quoteArray = [" Not all those who wander are lost. | J.R.R. Tolkien"," If you don’t know where you’re going, any road will get you there. | Lewis Carroll", " The world is a book and those who do not travel read only one page. | St. Augustine", "Two roads diverged in a wood and I – I took the one less traveled by. | Robert Frost",
   " Only he that has traveled the road knows where the holes are deep. | Chinese Proverb", " Traveling – it leaves you speechless, then turns you into a storyteller. | Ibn Battuta", " To move, to breathe, to fly, to float, to gain all while you give, to roam the roads of lands remote, to travel is to live. | Hans Christian Andersen", " There are no foreign lands. It is the traveler only who is foreign. | Robert Louis Stevenson" ];
@@ -625,10 +521,7 @@ function footerQuote () {
   $("#footerMessage")[0].innerHTML = quoteArray[quoteNum];
 };
 footerQuote ();
-//============================================================================================
 
-//Scroll-to-Top Button function (Fahad)
-//====================================================
 let topBtn = $("#topBtn")[0];
 window.onscroll = function() {scrollFunction()};
   function scrollFunction() {
@@ -642,10 +535,7 @@ $("#topBtn").on('click', function () {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 });
-//=====================================================
 
-// History badge function (Fahad)
-//==================================================
 function historyBadgeDisplay() {
   let historyBadge = $("#historyBadge")[0];
   historyBadge.textContent = historyArray.length;
@@ -655,10 +545,7 @@ function historyBadgeDisplay() {
     historyBadge.style.display = "none";
   };
 };
-//=================================================
 
-// Favorites badge function (Fahad)
-//===========================================================================================
 function favoritesBadgeDisplay() {
   let favoritesBadge = $("#favoritesBadge")[0];
   favoritesBadge.textContent = favoritesArray.length;
@@ -669,24 +556,15 @@ function favoritesBadgeDisplay() {
   };
 };
 
-//Add to Favorites functionality
-//============================================================================================
 $("#addToFavorites").on("click", function() {
   if (cityChoice) {
     var cityOption = cityChoice.data[index].city + ", " + cityChoice.data[index].region + ", " + cityChoice.data[index].countryCode;
     findFaveCopy(cityOption)
-    //This section uploads city names into favoritesArray everytime the addToFavorites button is clicked (fahad)
-    //This helps with favorites badge as well as local storage later.
-    //==================================================================================================
     favoritesBadgeDisplay(); 
-    //==================================================================================================
     storeData();
   }
 })
-//=====================================================================================================
 
-//Auto Cap text on keydown feature
-//============================================================================================
 $('#cityInput').on('keydown', function (e) {
   let input = $(this).val();
   input = input.toLowerCase().replace(/\b[a-z]/g, function (c) {
@@ -694,17 +572,11 @@ $('#cityInput').on('keydown', function (e) {
   });
   $(this).val(input);
 })
-//===========================================================================================
-
-//Function to reset Reveals and delete local storage (fahad)
-//===========================================================================================
 function clearLocalHistory (){
   localStorage.clear("City History");
   historyArray = [];
   historyBadgeDisplay();
   $("button").remove(".hisItem");
-  // $("#historyReveal").foundation("close");
-
 };
 $("#clearLocalHistory").on('click', clearLocalHistory);
 
@@ -714,14 +586,9 @@ function clearLocalFavorites (){
   favoritesArray = [];
   favoritesBadgeDisplay();
   $("button").remove(".faveItem");
-  // $("#favoritesReveal").foundation("close");
-
 };
 $("#clearLocalFavorites").on('click', clearLocalFavorites);
-//==========================================================================================
 
-//Splash Screen Functionality (fahad)
-//==========================================================================================
 function makeSplash (){
   var splash = $(".splash");
   setTimeout (()=>{
@@ -737,9 +604,7 @@ function makeFunctional (){
 }
 
 $("document").ready(makeSplash);
-//============================================================================================
-// Function to find correct index of any button choice clicked
-//============================================================================================
+
 function findIndex(cityName,cityRegion,cityCountryCode,object) {
   var arr = [];
   for (let i = 0; i < object.length; i++) {
@@ -754,13 +619,27 @@ function findIndex(cityName,cityRegion,cityCountryCode,object) {
     }
   }
 }
-//============================================================================================
 
-//Function for retrieving local time and time zone
-//=============================================================================================
+function currencyConverter(code, symbol){
+  codeUrl = `https://free.currconv.com/api/v7/convert?q=USD_${code}&compact=ultra&apiKey=b46f7e5a17445272929f`
+  $.ajax({
+    url: codeUrl,
+    method: 'GET',
+  }).then(function (response){
+    let value = response;
+    value = JSON.stringify(value);
+    value = value.split(':');
+    value = value[1].split('}');
+   value = parseFloat(value).toFixed(2);
+
+    let codeVal = code;
+  
+    $('#curSymbol').text(symbol+""+value + " " +codeVal);
+    })
+}
+
 function getGMT(flat, flon){
   let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
-
   $.ajax({
       url: forecastUrl,
       method: 'GET',
@@ -778,7 +657,7 @@ function getGMT(flat, flon){
         $("#localTimeZone").text("Time Zone: " + gmtZone);
   })
 };
-//============================================================================================
+
 function findFaveCopy(cityText) {
   var faveCityExist = $.inArray(cityText,favoritesArray);
   if (faveCityExist === -1) {
