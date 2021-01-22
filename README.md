@@ -27,7 +27,7 @@ This application will dynamically generate information provided by requested dat
 * Openlayer
 * GeoDB
 * Currency convertor
-* News
+* New York Times Article 
 
 
 ## User Story :book:
