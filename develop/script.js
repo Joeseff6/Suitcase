@@ -163,7 +163,7 @@ $(document).on("click",".searchItem", function() {
         forecast(cityLat, cityLon);
         getGMT(cityLat, cityLon);
 
-        var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
+        var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode;
         $.ajax({
           url: regionUrl,
           method: "GET"
@@ -296,7 +296,7 @@ function weatherSection (city, country, lat, lon, state) {
         $('.mapSection')[0].scrollIntoView();
         if ($('#map')){
           openLayers(response.coord.lat, response.coord.lon);
-        };
+        }
       });
 
       $('#statsCard').on('click', function() {
@@ -343,7 +343,7 @@ function weatherSection (city, country, lat, lon, state) {
       });
 
     }).catch(function(){
-      let errorUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`
+      let errorUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
       
       $.ajax({
         url: errorUrl,
@@ -356,23 +356,23 @@ function weatherSection (city, country, lat, lon, state) {
           $('#forecastInfoCard').on('click', function() {
             $('.forecastSection').css('display', 'block');
             $('.forecastSection')[0].scrollIntoView();
-          })     
+          });
           $('#weatherCard').on('click', function() {
             $('.weatherSection').css('display', 'block');
             $('.weatherSection')[0].scrollIntoView();
-          })      
+          });   
           $('#mapCard').on('click', function() {
             $('.mapSection').css('display', 'block');
             $('.mapSection')[0].scrollIntoView();
             if ($('#map')){
               openLayers(error.coord.lat, error.coord.lon);
         }       
-      })      
+      });
 
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
-      })     
+      });  
       openLayers(mapLat, mapLon);
 
       let weatherDescription = error.weather[0].description;
