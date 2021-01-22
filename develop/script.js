@@ -1,13 +1,12 @@
 //=========================================================================================================================================
 //Credits and Acknowledgements
 //Line 237: marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
-//Line 604: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
+//Line 593: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
 //=========================================================================================================================================
 
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
-// Set global variables for document event listener
 var cityChoice;
 var index;
 var queryCity;
@@ -162,9 +161,7 @@ $(document).on("click",".searchItem", function() {
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
         forecast(cityLat, cityLon);
-
         getGMT(cityLat, cityLon);
-
 
         var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
         $.ajax({
@@ -188,8 +185,6 @@ $(document).on("click",".searchItem", function() {
   }
   storeData();
   $(".removeOption").remove();
-  
-
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
   $("#favoritesReveal").foundation("close");
@@ -377,8 +372,7 @@ function weatherSection (city, country, lat, lon, state) {
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
-      })
-      
+      })     
       openLayers(mapLat, mapLon);
 
       let weatherDescription = error.weather[0].description;
