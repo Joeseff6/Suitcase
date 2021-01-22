@@ -35,6 +35,11 @@ body {
   text-shadow: 1px 1px rgb(155, 150, 150);
 }
 
+#citySubmit {
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+}
+
 #pageTitle,
 #pageSubtitle {
   color: white;
