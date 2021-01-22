@@ -161,9 +161,7 @@ $(document).on("click",".searchItem", function() {
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
         forecast(cityLat, cityLon);
-
         getGMT(cityLat, cityLon);
-
 
         var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
         $.ajax({
@@ -187,8 +185,6 @@ $(document).on("click",".searchItem", function() {
   }
   storeData()
   $(".removeOption").remove();
-  
-
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
   $("#favoritesReveal").foundation("close");
@@ -378,8 +374,7 @@ function weatherSection (city, country, lat, lon, state) {
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
-      })
-      
+      })     
       openLayers(mapLat, mapLon);
 
       let weatherDescription = error.weather[0].description;
