@@ -1,13 +1,12 @@
 //=========================================================================================================================================
 //Credits and Acknowledgements
 //Line 237: marker source: https://medium.com/attentive-ai/working-with-openlayers-4-part-2-using-markers-or-points-on-the-map-f8e9b5cae098
-//Line 604: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
+//Line 593: Splash Screen inspired and modified from: https://www.youtube.com/watch?v=MOlaldp1Fv4
 //=========================================================================================================================================
 
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
 
-// Set global variables for document event listener
 var cityChoice;
 var index;
 var queryCity;
@@ -37,12 +36,12 @@ function getData() {
     historyArray = storedHistory;
   }
 
-  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"))
+  var storedHistoryIndices = JSON.parse(localStorage.getItem("History Indices"));
   if (storedHistoryIndices !== null) {
     historyIndices = storedHistoryIndices;
   }
 
-  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"))
+  var storedFavIndices = JSON.parse(localStorage.getItem("Favorites Indices"));
   if (storedFavIndices !== null) {
     favoritesIndices = storedFavIndices;
   }
@@ -97,11 +96,11 @@ $("#citySubmit").on("click", function (e) {
         } else {
           $("#searchText").text("No results found, please close");
         }
-      })
+      });
   } else {
     $("#searchText").text("No results found, please close.");
   }
-})
+});
 
 $(document).on("click",".searchItem", function() {
 
@@ -125,7 +124,7 @@ $(document).on("click",".searchItem", function() {
     forecast(cityLat, cityLon);
     getGMT(cityLat, cityLon);
 
-    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
+    var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode;
     $.ajax({
       url: regionUrl,
       method: "GET"
@@ -141,8 +140,8 @@ $(document).on("click",".searchItem", function() {
           .then(function(response) {
             $(".newsItem").remove();
             newsSection(response);
-          })
-      })
+          });
+      });
   } else {
     const settings = {
       "async": true,
@@ -162,18 +161,16 @@ $(document).on("click",".searchItem", function() {
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
         forecast(cityLat, cityLon);
-
         getGMT(cityLat, cityLon);
 
-
-        var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
+        var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode;
         $.ajax({
           url: regionUrl,
           method: "GET"
         })
           .then(function(response) {
             $("#currentCityName").text(cityName + ", " + response[0].name);
-            statsSection(response)
+            statsSection(response);
             let newsUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?sort=newest&q=" + cityName + "," + response[0].name + "&api-key=" + newsApiKey;
             $.ajax({
               url: newsUrl,
@@ -181,15 +178,13 @@ $(document).on("click",".searchItem", function() {
             })
               .then(function(response) {
                 $(".newsItem").remove();
-                newsSection(response)
-              })
-          })
-        })
+                newsSection(response);
+              });
+          });
+        });
   }
-  storeData()
+  storeData();
   $(".removeOption").remove();
-  
-
   $("#historyReveal").foundation("close");
   $("#searchResultsReveal").foundation("close");
   $("#favoritesReveal").foundation("close");
@@ -292,18 +287,16 @@ function weatherSection (city, country, lat, lon, state) {
         $('.forecastSection').css('display', 'block');
         $('.forecastSection')[0].scrollIntoView();
       });
-
       $('#weatherCard').on('click', function() {
         $('.weatherSection').css('display', 'block');
         $('.weatherSection')[0].scrollIntoView();
       });
-
       $('#mapCard').on('click', function() {
         $('.mapSection').css('display', 'block');
         $('.mapSection')[0].scrollIntoView();
         if ($('#map')){
           openLayers(response.coord.lat, response.coord.lon);
-        };
+        }
       });
 
       $('#statsCard').on('click', function() {
@@ -350,7 +343,7 @@ function weatherSection (city, country, lat, lon, state) {
       });
 
     }).catch(function(){
-      let errorUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`
+      let errorUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${openWeatherKey}`;
       
       $.ajax({
         url: errorUrl,
@@ -363,24 +356,23 @@ function weatherSection (city, country, lat, lon, state) {
           $('#forecastInfoCard').on('click', function() {
             $('.forecastSection').css('display', 'block');
             $('.forecastSection')[0].scrollIntoView();
-          })     
+          });
           $('#weatherCard').on('click', function() {
             $('.weatherSection').css('display', 'block');
             $('.weatherSection')[0].scrollIntoView();
-          })      
+          });   
           $('#mapCard').on('click', function() {
             $('.mapSection').css('display', 'block');
             $('.mapSection')[0].scrollIntoView();
             if ($('#map')){
               openLayers(error.coord.lat, error.coord.lon);
         }       
-      })      
+      });
 
       $('#statsCard').on('click', function() {
         $('.statsSection').css('display', 'block');
         $('.statsSection')[0].scrollIntoView();
-      })
-      
+      });  
       openLayers(mapLat, mapLon);
 
       let weatherDescription = error.weather[0].description;
@@ -632,7 +624,7 @@ function currencyConverter(code, symbol){
     value = JSON.stringify(value);
     value = value.split(':');
     value = value[1].split('}');
-   value = parseFloat(value).toFixed(2);
+    value = parseFloat(value).toFixed(2);
 
     let codeVal = code;
   
