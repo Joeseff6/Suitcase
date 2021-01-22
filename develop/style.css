@@ -1,3 +1,5 @@
+/* Credit for all images go to Unsplash at www.unsplash.com */
+
 html * {
   font-family: "Montserrat", sans-serif;
 }
@@ -7,10 +9,30 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  padding-bottom: 20px;
 }
-#pageTitle {
+
+#topBtn {
+  position: fixed;
+  bottom: 75px;
+  right: 75px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  font-size: larger;
+  background-color: rgb(24, 63, 121);
+}
+#topBtn:hover {
+  background-color: crimson;
+}
+
+#pageTitle,
+#splashTitle {
   font-family: "Great Vibes", cursive;
   font-size: 150px;
+  text-shadow: 1px 1px rgb(155, 150, 150);
 }
 
 #pageTitle,
@@ -25,6 +47,11 @@ body {
 
 #pageSubtitleSection {
   padding-top: 0px;
+}
+
+.searchItem {
+  display: block;
+  margin: 15;
 }
 
 #searchCard,
@@ -44,6 +71,47 @@ footer {
   color: white;
 }
 
+#searchResultsReveal,
+#historyReveal,
+#favoritesReveal {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
+#searchResultsReveal {
+  background-image: url(https://images.unsplash.com/photo-1555532538-dcdbd01d373d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+}
+
+#historyReveal {
+  background-image: url(https://images.unsplash.com/photo-1473163928189-364b2c4e1135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+}
+
+#favoritesReveal {
+  background-image: url(https://images.unsplash.com/photo-1517330283827-2527c57981ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit);
+}
+
+#revealCloseButton {
+  color: whitesmoke;
+}
+#revealCloseButton:hover {
+  color: grey;
+}
+
+.badge {
+  height: 20px;
+}
+
+#clearLocalFavorites:hover,
+#clearLocalHistory:hover {
+  background-color: crimson;
+}
+
+#cardsContainer {
+  cursor: pointer;
+}
+
 #currentWeatherIcon,
 #flagContainer {
   text-align: center;
@@ -53,9 +121,10 @@ section.grid-container .tabs .tabs-title .cell .card .card-section {
   background-color: black;
 }
 
-#historySection,
-#favoritesSection {
-  background-color: #e5e5e5;
+section.grid-container .grid-x .card .grid-x .card-section,
+#newsArticlesSection {
+  background-color: #b9dbed;
+  color: black;
 }
 
 img {
@@ -72,7 +141,6 @@ img {
 .button {
   font-weight: 900;
   border-radius: 10px;
-
   background-color: #f79256;
 }
 
@@ -84,9 +152,10 @@ img {
 #cityInput {
   position: relative;
   background-color: rgb(242, 242, 242);
-  border-radius: 25px;
   border: 2px grey solid;
   font-size: 20px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
 }
 
 #cityInput input:focus {
@@ -96,80 +165,23 @@ img {
 
 #cityInput:hover {
   background-color: white;
-  border-radius: 25px;
 }
 
-#map {
+.cardsContainer:hover {
+  cursor: pointer;
+}
+
+.map {
   height: 400px;
   width: 100%;
-}
-
-footer {
-  font-size: 15px;
-  height: 50px;
-  text-align: center;
 }
 
 p {
   font-weight: 450;
 }
 
-section.grid-container .grid-x .card .grid-x .card-section,
-#newsArticlesSection {
-  background-color: rgb(216, 216, 216);
-  color: black;
-}
-
-/* Scroll-to-Top Button */
-#topBtn {
-  position: fixed;
-  bottom: 75px;
-  right: 75px;
-  z-index: 99;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 15px;
-  font-size: larger;
-  background-color: rgb(24, 63, 121);
-}
-#topBtn:hover {
-  background-color: crimson;
-}
-
-.badge {
-  height: 20px;
-}
-
-#searchResultsReveal {
-  background-image: url(https://images.unsplash.com/photo-1555532538-dcdbd01d373d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: white;
-}
-
-#historyReveal {
-  background-image: url(https://images.unsplash.com/photo-1473163928189-364b2c4e1135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: white;
-}
-
-#favoritesReveal {
-  background-image: url(https://images.unsplash.com/photo-1517330283827-2527c57981ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  color: white;
-}
-
-#revealCloseButton {
-  color: whitesmoke;
-}
-#revealCloseButton:hover {
-  color: grey;
+#forecastCard {
+  height: 100%;
 }
 
 #newsImg {
@@ -180,12 +192,9 @@ section.grid-container .grid-x .card .grid-x .card-section,
   border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  -moz-box-shadow: 10px 10px 5px #ccc;
-  -webkit-box-shadow: 10px 10px 5px #ccc;
-}
-
-section.grid-container .grid-x .card .card-section #forecastCards {
-  height: 450px;
+  box-shadow: none;
+  -moz-box-shadow: 10px 10px 5px #82a9bf;
+  -webkit-box-shadow: 10px 10px 5px #8fb5c9;
 }
 
 #newsHl {
@@ -207,4 +216,70 @@ section.grid-container .grid-x .card .card-section #forecastCards {
   overflow-wrap: break-word;
   word-wrap: break-word;
   hyphens: auto;
+}
+
+section.forecastSection .grid-x .card .grid-x .card {
+  margin-bottom: 0px;
+}
+
+.splash,
+.splash.fade-out {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  background-image: url(https://images.unsplash.com/photo-1597441752638-70d77d861d85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxhbGx8fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
+.splash.fade-out {
+  opacity: 0;
+  z-index: -10;
+  text-align: center;
+  transition: all 1s;
+}
+
+.splash.display-none {
+  display: none;
+}
+
+#splashSubTitle,
+#splashText {
+  font-size: 30px;
+}
+
+#splashText {
+  line-height: 90vh;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in1 {
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards;
+}
+
+.fade-in2,
+.fade-in3 {
+  opacity: 0;
+  animation: fadeIn 3s ease-in forwards;
+}
+
+.footer {
+  font-size: 15px;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
 }
