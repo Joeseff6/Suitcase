@@ -6,6 +6,8 @@
 
 const newsApiKey = "MwbdU0E8AaAXfZot5GBd7PBuxvJwRfzr";
 const openWeatherKey = "60b0bb54fb9c74823c9f4bfc9fc85c96";
+
+// Set global variables for document event listener
 var cityChoice;
 var index;
 var queryCity;
@@ -102,6 +104,7 @@ $("#citySubmit").on("click", function (e) {
 })
 
 $(document).on("click",".searchItem", function() {
+
   $("#currentCityContainer").attr("style", "display: block");
   $("#cardsContainer").attr("style", "display: block");
   var searchType = $(this).attr("data-type");
@@ -151,7 +154,6 @@ $(document).on("click",".searchItem", function() {
         "x-rapidapi-host": "wft-geo-db.p.rapidapi.com"
       }
     };
-
     $.ajax(settings)
       .then(function (response) {
         cityChoice = response;
@@ -160,7 +162,9 @@ $(document).on("click",".searchItem", function() {
         cityLon = response.data[index].longitude;
         weatherSection(cityName, cityCountryCode, cityLat, cityLon, cityRegion);
         forecast(cityLat, cityLon);
+
         getGMT(cityLat, cityLon);
+
 
         var regionUrl = "https://restcountries.eu/rest/v2/alpha?codes=" + cityCountryCode
         $.ajax({
@@ -197,7 +201,7 @@ function statsSection(response) {
   let flag = response[0].flag;
   var latDirection = "";
   var lonDirection = "";
-
+  currencyConverter(response[0].currencies[0].code,response[0].currencies[0].symbol);
   if ( lat < 0) {
     lat *= -1;
     latDirection = "S";
@@ -491,6 +495,7 @@ function newsSection(response) {
       breakEl.attr("class", "newsItem");
       let articleImage = $("<img>");
       let articleImageUrl = response.response.docs[i].multimedia[22].url;
+
       articleImage.attr("src","https://www.nytimes.com/" + articleImageUrl).attr("class", "newsItem").attr("id", "newsImg").attr("alt", response.response.docs[0].snippet);
       $("#newsArticles").append(articleImage);
       let articleHeadline = $("<a>");
@@ -569,7 +574,6 @@ $('#cityInput').on('keydown', function (e) {
   });
   $(this).val(input);
 })
-
 function clearLocalHistory (){
   localStorage.clear("City History");
   historyArray = [];
@@ -618,9 +622,26 @@ function findIndex(cityName,cityRegion,cityCountryCode,object) {
   }
 }
 
+function currencyConverter(code, symbol){
+  codeUrl = `https://free.currconv.com/api/v7/convert?q=USD_${code}&compact=ultra&apiKey=b46f7e5a17445272929f`
+  $.ajax({
+    url: codeUrl,
+    method: 'GET',
+  }).then(function (response){
+    let value = response;
+    value = JSON.stringify(value);
+    value = value.split(':');
+    value = value[1].split('}');
+   value = parseFloat(value).toFixed(2);
+
+    let codeVal = code;
+  
+    $('#curSymbol').text(symbol+""+value + " " +codeVal);
+    })
+}
+
 function getGMT(flat, flon){
   let forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${flat}&lon=${flon}&exclude=current,minutely,hourly&units=imperial&appid=${openWeatherKey}`;
-
   $.ajax({
       url: forecastUrl,
       method: 'GET',
