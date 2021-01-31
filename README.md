@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/Joeseff6/Suitcase)
+
 # Suitcase :city_sunrise: :airplane: :city_sunset:
 A web application that provides the user with information about a inquired destination
 
